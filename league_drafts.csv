@@ -1,0 +1,1457 @@
+season,round,pick,manager,team,player
+2016-17,1,1,Josh,Silver Surfer,Russell Westbrook
+2016-17,1,2,Mitchell,FlintMichiganTropics,Stephen Curry
+2016-17,1,3,Matt,Totally Legit Goods,Kevin Durant
+2016-17,1,4,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,James Harden
+2016-17,1,5,Josh E,The Sun Bear's,Karl-Anthony Towns
+2016-17,1,6,Liam,808s and Fastbreaks,Kawhi Leonard
+2016-17,1,7,Michael,Bongoloids,LeBron James
+2016-17,1,8,John,Booker's Bitches,Paul George
+2016-17,2,1,John,Booker's Bitches,Damian Lillard
+2016-17,2,2,Michael,Bongoloids,Kyrie Irving
+2016-17,2,3,Liam,808s and Fastbreaks,DeMarcus Cousins
+2016-17,2,4,Josh E,The Sun Bear's,Chris Paul
+2016-17,2,5,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,Giannis Antetokounmpo
+2016-17,2,6,Matt,Totally Legit Goods,Victor Oladipo
+2016-17,2,7,Mitchell,FlintMichiganTropics,Anthony Davis
+2016-17,2,8,Josh,Silver Surfer,Hassan Whiteside
+2016-17,3,1,Josh,Silver Surfer,Draymond Green
+2016-17,3,2,Mitchell,FlintMichiganTropics,Jimmy Butler III
+2016-17,3,3,Matt,Totally Legit Goods,Klay Thompson
+2016-17,3,4,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,Paul Millsap
+2016-17,3,5,Josh E,The Sun Bear's,Al Horford
+2016-17,3,6,Liam,808s and Fastbreaks,Kyle Lowry
+2016-17,3,7,Michael,Bongoloids,Carmelo Anthony
+2016-17,3,8,John,Booker's Bitches,Blake Griffin
+2016-17,4,1,John,Booker's Bitches,Andre Drummond
+2016-17,4,2,Michael,Bongoloids,LaMarcus Aldridge
+2016-17,4,3,Liam,808s and Fastbreaks,Kristaps Porziņģis
+2016-17,4,4,Josh E,The Sun Bear's,Kemba Walker
+2016-17,4,5,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,Nikola Jokić
+2016-17,4,6,Matt,Totally Legit Goods,JR Smith
+2016-17,4,7,Mitchell,FlintMichiganTropics,Nikola Mirotić
+2016-17,4,8,Josh,Silver Surfer,Kevin Love
+2016-17,5,1,Josh,Silver Surfer,John Wall
+2016-17,5,2,Mitchell,FlintMichiganTropics,Avery Bradley
+2016-17,5,3,Matt,Totally Legit Goods,Channing Frye
+2016-17,5,4,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,Serge Ibaka
+2016-17,5,5,Josh E,The Sun Bear's,Brook Lopez
+2016-17,5,6,Liam,808s and Fastbreaks,Jonas Valančiūnas
+2016-17,5,7,Michael,Bongoloids,CJ McCollum
+2016-17,5,8,John,Booker's Bitches,Andrew Wiggins
+2016-17,6,1,John,Booker's Bitches,Eric Bledsoe
+2016-17,6,2,Michael,Bongoloids,Pau Gasol
+2016-17,6,3,Liam,808s and Fastbreaks,Trevor Ariza
+2016-17,6,4,Josh E,The Sun Bear's,Gordon Hayward
+2016-17,6,5,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,Derrick Favors
+2016-17,6,6,Matt,Totally Legit Goods,Chris Andersen
+2016-17,6,7,Mitchell,FlintMichiganTropics,Nicolas Batum
+2016-17,6,8,Josh,Silver Surfer,DeMar DeRozan
+2016-17,7,1,Josh,Silver Surfer,DeAndre Jordan
+2016-17,7,2,Mitchell,FlintMichiganTropics,Steven Adams
+2016-17,7,3,Matt,Totally Legit Goods,Joffrey Lauvergne
+2016-17,7,4,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,Isaiah Thomas
+2016-17,7,5,Josh E,The Sun Bear's,Tobias Harris
+2016-17,7,6,Liam,808s and Fastbreaks,Jae Crowder
+2016-17,7,7,Michael,Bongoloids,Mike Conley
+2016-17,7,8,John,Booker's Bitches,Devin Booker
+2016-17,8,1,John,Booker's Bitches,Enes Freedom
+2016-17,8,2,Michael,Bongoloids,Marc Gasol
+2016-17,8,3,Liam,808s and Fastbreaks,Ricky Rubio
+2016-17,8,4,Josh E,The Sun Bear's,Gorgui Dieng
+2016-17,8,5,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,Myles Turner
+2016-17,8,6,Matt,Totally Legit Goods,Goran Dragić
+2016-17,8,7,Mitchell,FlintMichiganTropics,Joakim Noah
+2016-17,8,8,Josh,Silver Surfer,Nikola Vučević
+2016-17,9,1,Josh,Silver Surfer,Jeff Teague
+2016-17,9,2,Mitchell,FlintMichiganTropics,Zach LaVine
+2016-17,9,3,Matt,Totally Legit Goods,Rudy Gobert
+2016-17,9,4,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,Dirk Nowitzki
+2016-17,9,5,Josh E,The Sun Bear's,Evan Fournier
+2016-17,9,6,Liam,808s and Fastbreaks,Nerlens Noel
+2016-17,9,7,Michael,Bongoloids,Aaron Gordon
+2016-17,9,8,John,Booker's Bitches,D'Angelo Russell
+2016-17,10,1,John,Booker's Bitches,Dwight Howard
+2016-17,10,2,Michael,Bongoloids,Ryan Anderson
+2016-17,10,3,Liam,808s and Fastbreaks,Bradley Beal
+2016-17,10,4,Josh E,The Sun Bear's,Danilo Gallinari
+2016-17,10,5,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,Otto Porter Jr.
+2016-17,10,6,Matt,Totally Legit Goods,Darren Collison
+2016-17,10,7,Mitchell,FlintMichiganTropics,Jordan Clarkson
+2016-17,10,8,Josh,Silver Surfer,Reggie Jackson
+2016-17,11,1,Josh,Silver Surfer,Dennis Schröder
+2016-17,11,2,Mitchell,FlintMichiganTropics,Rudy Gay
+2016-17,11,3,Matt,Totally Legit Goods,Seth Curry
+2016-17,11,4,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,Matthew Dellavedova
+2016-17,11,5,Josh E,The Sun Bear's,Marcin Gortat
+2016-17,11,6,Liam,808s and Fastbreaks,Brandon Knight
+2016-17,11,7,Michael,Bongoloids,Jabari Parker
+2016-17,11,8,John,Booker's Bitches,Rajon Rondo
+2016-17,12,1,John,Booker's Bitches,Jahlil Okafor
+2016-17,12,2,Michael,Bongoloids,Chandler Parsons
+2016-17,12,3,Liam,808s and Fastbreaks,Danny Green
+2016-17,12,4,Josh E,The Sun Bear's,Dwyane Wade
+2016-17,12,5,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,JJ Redick
+2016-17,12,6,Matt,Totally Legit Goods,Thaddeus Young
+2016-17,12,7,Mitchell,FlintMichiganTropics,George Hill
+2016-17,12,8,Josh,Silver Surfer,DeMarre Carroll
+2016-17,13,1,Josh,Silver Surfer,Derrick Rose
+2016-17,13,2,Mitchell,FlintMichiganTropics,Monta Ellis
+2016-17,13,3,Matt,Totally Legit Goods,Rondae Hollis-Jefferson
+2016-17,13,4,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,Gary Harris
+2016-17,13,5,Josh E,The Sun Bear's,Greg Monroe
+2016-17,13,6,Liam,808s and Fastbreaks,Robin Lopez
+2016-17,13,7,Michael,Bongoloids,Kyle Korver
+2016-17,13,8,John,Booker's Bitches,Harrison Barnes
+2017-18,1,1,Matt,Totally Legit Goods,Seth Curry
+2017-18,1,2,Liam,808s and Fastbreaks,Kevin Durant
+2017-18,1,3,Josh E,The Sun Bear's,Stephen Curry
+2017-18,1,4,Adrian,Adrian's Team,Russell Westbrook
+2017-18,1,5,John,Booker's Bitches,Giannis Antetokounmpo
+2017-18,1,6,Carlos,Hypebitch,LeBron James
+2017-18,1,7,Michael,Spungetti&Meatballs,James Harden
+2017-18,1,8,Stefan,50 shades of Klay,Karl-Anthony Towns
+2017-18,1,9,Josh,Silver Surfer,Anthony Davis
+2017-18,1,10,Mitchell,Kobe Passed!!!!!!!!!,Kawhi Leonard
+2017-18,2,1,Mitchell,Kobe Passed!!!!!!!!!,Nikola Jokić
+2017-18,2,2,Josh,Silver Surfer,John Wall
+2017-18,2,3,Stefan,50 shades of Klay,Kyrie Irving
+2017-18,2,4,Michael,Spungetti&Meatballs,Chris Paul
+2017-18,2,5,Carlos,Hypebitch,Jimmy Butler III
+2017-18,2,6,John,Booker's Bitches,DeMarcus Cousins
+2017-18,2,7,Adrian,Adrian's Team,Rudy Gobert
+2017-18,2,8,Josh E,The Sun Bear's,Paul George
+2017-18,2,9,Liam,808s and Fastbreaks,Hassan Whiteside
+2017-18,2,10,Matt,Totally Legit Goods,Draymond Green
+2017-18,3,1,Matt,Totally Legit Goods,Damian Lillard
+2017-18,3,2,Liam,808s and Fastbreaks,CJ McCollum
+2017-18,3,3,Josh E,The Sun Bear's,Gordon Hayward
+2017-18,3,4,Adrian,Adrian's Team,Kristaps Porziņģis
+2017-18,3,5,John,Booker's Bitches,Kyle Lowry
+2017-18,3,6,Carlos,Hypebitch,Klay Thompson
+2017-18,3,7,Michael,Spungetti&Meatballs,Lonzo Ball
+2017-18,3,8,Stefan,50 shades of Klay,Bradley Beal
+2017-18,3,9,Josh,Silver Surfer,DeMar DeRozan
+2017-18,3,10,Mitchell,Kobe Passed!!!!!!!!!,Kemba Walker
+2017-18,4,1,Mitchell,Kobe Passed!!!!!!!!!,Mike Conley
+2017-18,4,2,Josh,Silver Surfer,Kevin Love
+2017-18,4,3,Stefan,50 shades of Klay,Myles Turner
+2017-18,4,4,Michael,Spungetti&Meatballs,Joel Embiid
+2017-18,4,5,Carlos,Hypebitch,Blake Griffin
+2017-18,4,6,John,Booker's Bitches,Paul Millsap
+2017-18,4,7,Adrian,Adrian's Team,Marc Gasol
+2017-18,4,8,Josh E,The Sun Bear's,Khris Middleton
+2017-18,4,9,Liam,808s and Fastbreaks,DeAndre Jordan
+2017-18,4,10,Matt,Totally Legit Goods,Eric Bledsoe
+2017-18,5,1,Matt,Totally Legit Goods,Goran Dragić
+2017-18,5,2,Liam,808s and Fastbreaks,Serge Ibaka
+2017-18,5,3,Josh E,The Sun Bear's,Al Horford
+2017-18,5,4,Adrian,Adrian's Team,Otto Porter Jr.
+2017-18,5,5,John,Booker's Bitches,Devin Booker
+2017-18,5,6,Carlos,Hypebitch,Isaiah Thomas
+2017-18,5,7,Michael,Spungetti&Meatballs,Ben Simmons
+2017-18,5,8,Stefan,50 shades of Klay,Brook Lopez
+2017-18,5,9,Josh,Silver Surfer,Nikola Vučević
+2017-18,5,10,Mitchell,Kobe Passed!!!!!!!!!,Carmelo Anthony
+2017-18,6,1,Mitchell,Kobe Passed!!!!!!!!!,Dwight Howard
+2017-18,6,2,Josh,Silver Surfer,Dennis Schröder
+2017-18,6,3,Stefan,50 shades of Klay,Tobias Harris
+2017-18,6,4,Michael,Spungetti&Meatballs,Eric Gordon
+2017-18,6,5,Carlos,Hypebitch,Victor Oladipo
+2017-18,6,6,John,Booker's Bitches,Jeff Teague
+2017-18,6,7,Adrian,Adrian's Team,Ricky Rubio
+2017-18,6,8,Josh E,The Sun Bear's,LaMarcus Aldridge
+2017-18,6,9,Liam,808s and Fastbreaks,Robert Covington
+2017-18,6,10,Matt,Totally Legit Goods,D'Angelo Russell
+2017-18,7,1,Matt,Totally Legit Goods,Jrue Holiday
+2017-18,7,2,Liam,808s and Fastbreaks,Gary Harris
+2017-18,7,3,Josh E,The Sun Bear's,Andre Drummond
+2017-18,7,4,Adrian,Adrian's Team,Jusuf Nurkić
+2017-18,7,5,John,Booker's Bitches,Nerlens Noel
+2017-18,7,6,Carlos,Hypebitch,Harrison Barnes
+2017-18,7,7,Michael,Spungetti&Meatballs,Andrew Wiggins
+2017-18,7,8,Stefan,50 shades of Klay,Lou Williams
+2017-18,7,9,Josh,Silver Surfer,Jae Crowder
+2017-18,7,10,Mitchell,Kobe Passed!!!!!!!!!,Dwyane Wade
+2017-18,8,1,Mitchell,Kobe Passed!!!!!!!!!,Clint Capela
+2017-18,8,2,Josh,Silver Surfer,Avery Bradley
+2017-18,8,3,Stefan,50 shades of Klay,Trevor Ariza
+2017-18,8,4,Michael,Spungetti&Meatballs,Marcin Gortat
+2017-18,8,5,Carlos,Hypebitch,Jonas Valančiūnas
+2017-18,8,6,John,Booker's Bitches,Dennis Smith Jr.
+2017-18,8,7,Adrian,Adrian's Team,Elfrid Payton
+2017-18,8,8,Josh E,The Sun Bear's,Gorgui Dieng
+2017-18,8,9,Liam,808s and Fastbreaks,Marquese Chriss
+2017-18,8,10,Matt,Totally Legit Goods,Steven Adams
+2017-18,9,1,Matt,Totally Legit Goods,Julius Randle
+2017-18,9,2,Liam,808s and Fastbreaks,Zach LaVine
+2017-18,9,3,Josh E,The Sun Bear's,George Hill
+2017-18,9,4,Adrian,Adrian's Team,Nicolas Batum
+2017-18,9,5,John,Booker's Bitches,Aaron Gordon
+2017-18,9,6,Carlos,Hypebitch,Danilo Gallinari
+2017-18,9,7,Michael,Spungetti&Meatballs,Patrick Beverley
+2017-18,9,8,Stefan,50 shades of Klay,James Johnson
+2017-18,9,9,Josh,Silver Surfer,Markelle Fultz
+2017-18,9,10,Mitchell,Kobe Passed!!!!!!!!!,Pau Gasol
+2017-18,10,1,Mitchell,Kobe Passed!!!!!!!!!,Willie Cauley-Stein
+2017-18,10,2,Josh,Silver Surfer,Willy Hernangómez
+2017-18,10,3,Stefan,50 shades of Klay,Jeremy Lin
+2017-18,10,4,Michael,Spungetti&Meatballs,Dirk Nowitzki
+2017-18,10,5,Carlos,Hypebitch,Greg Monroe
+2017-18,10,6,John,Booker's Bitches,Kentavious Caldwell-Pope
+2017-18,10,7,Adrian,Adrian's Team,Evan Fournier
+2017-18,10,8,Josh E,The Sun Bear's,Brandon Ingram
+2017-18,10,9,Liam,808s and Fastbreaks,T.J. Warren
+2017-18,10,10,Matt,Totally Legit Goods,Marcus Smart
+2017-18,11,1,Matt,Totally Legit Goods,Malcolm Brogdon
+2017-18,11,2,Liam,808s and Fastbreaks,Nikola Mirotić
+2017-18,11,3,Josh E,The Sun Bear's,Rudy Gay
+2017-18,11,4,Adrian,Adrian's Team,Rajon Rondo
+2017-18,11,5,John,Booker's Bitches,Dion Waiters
+2017-18,11,6,Carlos,Hypebitch,Tim Hardaway Jr.
+2017-18,11,7,Michael,Spungetti&Meatballs,JJ Redick
+2017-18,11,8,Stefan,50 shades of Klay,Kent Bazemore
+2017-18,11,9,Josh,Silver Surfer,Thaddeus Young
+2017-18,11,10,Mitchell,Kobe Passed!!!!!!!!!,Robin Lopez
+2017-18,12,1,Mitchell,Kobe Passed!!!!!!!!!,Jordan Crawford
+2017-18,12,2,Josh,Silver Surfer,Dario Šarić
+2017-18,12,3,Stefan,50 shades of Klay,Markieff Morris
+2017-18,12,4,Michael,Spungetti&Meatballs,Derrick Rose
+2017-18,12,5,Carlos,Hypebitch,Darren Collison
+2017-18,12,6,John,Booker's Bitches,Buddy Hield
+2017-18,12,7,Adrian,Adrian's Team,Marvin Williams
+2017-18,12,8,Josh E,The Sun Bear's,Jamal Murray
+2017-18,12,9,Liam,808s and Fastbreaks,Derrick Favors
+2017-18,12,10,Matt,Totally Legit Goods,Wilson Chandler
+2017-18,13,1,Matt,Totally Legit Goods,Jabari Parker
+2017-18,13,2,Liam,808s and Fastbreaks,Patty Mills
+2017-18,13,3,Josh E,The Sun Bear's,Frank Kaminsky
+2017-18,13,4,Adrian,Adrian's Team,Rodney Hood
+2017-18,13,5,John,Booker's Bitches,Zach Randolph
+2017-18,13,6,Carlos,Hypebitch,Wesley Matthews
+2017-18,13,7,Michael,Spungetti&Meatballs,Tristan Thompson
+2017-18,13,8,Stefan,50 shades of Klay,Reggie Jackson
+2017-18,13,9,Josh,Silver Surfer,Kris Dunn
+2017-18,13,10,Mitchell,Kobe Passed!!!!!!!!!,Joe Ingles
+2018-19,1,1,Mitchell,Kobe Passed!!!!!!!!!,James Harden
+2018-19,1,2,Matt,The Glassinator,Seth Curry
+2018-19,1,3,Adrian,Adrian's Team,Anthony Davis
+2018-19,1,4,Stefan,50 shades of Klay,Giannis Antetokounmpo
+2018-19,1,5,Josh E,The Sun Bear's,Stephen Curry
+2018-19,1,6,Michael,HoneyModeAssBlasters,Nikola Jokić
+2018-19,1,7,Josh,Silver Surfer,Karl-Anthony Towns
+2018-19,1,8,Liam,808s and Fastbreaks,Kevin Durant
+2018-19,1,9,John,My Two Dads,LeBron James
+2018-19,1,10,Unknown (Doncic's Mum),Doncic's Mum,Donovan Mitchell
+2018-19,2,1,Unknown (Doncic's Mum),Doncic's Mum,Klay Thompson
+2018-19,2,2,John,My Two Dads,Kawhi Leonard
+2018-19,2,3,Liam,808s and Fastbreaks,Damian Lillard
+2018-19,2,4,Josh,Silver Surfer,Paul George
+2018-19,2,5,Michael,HoneyModeAssBlasters,Chris Paul
+2018-19,2,6,Josh E,The Sun Bear's,Russell Westbrook
+2018-19,2,7,Stefan,50 shades of Klay,Kyrie Irving
+2018-19,2,8,Adrian,Adrian's Team,Victor Oladipo
+2018-19,2,9,Matt,The Glassinator,Draymond Green
+2018-19,2,10,Mitchell,Kobe Passed!!!!!!!!!,Kemba Walker
+2018-19,3,1,Mitchell,Kobe Passed!!!!!!!!!,Joel Embiid
+2018-19,3,2,Matt,The Glassinator,Ben Simmons
+2018-19,3,3,Adrian,Adrian's Team,Bradley Beal
+2018-19,3,4,Stefan,50 shades of Klay,Jimmy Butler III
+2018-19,3,5,Josh E,The Sun Bear's,Jrue Holiday
+2018-19,3,6,Michael,HoneyModeAssBlasters,Devin Booker
+2018-19,3,7,Josh,Silver Surfer,John Wall
+2018-19,3,8,Liam,808s and Fastbreaks,Andre Drummond
+2018-19,3,9,John,My Two Dads,Kyle Lowry
+2018-19,3,10,Unknown (Doncic's Mum),Doncic's Mum,DeMar DeRozan
+2018-19,4,1,Unknown (Doncic's Mum),Doncic's Mum,Gordon Hayward
+2018-19,4,2,John,My Two Dads,Kevin Love
+2018-19,4,3,Liam,808s and Fastbreaks,Khris Middleton
+2018-19,4,4,Josh,Silver Surfer,Jamal Murray
+2018-19,4,5,Michael,HoneyModeAssBlasters,CJ McCollum
+2018-19,4,6,Josh E,The Sun Bear's,Rudy Gobert
+2018-19,4,7,Stefan,50 shades of Klay,LaMarcus Aldridge
+2018-19,4,8,Adrian,Adrian's Team,Al Horford
+2018-19,4,9,Matt,The Glassinator,Collin Sexton
+2018-19,4,10,Mitchell,Kobe Passed!!!!!!!!!,Tobias Harris
+2018-19,5,1,Mitchell,Kobe Passed!!!!!!!!!,Eric Bledsoe
+2018-19,5,2,Matt,The Glassinator,Steven Adams
+2018-19,5,3,Adrian,Adrian's Team,Otto Porter Jr.
+2018-19,5,4,Stefan,50 shades of Klay,Aaron Gordon
+2018-19,5,5,Josh E,The Sun Bear's,Marc Gasol
+2018-19,5,6,Michael,HoneyModeAssBlasters,Jayson Tatum
+2018-19,5,7,Josh,Silver Surfer,Gary Harris
+2018-19,5,8,Liam,808s and Fastbreaks,Clint Capela
+2018-19,5,9,John,My Two Dads,Myles Turner
+2018-19,5,10,Unknown (Doncic's Mum),Doncic's Mum,DeMarcus Cousins
+2018-19,6,1,Unknown (Doncic's Mum),Doncic's Mum,Brandon Ingram
+2018-19,6,2,John,My Two Dads,Deandre Ayton
+2018-19,6,3,Liam,808s and Fastbreaks,Lou Williams
+2018-19,6,4,Josh,Silver Surfer,Nikola Vučević
+2018-19,6,5,Michael,HoneyModeAssBlasters,Blake Griffin
+2018-19,6,6,Josh E,The Sun Bear's,John Collins
+2018-19,6,7,Stefan,50 shades of Klay,Jarrett Allen
+2018-19,6,8,Adrian,Adrian's Team,Mike Conley
+2018-19,6,9,Matt,The Glassinator,JR Smith
+2018-19,6,10,Mitchell,Kobe Passed!!!!!!!!!,Robert Covington
+2018-19,7,1,Mitchell,Kobe Passed!!!!!!!!!,DeAndre Jordan
+2018-19,7,2,Matt,The Glassinator,Channing Frye
+2018-19,7,3,Adrian,Adrian's Team,Will Barton
+2018-19,7,4,Stefan,50 shades of Klay,Josh Richardson
+2018-19,7,5,Josh E,The Sun Bear's,Lauri Markkanen
+2018-19,7,6,Michael,HoneyModeAssBlasters,Luka Dončić
+2018-19,7,7,Josh,Silver Surfer,Dwight Howard
+2018-19,7,8,Liam,808s and Fastbreaks,Lonzo Ball
+2018-19,7,9,John,My Two Dads,Joe Ingles
+2018-19,7,10,Unknown (Doncic's Mum),Doncic's Mum,Hassan Whiteside
+2018-19,8,1,Unknown (Doncic's Mum),Doncic's Mum,Enes Freedom
+2018-19,8,2,John,My Two Dads,Paul Millsap
+2018-19,8,3,Liam,808s and Fastbreaks,Jonas Valančiūnas
+2018-19,8,4,Josh,Silver Surfer,Julius Randle
+2018-19,8,5,Michael,HoneyModeAssBlasters,Kyle Kuzma
+2018-19,8,6,Josh E,The Sun Bear's,Taurean Prince
+2018-19,8,7,Stefan,50 shades of Klay,Goran Dragić
+2018-19,8,8,Adrian,Adrian's Team,Ricky Rubio
+2018-19,8,9,Matt,The Glassinator,Dirk Nowitzki
+2018-19,8,10,Mitchell,Kobe Passed!!!!!!!!!,Dario Šarić
+2018-19,9,1,Mitchell,Kobe Passed!!!!!!!!!,Jeff Teague
+2018-19,9,2,Matt,The Glassinator,Nikola Mirotić
+2018-19,9,3,Adrian,Adrian's Team,Zach LaVine
+2018-19,9,4,Stefan,50 shades of Klay,Wendell Carter Jr.
+2018-19,9,5,Josh E,The Sun Bear's,Nicolas Batum
+2018-19,9,6,Michael,HoneyModeAssBlasters,Brook Lopez
+2018-19,9,7,Josh,Silver Surfer,Kris Dunn
+2018-19,9,8,Liam,808s and Fastbreaks,JJ Redick
+2018-19,9,9,John,My Two Dads,Jaren Jackson Jr.
+2018-19,9,10,Unknown (Doncic's Mum),Doncic's Mum,Andrew Wiggins
+2018-19,10,1,Unknown (Doncic's Mum),Doncic's Mum,Kristaps Porziņģis
+2018-19,10,2,John,My Two Dads,Harrison Barnes
+2018-19,10,3,Liam,808s and Fastbreaks,Kentavious Caldwell-Pope
+2018-19,10,4,Josh,Silver Surfer,D'Angelo Russell
+2018-19,10,5,Michael,HoneyModeAssBlasters,Tim Hardaway Jr.
+2018-19,10,6,Josh E,The Sun Bear's,Serge Ibaka
+2018-19,10,7,Stefan,50 shades of Klay,Kyle Anderson
+2018-19,10,8,Adrian,Adrian's Team,Larry Nance Jr.
+2018-19,10,9,Matt,The Glassinator,Svi Mykhailiuk
+2018-19,10,10,Mitchell,Kobe Passed!!!!!!!!!,Jusuf Nurkić
+2018-19,11,1,Mitchell,Kobe Passed!!!!!!!!!,JaVale McGee
+2018-19,11,2,Matt,The Glassinator,Buddy Hield
+2018-19,11,3,Adrian,Adrian's Team,Darren Collison
+2018-19,11,4,Stefan,50 shades of Klay,Evan Fournier
+2018-19,11,5,Josh E,The Sun Bear's,Dennis Smith Jr.
+2018-19,11,6,Michael,HoneyModeAssBlasters,Carmelo Anthony
+2018-19,11,7,Josh,Silver Surfer,Thaddeus Young
+2018-19,11,8,Liam,808s and Fastbreaks,Eric Gordon
+2018-19,11,9,John,My Two Dads,Tyreke Evans
+2018-19,11,10,Unknown (Doncic's Mum),Doncic's Mum,Grayson Allen
+2018-19,12,1,Unknown (Doncic's Mum),Doncic's Mum,Kevin Knox II
+2018-19,12,2,John,My Two Dads,Domantas Sabonis
+2018-19,12,3,Liam,808s and Fastbreaks,Jabari Parker
+2018-19,12,4,Josh,Silver Surfer,Bogdan Bogdanović
+2018-19,12,5,Michael,HoneyModeAssBlasters,Marcin Gortat
+2018-19,12,6,Josh E,The Sun Bear's,Jonathan Isaac
+2018-19,12,7,Stefan,50 shades of Klay,Dejounte Murray
+2018-19,12,8,Adrian,Adrian's Team,Allen Crabbe III
+2018-19,12,9,Matt,The Glassinator,PJ Dozier
+2018-19,12,10,Mitchell,Kobe Passed!!!!!!!!!,Trae Young
+2018-19,13,1,Mitchell,Kobe Passed!!!!!!!!!,Marvin Bagley III
+2018-19,13,2,Matt,The Glassinator,Bismack Biyombo
+2018-19,13,3,Adrian,Adrian's Team,Dewayne Dedmon
+2018-19,13,4,Stefan,50 shades of Klay,Justise Winslow
+2018-19,13,5,Josh E,The Sun Bear's,Fred VanVleet
+2018-19,13,6,Michael,HoneyModeAssBlasters,Jaylen Brown
+2018-19,13,7,Josh,Silver Surfer,Isaiah Thomas
+2018-19,13,8,Liam,808s and Fastbreaks,Terry Rozier
+2018-19,13,9,John,My Two Dads,Trevor Ariza
+2018-19,13,10,Unknown (Doncic's Mum),Doncic's Mum,Markelle Fultz
+2019-20,1,1,Liam,Tacko Tuuuuuesday,James Harden
+2019-20,1,2,Max,Ntlinika’s Nightmare,Anthony Davis
+2019-20,1,3,Josh,Silver Surfer,Karl-Anthony Towns
+2019-20,1,4,Michael,The 🅱️RE🅰️THERS,Stephen Curry
+2019-20,1,5,Jarrek,Midnight Shooters,Giannis Antetokounmpo
+2019-20,1,6,Matt,The Reverso,LeBron James
+2019-20,1,7,John,Livin’ La Vida Luka,Nikola Jokić
+2019-20,1,8,Stefan,BOL BOLS BIG 🅱️ICK,Joel Embiid
+2019-20,1,9,Mitchell,Better Call Gasol.,Kawhi Leonard
+2019-20,1,10,Justin,KATmandu,Damian Lillard
+2019-20,1,11,Adel,Adels team,Bradley Beal
+2019-20,1,12,Jack,Flint Tropics,Ben Simmons
+2019-20,2,1,Jack,Flint Tropics,Devin Booker
+2019-20,2,2,Adel,Adels team,Jimmy Butler III
+2019-20,2,3,Justin,KATmandu,Paul George
+2019-20,2,4,Mitchell,Better Call Gasol.,Kyrie Irving
+2019-20,2,5,Stefan,BOL BOLS BIG 🅱️ICK,Jrue Holiday
+2019-20,2,6,John,Livin’ La Vida Luka,Nikola Vučević
+2019-20,2,7,Matt,The Reverso,Kemba Walker
+2019-20,2,8,Jarrek,Midnight Shooters,Andre Drummond
+2019-20,2,9,Michael,The 🅱️RE🅰️THERS,Deandre Ayton
+2019-20,2,10,Josh,Silver Surfer,Rudy Gobert
+2019-20,2,11,Max,Ntlinika’s Nightmare,Pascal Siakam
+2019-20,2,12,Liam,Tacko Tuuuuuesday,Trae Young
+2019-20,3,1,Liam,Tacko Tuuuuuesday,Myles Turner
+2019-20,3,2,Max,Ntlinika’s Nightmare,De'Aaron Fox
+2019-20,3,3,Josh,Silver Surfer,John Collins
+2019-20,3,4,Michael,The 🅱️RE🅰️THERS,Mitchell Robinson
+2019-20,3,5,Jarrek,Midnight Shooters,Jayson Tatum
+2019-20,3,6,Matt,The Reverso,Russell Westbrook
+2019-20,3,7,John,Livin’ La Vida Luka,Luka Dončić
+2019-20,3,8,Stefan,BOL BOLS BIG 🅱️ICK,Donovan Mitchell
+2019-20,3,9,Mitchell,Better Call Gasol.,Zion Williamson
+2019-20,3,10,Justin,KATmandu,LaMarcus Aldridge
+2019-20,3,11,Adel,Adels team,Kristaps Porziņģis
+2019-20,3,12,Jack,Flint Tropics,DeMar DeRozan
+2019-20,4,1,Jack,Flint Tropics,Al Horford
+2019-20,4,2,Adel,Adels team,Draymond Green
+2019-20,4,3,Justin,KATmandu,Blake Griffin
+2019-20,4,4,Mitchell,Better Call Gasol.,Tobias Harris
+2019-20,4,5,Stefan,BOL BOLS BIG 🅱️ICK,Clint Capela
+2019-20,4,6,John,Livin’ La Vida Luka,Buddy Hield
+2019-20,4,7,Matt,The Reverso,Bam Adebayo
+2019-20,4,8,Jarrek,Midnight Shooters,CJ McCollum
+2019-20,4,9,Michael,The 🅱️RE🅰️THERS,Lauri Markkanen
+2019-20,4,10,Josh,Silver Surfer,Robert Covington
+2019-20,4,11,Max,Ntlinika’s Nightmare,Zach LaVine
+2019-20,4,12,Liam,Tacko Tuuuuuesday,D'Angelo Russell
+2019-20,5,1,Liam,Tacko Tuuuuuesday,Brook Lopez
+2019-20,5,2,Max,Ntlinika’s Nightmare,Julius Randle
+2019-20,5,3,Josh,Silver Surfer,Eric Bledsoe
+2019-20,5,4,Michael,The 🅱️RE🅰️THERS,Jaren Jackson Jr.
+2019-20,5,5,Jarrek,Midnight Shooters,Derrick Favors
+2019-20,5,6,Matt,The Reverso,Seth Curry
+2019-20,5,7,John,Livin’ La Vida Luka,Chris Paul
+2019-20,5,8,Stefan,BOL BOLS BIG 🅱️ICK,Danilo Gallinari
+2019-20,5,9,Mitchell,Better Call Gasol.,Serge Ibaka
+2019-20,5,10,Justin,KATmandu,Khris Middleton
+2019-20,5,11,Adel,Adels team,Kevin Love
+2019-20,5,12,Jack,Flint Tropics,DeAndre Jordan
+2019-20,6,1,Jack,Flint Tropics,Ja Morant
+2019-20,6,2,Adel,Adels team,Malcolm Brogdon
+2019-20,6,3,Justin,KATmandu,Jonas Valančiūnas
+2019-20,6,4,Mitchell,Better Call Gasol.,Steven Adams
+2019-20,6,5,Stefan,BOL BOLS BIG 🅱️ICK,Thomas Bryant
+2019-20,6,6,John,Livin’ La Vida Luka,Jamal Murray
+2019-20,6,7,Matt,The Reverso,Shai Gilgeous-Alexander
+2019-20,6,8,Jarrek,Midnight Shooters,Terry Rozier
+2019-20,6,9,Michael,The 🅱️RE🅰️THERS,Mike Conley
+2019-20,6,10,Josh,Silver Surfer,Victor Oladipo
+2019-20,6,11,Max,Ntlinika’s Nightmare,Caris LeVert
+2019-20,6,12,Liam,Tacko Tuuuuuesday,Josh Richardson
+2019-20,7,1,Liam,Tacko Tuuuuuesday,Larry Nance Jr.
+2019-20,7,2,Max,Ntlinika’s Nightmare,Aaron Gordon
+2019-20,7,3,Josh,Silver Surfer,Otto Porter Jr.
+2019-20,7,4,Michael,The 🅱️RE🅰️THERS,Kelly Oubre Jr.
+2019-20,7,5,Jarrek,Midnight Shooters,Fred VanVleet
+2019-20,7,6,Matt,The Reverso,Jarrett Allen
+2019-20,7,7,John,Livin’ La Vida Luka,Domantas Sabonis
+2019-20,7,8,Stefan,BOL BOLS BIG 🅱️ICK,Montrezl Harrell
+2019-20,7,9,Mitchell,Better Call Gasol.,Kyle Lowry
+2019-20,7,10,Justin,KATmandu,Jonathan Isaac
+2019-20,7,11,Adel,Adels team,Lonzo Ball
+2019-20,7,12,Jack,Flint Tropics,Gordon Hayward
+2019-20,8,1,Jack,Flint Tropics,Enes Freedom
+2019-20,8,2,Adel,Adels team,Hassan Whiteside
+2019-20,8,3,Justin,KATmandu,Lou Williams
+2019-20,8,4,Mitchell,Better Call Gasol.,Marc Gasol
+2019-20,8,5,Stefan,BOL BOLS BIG 🅱️ICK,Eric Gordon
+2019-20,8,6,John,Livin’ La Vida Luka,Marvin Bagley III
+2019-20,8,7,Matt,The Reverso,JaVale McGee
+2019-20,8,8,Jarrek,Midnight Shooters,Danny Green
+2019-20,8,9,Michael,The 🅱️RE🅰️THERS,Jeff Teague
+2019-20,8,10,Josh,Silver Surfer,Dejounte Murray
+2019-20,8,11,Max,Ntlinika’s Nightmare,Miles Bridges
+2019-20,8,12,Liam,Tacko Tuuuuuesday,Jeremy Lamb
+2019-20,9,1,Liam,Tacko Tuuuuuesday,Marcus Smart
+2019-20,9,2,Max,Ntlinika’s Nightmare,Andrew Wiggins
+2019-20,9,3,Josh,Silver Surfer,Wendell Carter Jr.
+2019-20,9,4,Michael,The 🅱️RE🅰️THERS,Joe Ingles
+2019-20,9,5,Jarrek,Midnight Shooters,Kyle Kuzma
+2019-20,9,6,Matt,The Reverso,Dāvis Bertāns
+2019-20,9,7,John,Livin’ La Vida Luka,Mikal Bridges
+2019-20,9,8,Stefan,BOL BOLS BIG 🅱️ICK,Spencer Dinwiddie
+2019-20,9,9,Mitchell,Better Call Gasol.,Derrick Rose
+2019-20,9,10,Justin,KATmandu,Ricky Rubio
+2019-20,9,11,Adel,Adels team,Delon Wright
+2019-20,9,12,Jack,Flint Tropics,Brandon Ingram
+2019-20,10,1,Jack,Flint Tropics,Jaylen Brown
+2019-20,10,2,Adel,Adels team,Gary Harris
+2019-20,10,3,Justin,KATmandu,Dewayne Dedmon
+2019-20,10,4,Mitchell,Better Call Gasol.,Nerlens Noel
+2019-20,10,5,Stefan,BOL BOLS BIG 🅱️ICK,Tomáš Satoranský
+2019-20,10,6,John,Livin’ La Vida Luka,Thaddeus Young
+2019-20,10,7,Matt,The Reverso,Bismack Biyombo
+2019-20,10,8,Jarrek,Midnight Shooters,Jakob Poeltl
+2019-20,10,9,Michael,The 🅱️RE🅰️THERS,JJ Redick
+2019-20,10,10,Josh,Silver Surfer,T.J. Warren
+2019-20,10,11,Max,Ntlinika’s Nightmare,Willie Cauley-Stein
+2019-20,10,12,Liam,Tacko Tuuuuuesday,Bojan Bogdanović
+2019-20,11,1,Liam,Tacko Tuuuuuesday,Bogdan Bogdanović
+2019-20,11,2,Max,Ntlinika’s Nightmare,Paul Millsap
+2019-20,11,3,Josh,Silver Surfer,Terrence Ross
+2019-20,11,4,Michael,The 🅱️RE🅰️THERS,Joe Harris
+2019-20,11,5,Jarrek,Midnight Shooters,Alex Caruso
+2019-20,11,6,Matt,The Reverso,Rajon Rondo
+2019-20,11,7,John,Livin’ La Vida Luka,Dwight Powell
+2019-20,11,8,Stefan,BOL BOLS BIG 🅱️ICK,Ed Davis
+2019-20,11,9,Mitchell,Better Call Gasol.,Patrick Beverley
+2019-20,11,10,Justin,KATmandu,Nicolas Batum
+2019-20,11,11,Adel,Adels team,Kelly Olynyk
+2019-20,11,12,Jack,Flint Tropics,Tyler Herro
+2019-20,12,1,Jack,Flint Tropics,Goran Dragić
+2019-20,12,2,Adel,Adels team,Derrick White
+2019-20,12,3,Justin,KATmandu,Justise Winslow
+2019-20,12,4,Mitchell,Better Call Gasol.,Dwight Howard
+2019-20,12,5,Stefan,BOL BOLS BIG 🅱️ICK,Evan Fournier
+2019-20,12,6,John,Livin’ La Vida Luka,Kevin Huerter
+2019-20,12,7,Matt,The Reverso,Mfiondu Kabengele
+2019-20,12,8,Jarrek,Midnight Shooters,Landry Shamet
+2019-20,12,9,Michael,The 🅱️RE🅰️THERS,Cody Zeller
+2019-20,12,10,Josh,Silver Surfer,Alex Len
+2019-20,12,11,Max,Ntlinika’s Nightmare,Collin Sexton
+2019-20,12,12,Liam,Tacko Tuuuuuesday,Ivica Zubac
+2019-20,13,1,Liam,Tacko Tuuuuuesday,Harrison Barnes
+2019-20,13,2,Max,Ntlinika’s Nightmare,Zach Collins
+2019-20,13,3,Josh,Silver Surfer,Rui Hachimura
+2019-20,13,4,Michael,The 🅱️RE🅰️THERS,RJ Barrett
+2019-20,13,5,Jarrek,Midnight Shooters,D.J. Augustin
+2019-20,13,6,Matt,The Reverso,P.J. Tucker
+2019-20,13,7,John,Livin’ La Vida Luka,Dario Šarić
+2019-20,13,8,Stefan,BOL BOLS BIG 🅱️ICK,Cedi Osman
+2019-20,13,9,Mitchell,Better Call Gasol.,Darius Garland
+2019-20,13,10,Justin,KATmandu,Monté Morris
+2019-20,13,11,Adel,Adels team,Brandon Clarke
+2019-20,13,12,Jack,Flint Tropics,Kevin Knox II
+2020-21,1,1,Stefan,BOL BOLS BIG 🅱️ICK,Anthony Davis
+2020-21,1,2,Liam,Tacko Tuuuuuesday,James Harden
+2020-21,1,3,Max,Ntlinika’s Nightmare,Luka Dončić
+2020-21,1,4,Michael,Poo Anthony Towns,Karl-Anthony Towns
+2020-21,1,5,Jack,Flint Tropics,LeBron James
+2020-21,1,6,Liam (Bangers and Nash),Bangers and Nash,Giannis Antetokounmpo
+2020-21,1,7,John,Look at Curry Man,Stephen Curry
+2020-21,1,8,Jarrek,Midnight Shooters,Damian Lillard
+2020-21,1,9,Mitchell,Better Call Gasol.,Nikola Jokić
+2020-21,1,10,Matt,The Reverso,Bam Adebayo
+2020-21,1,11,Josh,Silver Surfer,Devin Booker
+2020-21,1,12,Justin,KATmandu,Jayson Tatum
+2020-21,2,1,Justin,KATmandu,Joel Embiid
+2020-21,2,2,Josh,Silver Surfer,Trae Young
+2020-21,2,3,Matt,The Reverso,Kevin Durant
+2020-21,2,4,Mitchell,Better Call Gasol.,Pascal Siakam
+2020-21,2,5,Jarrek,Midnight Shooters,Khris Middleton
+2020-21,2,6,John,Look at Curry Man,Kawhi Leonard
+2020-21,2,7,Liam (Bangers and Nash),Bangers and Nash,Jimmy Butler III
+2020-21,2,8,Jack,Flint Tropics,Kyrie Irving
+2020-21,2,9,Michael,Poo Anthony Towns,Paul George
+2020-21,2,10,Max,Ntlinika’s Nightmare,Ben Simmons
+2020-21,2,11,Liam,Tacko Tuuuuuesday,John Collins
+2020-21,2,12,Stefan,BOL BOLS BIG 🅱️ICK,Bradley Beal
+2020-21,3,1,Stefan,BOL BOLS BIG 🅱️ICK,Deandre Ayton
+2020-21,3,2,Liam,Tacko Tuuuuuesday,Fred VanVleet
+2020-21,3,3,Max,Ntlinika’s Nightmare,Zion Williamson
+2020-21,3,4,Michael,Poo Anthony Towns,Jusuf Nurkić
+2020-21,3,5,Jack,Flint Tropics,Rudy Gobert
+2020-21,3,6,Liam (Bangers and Nash),Bangers and Nash,Russell Westbrook
+2020-21,3,7,John,Look at Curry Man,Nikola Vučević
+2020-21,3,8,Jarrek,Midnight Shooters,Shai Gilgeous-Alexander
+2020-21,3,9,Mitchell,Better Call Gasol.,Ja Morant
+2020-21,3,10,Matt,The Reverso,Jamal Murray
+2020-21,3,11,Josh,Silver Surfer,Donovan Mitchell
+2020-21,3,12,Justin,KATmandu,Zach LaVine
+2020-21,4,1,Justin,KATmandu,D'Angelo Russell
+2020-21,4,2,Josh,Silver Surfer,Domantas Sabonis
+2020-21,4,3,Matt,The Reverso,Seth Curry
+2020-21,4,4,Mitchell,Better Call Gasol.,Jaylen Brown
+2020-21,4,5,Jarrek,Midnight Shooters,Gordon Hayward
+2020-21,4,6,John,Look at Curry Man,Andre Drummond
+2020-21,4,7,Liam (Bangers and Nash),Bangers and Nash,Brandon Ingram
+2020-21,4,8,Jack,Flint Tropics,Kyle Lowry
+2020-21,4,9,Michael,Poo Anthony Towns,Myles Turner
+2020-21,4,10,Max,Ntlinika’s Nightmare,Chris Paul
+2020-21,4,11,Liam,Tacko Tuuuuuesday,Robert Covington
+2020-21,4,12,Stefan,BOL BOLS BIG 🅱️ICK,De'Aaron Fox
+2020-21,5,1,Stefan,BOL BOLS BIG 🅱️ICK,DeMar DeRozan
+2020-21,5,2,Liam,Tacko Tuuuuuesday,CJ McCollum
+2020-21,5,3,Max,Ntlinika’s Nightmare,Jonas Valančiūnas
+2020-21,5,4,Michael,Poo Anthony Towns,Buddy Hield
+2020-21,5,5,Jack,Flint Tropics,Tobias Harris
+2020-21,5,6,Liam (Bangers and Nash),Bangers and Nash,Jrue Holiday
+2020-21,5,7,John,Look at Curry Man,LaMarcus Aldridge
+2020-21,5,8,Jarrek,Midnight Shooters,Michael Porter Jr.
+2020-21,5,9,Mitchell,Better Call Gasol.,Malcolm Brogdon
+2020-21,5,10,Matt,The Reverso,Mitchell Robinson
+2020-21,5,11,Josh,Silver Surfer,T.J. Warren
+2020-21,5,12,Justin,KATmandu,John Wall
+2020-21,6,1,Justin,KATmandu,Hassan Whiteside
+2020-21,6,2,Josh,Silver Surfer,Thomas Bryant
+2020-21,6,3,Matt,The Reverso,Clint Capela
+2020-21,6,4,Mitchell,Better Call Gasol.,Lauri Markkanen
+2020-21,6,5,Jarrek,Midnight Shooters,Steven Adams
+2020-21,6,6,John,Look at Curry Man,Christian Wood
+2020-21,6,7,Liam (Bangers and Nash),Bangers and Nash,Kristaps Porziņģis
+2020-21,6,8,Jack,Flint Tropics,Montrezl Harrell
+2020-21,6,9,Michael,Poo Anthony Towns,Dejounte Murray
+2020-21,6,10,Max,Ntlinika’s Nightmare,Victor Oladipo
+2020-21,6,11,Liam,Tacko Tuuuuuesday,Marcus Smart
+2020-21,6,12,Stefan,BOL BOLS BIG 🅱️ICK,Kelly Oubre Jr.
+2020-21,7,1,Stefan,BOL BOLS BIG 🅱️ICK,Jaren Jackson Jr.
+2020-21,7,2,Liam,Tacko Tuuuuuesday,Brook Lopez
+2020-21,7,3,Max,Ntlinika’s Nightmare,Wendell Carter Jr.
+2020-21,7,4,Michael,Poo Anthony Towns,Mikal Bridges
+2020-21,7,5,Jack,Flint Tropics,Tyler Herro
+2020-21,7,6,Liam (Bangers and Nash),Bangers and Nash,Lonzo Ball
+2020-21,7,7,John,Look at Curry Man,Coby White
+2020-21,7,8,Jarrek,Midnight Shooters,Andrew Wiggins
+2020-21,7,9,Mitchell,Better Call Gasol.,OG Anunoby
+2020-21,7,10,Matt,The Reverso,Ricky Rubio
+2020-21,7,11,Josh,Silver Surfer,Draymond Green
+2020-21,7,12,Justin,KATmandu,Danilo Gallinari
+2020-21,8,1,Justin,KATmandu,Blake Griffin
+2020-21,8,2,Josh,Silver Surfer,Collin Sexton
+2020-21,8,3,Matt,The Reverso,Devonte' Graham
+2020-21,8,4,Mitchell,Better Call Gasol.,Serge Ibaka
+2020-21,8,5,Jarrek,Midnight Shooters,Dāvis Bertāns
+2020-21,8,6,John,Look at Curry Man,Aaron Gordon
+2020-21,8,7,Liam (Bangers and Nash),Bangers and Nash,Kevin Love
+2020-21,8,8,Jack,Flint Tropics,Derrick Rose
+2020-21,8,9,Michael,Poo Anthony Towns,Richaun Holmes
+2020-21,8,10,Max,Ntlinika’s Nightmare,Jerami Grant
+2020-21,8,11,Liam,Tacko Tuuuuuesday,Bogdan Bogdanović
+2020-21,8,12,Stefan,BOL BOLS BIG 🅱️ICK,Julius Randle
+2020-21,9,1,Stefan,BOL BOLS BIG 🅱️ICK,Duncan Robinson
+2020-21,9,2,Liam,Tacko Tuuuuuesday,Kemba Walker
+2020-21,9,3,Max,Ntlinika’s Nightmare,Bojan Bogdanović
+2020-21,9,4,Michael,Poo Anthony Towns,Brandon Clarke
+2020-21,9,5,Jack,Flint Tropics,Dennis Schröder
+2020-21,9,6,Liam (Bangers and Nash),Bangers and Nash,Markelle Fultz
+2020-21,9,7,John,Look at Curry Man,Evan Fournier
+2020-21,9,8,Jarrek,Midnight Shooters,LaMelo Ball
+2020-21,9,9,Mitchell,Better Call Gasol.,Norman Powell
+2020-21,9,10,Matt,The Reverso,Joe Harris
+2020-21,9,11,Josh,Silver Surfer,Marvin Bagley III
+2020-21,9,12,Justin,KATmandu,RJ Barrett
+2020-21,10,1,Justin,KATmandu,Goran Dragić
+2020-21,10,2,Josh,Silver Surfer,P.J. Washington
+2020-21,10,3,Matt,The Reverso,Dorian Finney-Smith
+2020-21,10,4,Mitchell,Better Call Gasol.,Caris LeVert
+2020-21,10,5,Jarrek,Midnight Shooters,Rui Hachimura
+2020-21,10,6,John,Look at Curry Man,Donte DiVincenzo
+2020-21,10,7,Liam (Bangers and Nash),Bangers and Nash,DeMarcus Cousins
+2020-21,10,8,Jack,Flint Tropics,DeAndre Jordan
+2020-21,10,9,Michael,Poo Anthony Towns,Nerlens Noel
+2020-21,10,10,Max,Ntlinika’s Nightmare,Mike Conley
+2020-21,10,11,Liam,Tacko Tuuuuuesday,Larry Nance Jr.
+2020-21,10,12,Stefan,BOL BOLS BIG 🅱️ICK,Jarrett Allen
+2020-21,11,1,Stefan,BOL BOLS BIG 🅱️ICK,Tim Hardaway Jr.
+2020-21,11,2,Liam,Tacko Tuuuuuesday,Josh Richardson
+2020-21,11,3,Max,Ntlinika’s Nightmare,Al Horford
+2020-21,11,4,Michael,Poo Anthony Towns,Lou Williams
+2020-21,11,5,Jack,Flint Tropics,Otto Porter Jr.
+2020-21,11,6,Liam (Bangers and Nash),Bangers and Nash,Malik Beasley
+2020-21,11,7,John,Look at Curry Man,Eric Bledsoe
+2020-21,11,8,Jarrek,Midnight Shooters,Chris Boucher
+2020-21,11,9,Mitchell,Better Call Gasol.,Anthony Edwards
+2020-21,11,10,Matt,The Reverso,Elfrid Payton
+2020-21,11,11,Josh,Silver Surfer,Kevin Huerter
+2020-21,11,12,Justin,KATmandu,Paul Millsap
+2020-21,12,1,Justin,KATmandu,Jordan Clarkson
+2020-21,12,2,Josh,Silver Surfer,James Wiseman
+2020-21,12,3,Matt,The Reverso,Jakob Poeltl
+2020-21,12,4,Mitchell,Better Call Gasol.,Daniel Theis
+2020-21,12,5,Jarrek,Midnight Shooters,Joe Ingles
+2020-21,12,6,John,Look at Curry Man,Derrick White
+2020-21,12,7,Liam (Bangers and Nash),Bangers and Nash,Darius Garland
+2020-21,12,8,Jack,Flint Tropics,Will Barton
+2020-21,12,9,Michael,Poo Anthony Towns,Terry Rozier
+2020-21,12,10,Max,Ntlinika’s Nightmare,Killian Hayes
+2020-21,12,11,Liam,Tacko Tuuuuuesday,Maxi Kleber
+2020-21,12,12,Stefan,BOL BOLS BIG 🅱️ICK,Spencer Dinwiddie
+2020-21,13,1,Stefan,BOL BOLS BIG 🅱️ICK,Terrence Ross
+2020-21,13,2,Liam,Tacko Tuuuuuesday,Obi Toppin
+2020-21,13,3,Max,Ntlinika’s Nightmare,Justin Holiday
+2020-21,13,4,Michael,Poo Anthony Towns,Ivica Zubac
+2020-21,13,5,Jack,Flint Tropics,Jeff Teague
+2020-21,13,6,Liam (Bangers and Nash),Bangers and Nash,Talen Horton-Tucker
+2020-21,13,7,John,Look at Curry Man,De'Andre Hunter
+2020-21,13,8,Jarrek,Midnight Shooters,Miles Bridges
+2020-21,13,9,Mitchell,Better Call Gasol.,Carmelo Anthony
+2020-21,13,10,Matt,The Reverso,Harrison Barnes
+2020-21,13,11,Josh,Silver Surfer,Tristan Thompson
+2020-21,13,12,Justin,KATmandu,Jae Crowder
+2021-22,1,1,Michael,Big Big Chungus Big Chungus,Nikola Jokić
+2021-22,1,2,Stefan,BOL BOLS BIG 🅱️ICK,Stephen Curry
+2021-22,1,3,Justin,KATmandu,Luka Dončić
+2021-22,1,4,Tom,WORLD TOMINATION,Giannis Antetokounmpo
+2021-22,1,5,Josh,Silver Surfer,James Harden
+2021-22,1,6,John,Bubble Suns,Karl-Anthony Towns
+2021-22,1,7,Matt,The Reverso,Kevin Durant
+2021-22,1,8,Liam,Tacko Tuuuuuesday,Jayson Tatum
+2021-22,1,9,Jack,Flint Tropics,LeBron James
+2021-22,1,10,Max,Ntlinika’s Nightmare,Joel Embiid
+2021-22,1,11,Chivy,Team Skeeeeup Bayless,Anthony Davis
+2021-22,1,12,Mitchell,Better Call Gasol.,Damian Lillard
+2021-22,2,1,Mitchell,Better Call Gasol.,Domantas Sabonis
+2021-22,2,2,Chivy,Team Skeeeeup Bayless,Donovan Mitchell
+2021-22,2,3,Max,Ntlinika’s Nightmare,Trae Young
+2021-22,2,4,Jack,Flint Tropics,LaMelo Ball
+2021-22,2,5,Liam,Tacko Tuuuuuesday,Paul George
+2021-22,2,6,Matt,The Reverso,Bam Adebayo
+2021-22,2,7,John,Bubble Suns,Bradley Beal
+2021-22,2,8,Josh,Silver Surfer,Fred VanVleet
+2021-22,2,9,Tom,WORLD TOMINATION,Zach LaVine
+2021-22,2,10,Justin,KATmandu,Jimmy Butler III
+2021-22,2,11,Stefan,BOL BOLS BIG 🅱️ICK,Nikola Vučević
+2021-22,2,12,Michael,Big Big Chungus Big Chungus,Rudy Gobert
+2021-22,3,1,Michael,Big Big Chungus Big Chungus,Devin Booker
+2021-22,3,2,Stefan,BOL BOLS BIG 🅱️ICK,Julius Randle
+2021-22,3,3,Justin,KATmandu,Deandre Ayton
+2021-22,3,4,Tom,WORLD TOMINATION,Zion Williamson
+2021-22,3,5,Josh,Silver Surfer,Michael Porter Jr.
+2021-22,3,6,John,Bubble Suns,Chris Paul
+2021-22,3,7,Matt,The Reverso,Shai Gilgeous-Alexander
+2021-22,3,8,Liam,Tacko Tuuuuuesday,De'Aaron Fox
+2021-22,3,9,Jack,Flint Tropics,Kristaps Porziņģis
+2021-22,3,10,Max,Ntlinika’s Nightmare,Ja Morant
+2021-22,3,11,Chivy,Team Skeeeeup Bayless,Jaylen Brown
+2021-22,3,12,Mitchell,Better Call Gasol.,Richaun Holmes
+2021-22,4,1,Mitchell,Better Call Gasol.,Khris Middleton
+2021-22,4,2,Chivy,Team Skeeeeup Bayless,John Collins
+2021-22,4,3,Max,Ntlinika’s Nightmare,Brandon Ingram
+2021-22,4,4,Jack,Flint Tropics,Anthony Edwards
+2021-22,4,5,Liam,Tacko Tuuuuuesday,Mikal Bridges
+2021-22,4,6,Matt,The Reverso,Jrue Holiday
+2021-22,4,7,John,Bubble Suns,Tobias Harris
+2021-22,4,8,Josh,Silver Surfer,Myles Turner
+2021-22,4,9,Tom,WORLD TOMINATION,Clint Capela
+2021-22,4,10,Justin,KATmandu,DeMar DeRozan
+2021-22,4,11,Stefan,BOL BOLS BIG 🅱️ICK,Lonzo Ball
+2021-22,4,12,Michael,Big Big Chungus Big Chungus,Tyrese Haliburton
+2021-22,5,1,Michael,Big Big Chungus Big Chungus,Dejounte Murray
+2021-22,5,2,Stefan,BOL BOLS BIG 🅱️ICK,Jerami Grant
+2021-22,5,3,Justin,KATmandu,Christian Wood
+2021-22,5,4,Tom,WORLD TOMINATION,Russell Westbrook
+2021-22,5,5,Josh,Silver Surfer,Jaren Jackson Jr.
+2021-22,5,6,John,Bubble Suns,Jonas Valančiūnas
+2021-22,5,7,Matt,The Reverso,Seth Curry
+2021-22,5,8,Liam,Tacko Tuuuuuesday,Robert Williams III
+2021-22,5,9,Jack,Flint Tropics,Kyle Lowry
+2021-22,5,10,Max,Ntlinika’s Nightmare,Darius Garland
+2021-22,5,11,Chivy,Team Skeeeeup Bayless,Jusuf Nurkić
+2021-22,5,12,Mitchell,Better Call Gasol.,OG Anunoby
+2021-22,6,1,Mitchell,Better Call Gasol.,Kyrie Irving
+2021-22,6,2,Chivy,Team Skeeeeup Bayless,Gordon Hayward
+2021-22,6,3,Max,Ntlinika’s Nightmare,Malcolm Brogdon
+2021-22,6,4,Jack,Flint Tropics,Andre Drummond
+2021-22,6,5,Liam,Tacko Tuuuuuesday,Terry Rozier
+2021-22,6,6,Matt,The Reverso,Derrick White
+2021-22,6,7,John,Bubble Suns,CJ McCollum
+2021-22,6,8,Josh,Silver Surfer,Draymond Green
+2021-22,6,9,Tom,WORLD TOMINATION,Ben Simmons
+2021-22,6,10,Justin,KATmandu,Collin Sexton
+2021-22,6,11,Stefan,BOL BOLS BIG 🅱️ICK,Kevin Porter Jr.
+2021-22,6,12,Michael,Big Big Chungus Big Chungus,Jarrett Allen
+2021-22,7,1,Michael,Big Big Chungus Big Chungus,Robert Covington
+2021-22,7,2,Stefan,BOL BOLS BIG 🅱️ICK,Cade Cunningham
+2021-22,7,3,Justin,KATmandu,Buddy Hield
+2021-22,7,4,Tom,WORLD TOMINATION,Jakob Poeltl
+2021-22,7,5,Josh,Silver Surfer,Pascal Siakam
+2021-22,7,6,John,Bubble Suns,Keldon Johnson
+2021-22,7,7,Matt,The Reverso,Isaiah Stewart
+2021-22,7,8,Liam,Tacko Tuuuuuesday,Mitchell Robinson
+2021-22,7,9,Jack,Flint Tropics,Aaron Gordon
+2021-22,7,10,Max,Ntlinika’s Nightmare,D'Angelo Russell
+2021-22,7,11,Chivy,Team Skeeeeup Bayless,Caris LeVert
+2021-22,7,12,Mitchell,Better Call Gasol.,P.J. Washington
+2021-22,8,1,Mitchell,Better Call Gasol.,Norman Powell
+2021-22,8,2,Chivy,Team Skeeeeup Bayless,Jalen Green
+2021-22,8,3,Max,Ntlinika’s Nightmare,Klay Thompson
+2021-22,8,4,Jack,Flint Tropics,Kemba Walker
+2021-22,8,5,Liam,Tacko Tuuuuuesday,Bogdan Bogdanović
+2021-22,8,6,Matt,The Reverso,Marcus Smart
+2021-22,8,7,John,Bubble Suns,Mike Conley
+2021-22,8,8,Josh,Silver Surfer,Nickeil Alexander-Walker
+2021-22,8,9,Tom,WORLD TOMINATION,Andrew Wiggins
+2021-22,8,10,Justin,KATmandu,Dennis Schröder
+2021-22,8,11,Stefan,BOL BOLS BIG 🅱️ICK,Wendell Carter Jr.
+2021-22,8,12,Michael,Big Big Chungus Big Chungus,Spencer Dinwiddie
+2021-22,9,1,Michael,Big Big Chungus Big Chungus,Evan Mobley
+2021-22,9,2,Stefan,BOL BOLS BIG 🅱️ICK,Miles Bridges
+2021-22,9,3,Justin,KATmandu,Harrison Barnes
+2021-22,9,4,Tom,WORLD TOMINATION,RJ Barrett
+2021-22,9,5,Josh,Silver Surfer,Devonte' Graham
+2021-22,9,6,John,Bubble Suns,Jordan Clarkson
+2021-22,9,7,Matt,The Reverso,Al Horford
+2021-22,9,8,Liam,Tacko Tuuuuuesday,Brook Lopez
+2021-22,9,9,Jack,Flint Tropics,Montrezl Harrell
+2021-22,9,10,Max,Ntlinika’s Nightmare,Mo Bamba
+2021-22,9,11,Chivy,Team Skeeeeup Bayless,Jordan Poole
+2021-22,9,12,Mitchell,Better Call Gasol.,Jalen Suggs
+2021-22,10,1,Mitchell,Better Call Gasol.,Nerlens Noel
+2021-22,10,2,Chivy,Team Skeeeeup Bayless,Lauri Markkanen
+2021-22,10,3,Max,Ntlinika’s Nightmare,Evan Fournier
+2021-22,10,4,Jack,Flint Tropics,Danny Green
+2021-22,10,5,Liam,Tacko Tuuuuuesday,T.J. McConnell
+2021-22,10,6,Matt,The Reverso,Ivica Zubac
+2021-22,10,7,John,Bubble Suns,Chris Boucher
+2021-22,10,8,Josh,Silver Surfer,Kelly Olynyk
+2021-22,10,9,Tom,WORLD TOMINATION,De'Anthony Melton
+2021-22,10,10,Justin,KATmandu,Thaddeus Young
+2021-22,10,11,Stefan,BOL BOLS BIG 🅱️ICK,Kyle Anderson
+2021-22,10,12,Michael,Big Big Chungus Big Chungus,Reggie Jackson
+2021-22,11,1,Michael,Big Big Chungus Big Chungus,Tyler Herro
+2021-22,11,2,Stefan,BOL BOLS BIG 🅱️ICK,Duncan Robinson
+2021-22,11,3,Justin,KATmandu,Kawhi Leonard
+2021-22,11,4,Tom,WORLD TOMINATION,Mason Plumlee
+2021-22,11,5,Josh,Silver Surfer,Jonathan Isaac
+2021-22,11,6,John,Bubble Suns,Larry Nance Jr.
+2021-22,11,7,Matt,The Reverso,Derrick Favors
+2021-22,11,8,Liam,Tacko Tuuuuuesday,Daniel Gafford
+2021-22,11,9,Jack,Flint Tropics,Bojan Bogdanović
+2021-22,11,10,Max,Ntlinika’s Nightmare,De'Andre Hunter
+2021-22,11,11,Chivy,Team Skeeeeup Bayless,Tim Hardaway Jr.
+2021-22,11,12,Mitchell,Better Call Gasol.,Gary Trent Jr.
+2021-22,12,1,Mitchell,Better Call Gasol.,Luguentz Dort
+2021-22,12,2,Chivy,Team Skeeeeup Bayless,Will Barton
+2021-22,12,3,Max,Ntlinika’s Nightmare,Marcus Morris Sr.
+2021-22,12,4,Jack,Flint Tropics,Danilo Gallinari
+2021-22,12,5,Liam,Tacko Tuuuuuesday,Joe Harris
+2021-22,12,6,Matt,The Reverso,Saddiq Bey
+2021-22,12,7,John,Bubble Suns,Dillon Brooks
+2021-22,12,8,Josh,Silver Surfer,Tyrese Maxey
+2021-22,12,9,Tom,WORLD TOMINATION,Josh Giddey
+2021-22,12,10,Justin,KATmandu,Kyle Kuzma
+2021-22,12,11,Stefan,BOL BOLS BIG 🅱️ICK,Matisse Thybulle
+2021-22,12,12,Michael,Big Big Chungus Big Chungus,Derrick Rose
+2021-22,13,1,Michael,Big Big Chungus Big Chungus,Donte DiVincenzo
+2021-22,13,2,Stefan,BOL BOLS BIG 🅱️ICK,Steven Adams
+2021-22,13,3,Justin,KATmandu,Carmelo Anthony
+2021-22,13,4,Tom,WORLD TOMINATION,Bobby Portis
+2021-22,13,5,Josh,Silver Surfer,Jae'Sean Tate
+2021-22,13,6,John,Bubble Suns,Scottie Barnes
+2021-22,13,7,Matt,The Reverso,Malik Beasley
+2021-22,13,8,Liam,Tacko Tuuuuuesday,Dorian Finney-Smith
+2021-22,13,9,Jack,Flint Tropics,Boban Marjanović
+2021-22,13,10,Max,Ntlinika’s Nightmare,T.J. Warren
+2021-22,13,11,Chivy,Team Skeeeeup Bayless,Paul Millsap
+2021-22,13,12,Mitchell,Better Call Gasol.,Dwight Howard
+2022-23,1,1,Jack,Flint Tropics,Giannis Antetokounmpo
+2022-23,1,2,Tom,WORLD TOMINATION,Nikola Jokić
+2022-23,1,3,Josh,Silver Surfer,Joel Embiid
+2022-23,1,4,Liam,Tacko Tuuuuuesday,James Harden
+2022-23,1,5,Michael,Big Big Chungus Big Chungus,Kevin Durant
+2022-23,1,6,Matt,The Reverso,Luka Dončić
+2022-23,1,7,Saxon,Zaddy Lonzo,Jayson Tatum
+2022-23,1,8,Chivy,Coach Carter,Stephen Curry
+2022-23,1,9,Jerry,TERMINATOR,LaMelo Ball
+2022-23,1,10,Stefan,BOL BOLS BIG 🅱️ICK,Trae Young
+2022-23,1,11,John,Bubble Suns,Tyrese Haliburton
+2022-23,1,12,Mitchell,Better Call Gasol.,LeBron James
+2022-23,2,1,Mitchell,Better Call Gasol.,Ja Morant
+2022-23,2,2,John,Bubble Suns,Damian Lillard
+2022-23,2,3,Stefan,BOL BOLS BIG 🅱️ICK,Karl-Anthony Towns
+2022-23,2,4,Jerry,TERMINATOR,Kyrie Irving
+2022-23,2,5,Chivy,Coach Carter,Bam Adebayo
+2022-23,2,6,Saxon,Zaddy Lonzo,Anthony Davis
+2022-23,2,7,Matt,The Reverso,Devin Booker
+2022-23,2,8,Michael,Big Big Chungus Big Chungus,Rudy Gobert
+2022-23,2,9,Liam,Tacko Tuuuuuesday,Paul George
+2022-23,2,10,Josh,Silver Surfer,Domantas Sabonis
+2022-23,2,11,Tom,WORLD TOMINATION,Dejounte Murray
+2022-23,2,12,Jack,Flint Tropics,Kawhi Leonard
+2022-23,3,1,Jack,Flint Tropics,Chris Paul
+2022-23,3,2,Tom,WORLD TOMINATION,Evan Mobley
+2022-23,3,3,Josh,Silver Surfer,DeMar DeRozan
+2022-23,3,4,Liam,Tacko Tuuuuuesday,Fred VanVleet
+2022-23,3,5,Michael,Big Big Chungus Big Chungus,Anthony Edwards
+2022-23,3,6,Matt,The Reverso,Jimmy Butler III
+2022-23,3,7,Saxon,Zaddy Lonzo,Darius Garland
+2022-23,3,8,Chivy,Coach Carter,Pascal Siakam
+2022-23,3,9,Jerry,TERMINATOR,Zion Williamson
+2022-23,3,10,Stefan,BOL BOLS BIG 🅱️ICK,Myles Turner
+2022-23,3,11,John,Bubble Suns,Deandre Ayton
+2022-23,3,12,Mitchell,Better Call Gasol.,Nikola Vučević
+2022-23,4,1,Mitchell,Better Call Gasol.,Donovan Mitchell
+2022-23,4,2,John,Bubble Suns,Bradley Beal
+2022-23,4,3,Stefan,BOL BOLS BIG 🅱️ICK,Mikal Bridges
+2022-23,4,4,Jerry,TERMINATOR,Klay Thompson
+2022-23,4,5,Chivy,Coach Carter,Cade Cunningham
+2022-23,4,6,Saxon,Zaddy Lonzo,Jarrett Allen
+2022-23,4,7,Matt,The Reverso,Scottie Barnes
+2022-23,4,8,Michael,Big Big Chungus Big Chungus,Terry Rozier
+2022-23,4,9,Liam,Tacko Tuuuuuesday,Jrue Holiday
+2022-23,4,10,Josh,Silver Surfer,De'Aaron Fox
+2022-23,4,11,Tom,WORLD TOMINATION,Jakob Poeltl
+2022-23,4,12,Jack,Flint Tropics,CJ McCollum
+2022-23,5,1,Jack,Flint Tropics,Khris Middleton
+2022-23,5,2,Tom,WORLD TOMINATION,Josh Giddey
+2022-23,5,3,Josh,Silver Surfer,Zach LaVine
+2022-23,5,4,Liam,Tacko Tuuuuuesday,Jaylen Brown
+2022-23,5,5,Michael,Big Big Chungus Big Chungus,Kristaps Porziņģis
+2022-23,5,6,Matt,The Reverso,Desmond Bane
+2022-23,5,7,Saxon,Zaddy Lonzo,John Collins
+2022-23,5,8,Chivy,Coach Carter,Shai Gilgeous-Alexander
+2022-23,5,9,Jerry,TERMINATOR,Brandon Ingram
+2022-23,5,10,Stefan,BOL BOLS BIG 🅱️ICK,Tyler Herro
+2022-23,5,11,John,Bubble Suns,Jonas Valančiūnas
+2022-23,5,12,Mitchell,Better Call Gasol.,Michael Porter Jr.
+2022-23,6,1,Mitchell,Better Call Gasol.,Jalen Green
+2022-23,6,2,John,Bubble Suns,Jalen Brunson
+2022-23,6,3,Stefan,BOL BOLS BIG 🅱️ICK,Keldon Johnson
+2022-23,6,4,Jerry,TERMINATOR,Tyrese Maxey
+2022-23,6,5,Chivy,Coach Carter,Alperen Şengün
+2022-23,6,6,Saxon,Zaddy Lonzo,Jordan Poole
+2022-23,6,7,Matt,The Reverso,Jusuf Nurkić
+2022-23,6,8,Michael,Big Big Chungus Big Chungus,Robert Williams III
+2022-23,6,9,Liam,Tacko Tuuuuuesday,Christian Wood
+2022-23,6,10,Josh,Silver Surfer,Ben Simmons
+2022-23,6,11,Tom,WORLD TOMINATION,Jamal Murray
+2022-23,6,12,Jack,Flint Tropics,Draymond Green
+2022-23,7,1,Jack,Flint Tropics,Steven Adams
+2022-23,7,2,Tom,WORLD TOMINATION,Devin Vassell
+2022-23,7,3,Josh,Silver Surfer,Julius Randle
+2022-23,7,4,Liam,Tacko Tuuuuuesday,Paolo Banchero
+2022-23,7,5,Michael,Big Big Chungus Big Chungus,Herbert Jones
+2022-23,7,6,Matt,The Reverso,Clint Capela
+2022-23,7,7,Saxon,Zaddy Lonzo,Tobias Harris
+2022-23,7,8,Chivy,Coach Carter,Franz Wagner
+2022-23,7,9,Jerry,TERMINATOR,OG Anunoby
+2022-23,7,10,Stefan,BOL BOLS BIG 🅱️ICK,Wendell Carter Jr.
+2022-23,7,11,John,Bubble Suns,Marcus Smart
+2022-23,7,12,Mitchell,Better Call Gasol.,Al Horford
+2022-23,8,1,Mitchell,Better Call Gasol.,Mitchell Robinson
+2022-23,8,2,John,Bubble Suns,Saddiq Bey
+2022-23,8,3,Stefan,BOL BOLS BIG 🅱️ICK,D'Angelo Russell
+2022-23,8,4,Jerry,TERMINATOR,Andrew Wiggins
+2022-23,8,5,Chivy,Coach Carter,Jerami Grant
+2022-23,8,6,Saxon,Zaddy Lonzo,Gary Trent Jr.
+2022-23,8,7,Matt,The Reverso,Buddy Hield
+2022-23,8,8,Michael,Big Big Chungus Big Chungus,Tre Jones
+2022-23,8,9,Liam,Tacko Tuuuuuesday,P.J. Washington
+2022-23,8,10,Josh,Silver Surfer,Collin Sexton
+2022-23,8,11,Tom,WORLD TOMINATION,Isaiah Jackson
+2022-23,8,12,Jack,Flint Tropics,Bobby Portis
+2022-23,9,1,Jack,Flint Tropics,Brandon Clarke
+2022-23,9,2,Tom,WORLD TOMINATION,Gordon Hayward
+2022-23,9,3,Josh,Silver Surfer,Keegan Murray
+2022-23,9,4,Liam,Tacko Tuuuuuesday,Malcolm Brogdon
+2022-23,9,5,Michael,Big Big Chungus Big Chungus,Jarred Vanderbilt
+2022-23,9,6,Matt,The Reverso,Kyle Lowry
+2022-23,9,7,Saxon,Zaddy Lonzo,Josh Hart
+2022-23,9,8,Chivy,Coach Carter,Harrison Barnes
+2022-23,9,9,Jerry,TERMINATOR,De'Anthony Melton
+2022-23,9,10,Stefan,BOL BOLS BIG 🅱️ICK,Anfernee Simons
+2022-23,9,11,John,Bubble Suns,Jabari Smith Jr.
+2022-23,9,12,Mitchell,Better Call Gasol.,Onyeka Okongwu
+2022-23,10,1,Mitchell,Better Call Gasol.,Monté Morris
+2022-23,10,2,John,Bubble Suns,Lauri Markkanen
+2022-23,10,3,Stefan,BOL BOLS BIG 🅱️ICK,Matisse Thybulle
+2022-23,10,4,Jerry,TERMINATOR,Robert Covington
+2022-23,10,5,Chivy,Coach Carter,Russell Westbrook
+2022-23,10,6,Saxon,Zaddy Lonzo,Kyle Kuzma
+2022-23,10,7,Matt,The Reverso,Kevin Porter Jr.
+2022-23,10,8,Michael,Big Big Chungus Big Chungus,Nic Claxton
+2022-23,10,9,Liam,Tacko Tuuuuuesday,Norman Powell
+2022-23,10,10,Josh,Silver Surfer,Ivica Zubac
+2022-23,10,11,Tom,WORLD TOMINATION,Tari Eason
+2022-23,10,12,Jack,Flint Tropics,Alex Caruso
+2022-23,11,1,Jack,Flint Tropics,Isaiah Stewart
+2022-23,11,2,Tom,WORLD TOMINATION,Markelle Fultz
+2022-23,11,3,Josh,Silver Surfer,Jaren Jackson Jr.
+2022-23,11,4,Liam,Tacko Tuuuuuesday,Isaiah Hartenstein
+2022-23,11,5,Michael,Big Big Chungus Big Chungus,Dorian Finney-Smith
+2022-23,11,6,Matt,The Reverso,Seth Curry
+2022-23,11,7,Saxon,Zaddy Lonzo,RJ Barrett
+2022-23,11,8,Chivy,Coach Carter,Mo Bamba
+2022-23,11,9,Jerry,TERMINATOR,Bones Hyland
+2022-23,11,10,Stefan,BOL BOLS BIG 🅱️ICK,Jae'Sean Tate
+2022-23,11,11,John,Bubble Suns,Bojan Bogdanović
+2022-23,11,12,Mitchell,Better Call Gasol.,Aaron Gordon
+2022-23,12,1,Mitchell,Better Call Gasol.,Marvin Bagley III
+2022-23,12,2,John,Bubble Suns,Chris Duarte
+2022-23,12,3,Stefan,BOL BOLS BIG 🅱️ICK,Caris LeVert
+2022-23,12,4,Jerry,TERMINATOR,Mike Conley
+2022-23,12,5,Chivy,Coach Carter,Dillon Brooks
+2022-23,12,6,Saxon,Zaddy Lonzo,Spencer Dinwiddie
+2022-23,12,7,Matt,The Reverso,Jalen Smith
+2022-23,12,8,Michael,Big Big Chungus Big Chungus,Cole Anthony
+2022-23,12,9,Liam,Tacko Tuuuuuesday,Brook Lopez
+2022-23,12,10,Josh,Silver Surfer,Tyus Jones
+2022-23,12,11,Tom,WORLD TOMINATION,Kelly Olynyk
+2022-23,12,12,Jack,Flint Tropics,Jaden McDaniels
+2022-23,13,1,Jack,Flint Tropics,John Wall
+2022-23,13,2,Tom,WORLD TOMINATION,Jalen Suggs
+2022-23,13,3,Josh,Silver Surfer,Daniel Gafford
+2022-23,13,4,Liam,Tacko Tuuuuuesday,Chris Boucher
+2022-23,13,5,Michael,Big Big Chungus Big Chungus,Walker Kessler
+2022-23,13,6,Matt,The Reverso,Derrick White
+2022-23,13,7,Saxon,Zaddy Lonzo,James Wiseman
+2022-23,13,8,Chivy,Coach Carter,Kelly Oubre Jr.
+2022-23,13,9,Jerry,TERMINATOR,Bogdan Bogdanović
+2022-23,13,10,Stefan,BOL BOLS BIG 🅱️ICK,JaVale McGee
+2022-23,13,11,John,Bubble Suns,Aleksej Pokuševski
+2022-23,13,12,Mitchell,Better Call Gasol.,Reggie Jackson
+2023-24,1,1,Liam,Tacko Tuuuuuesday,Nikola Jokić
+2023-24,1,2,Matt,The Reverso,Joel Embiid
+2023-24,1,3,Tom,WORLD TOMINATION,Anthony Davis
+2023-24,1,4,Michael,Big Big Chungus Big Chungus,Tyrese Haliburton
+2023-24,1,5,Chivy,Coach Carter,Luka Dončić
+2023-24,1,6,Josh,Silver Surfer,Shai Gilgeous-Alexander
+2023-24,1,7,Mitchell,Team Limbs,Giannis Antetokounmpo
+2023-24,1,8,Saxon,Zaddy Lonzo,Jayson Tatum
+2023-24,1,9,Stefan,🅱️IG FACE COFFEE,Stephen Curry
+2023-24,1,10,Jason,Taco's Team,Domantas Sabonis
+2023-24,1,11,Alan,Kd's burner account,Kevin Durant
+2023-24,1,12,John,Bubble Suns,LaMelo Ball
+2023-24,2,1,John,Bubble Suns,Damian Lillard
+2023-24,2,2,Alan,Kd's burner account,Anthony Edwards
+2023-24,2,3,Jason,Taco's Team,Bam Adebayo
+2023-24,2,4,Stefan,🅱️IG FACE COFFEE,Devin Booker
+2023-24,2,5,Saxon,Zaddy Lonzo,Jaren Jackson Jr.
+2023-24,2,6,Mitchell,Team Limbs,Donovan Mitchell
+2023-24,2,7,Josh,Silver Surfer,Trae Young
+2023-24,2,8,Chivy,Coach Carter,Kyrie Irving
+2023-24,2,9,Michael,Big Big Chungus Big Chungus,Fred VanVleet
+2023-24,2,10,Tom,WORLD TOMINATION,Evan Mobley
+2023-24,2,11,Matt,The Reverso,Desmond Bane
+2023-24,2,12,Liam,Tacko Tuuuuuesday,Karl-Anthony Towns
+2023-24,3,1,Liam,Tacko Tuuuuuesday,James Harden
+2023-24,3,2,Matt,The Reverso,Mikal Bridges
+2023-24,3,3,Tom,WORLD TOMINATION,OG Anunoby
+2023-24,3,4,Michael,Big Big Chungus Big Chungus,Jimmy Butler III
+2023-24,3,5,Chivy,Coach Carter,Paul George
+2023-24,3,6,Josh,Silver Surfer,LeBron James
+2023-24,3,7,Mitchell,Team Limbs,Victor Wembanyama
+2023-24,3,8,Saxon,Zaddy Lonzo,Cade Cunningham
+2023-24,3,9,Stefan,🅱️IG FACE COFFEE,Pascal Siakam
+2023-24,3,10,Jason,Taco's Team,Dejounte Murray
+2023-24,3,11,Alan,Kd's burner account,De'Aaron Fox
+2023-24,3,12,John,Bubble Suns,Kawhi Leonard
+2023-24,4,1,John,Bubble Suns,Lauri Markkanen
+2023-24,4,2,Alan,Kd's burner account,Myles Turner
+2023-24,4,3,Jason,Taco's Team,Jrue Holiday
+2023-24,4,4,Stefan,🅱️IG FACE COFFEE,Deandre Ayton
+2023-24,4,5,Saxon,Zaddy Lonzo,Nikola Vučević
+2023-24,4,6,Mitchell,Team Limbs,Jaylen Brown
+2023-24,4,7,Josh,Silver Surfer,Kristaps Porziņģis
+2023-24,4,8,Chivy,Coach Carter,Jalen Brunson
+2023-24,4,9,Michael,Big Big Chungus Big Chungus,Jamal Murray
+2023-24,4,10,Tom,WORLD TOMINATION,Walker Kessler
+2023-24,4,11,Matt,The Reverso,Jordan Poole
+2023-24,4,12,Liam,Tacko Tuuuuuesday,Nic Claxton
+2023-24,5,1,Liam,Tacko Tuuuuuesday,DeMar DeRozan
+2023-24,5,2,Matt,The Reverso,Josh Giddey
+2023-24,5,3,Tom,WORLD TOMINATION,Jalen Williams
+2023-24,5,4,Michael,Big Big Chungus Big Chungus,Brandon Ingram
+2023-24,5,5,Chivy,Coach Carter,Zach LaVine
+2023-24,5,6,Josh,Silver Surfer,Darius Garland
+2023-24,5,7,Mitchell,Team Limbs,Chet Holmgren
+2023-24,5,8,Saxon,Zaddy Lonzo,Julius Randle
+2023-24,5,9,Stefan,🅱️IG FACE COFFEE,Paolo Banchero
+2023-24,5,10,Jason,Taco's Team,Scottie Barnes
+2023-24,5,11,Alan,Kd's burner account,Tyrese Maxey
+2023-24,5,12,John,Bubble Suns,Alperen Şengün
+2023-24,6,1,John,Bubble Suns,Rudy Gobert
+2023-24,6,2,Alan,Kd's burner account,Zion Williamson
+2023-24,6,3,Jason,Taco's Team,Franz Wagner
+2023-24,6,4,Stefan,🅱️IG FACE COFFEE,Jarrett Allen
+2023-24,6,5,Saxon,Zaddy Lonzo,Anfernee Simons
+2023-24,6,6,Mitchell,Team Limbs,Tyler Herro
+2023-24,6,7,Josh,Silver Surfer,Devin Vassell
+2023-24,6,8,Chivy,Coach Carter,Brook Lopez
+2023-24,6,9,Michael,Big Big Chungus Big Chungus,Tyus Jones
+2023-24,6,10,Tom,WORLD TOMINATION,Jakob Poeltl
+2023-24,6,11,Matt,The Reverso,Cameron Johnson
+2023-24,6,12,Liam,Tacko Tuuuuuesday,Kyle Kuzma
+2023-24,7,1,Liam,Tacko Tuuuuuesday,Tre Jones
+2023-24,7,2,Matt,The Reverso,Clint Capela
+2023-24,7,3,Tom,WORLD TOMINATION,Ben Simmons
+2023-24,7,4,Michael,Big Big Chungus Big Chungus,Mark Williams
+2023-24,7,5,Chivy,Coach Carter,Bradley Beal
+2023-24,7,6,Josh,Silver Surfer,Jerami Grant
+2023-24,7,7,Mitchell,Team Limbs,Klay Thompson
+2023-24,7,8,Saxon,Zaddy Lonzo,Ja Morant
+2023-24,7,9,Stefan,🅱️IG FACE COFFEE,Marcus Smart
+2023-24,7,10,Jason,Taco's Team,Robert Williams III
+2023-24,7,11,Alan,Kd's burner account,Terry Rozier
+2023-24,7,12,John,Bubble Suns,Michael Porter Jr.
+2023-24,8,1,John,Bubble Suns,Derrick White
+2023-24,8,2,Alan,Kd's burner account,Khris Middleton
+2023-24,8,3,Jason,Taco's Team,Tobias Harris
+2023-24,8,4,Stefan,🅱️IG FACE COFFEE,Draymond Green
+2023-24,8,5,Saxon,Zaddy Lonzo,Markelle Fultz
+2023-24,8,6,Mitchell,Team Limbs,Chris Paul
+2023-24,8,7,Josh,Silver Surfer,Onyeka Okongwu
+2023-24,8,8,Chivy,Coach Carter,Jabari Smith Jr.
+2023-24,8,9,Michael,Big Big Chungus Big Chungus,Buddy Hield
+2023-24,8,10,Tom,WORLD TOMINATION,Daniel Gafford
+2023-24,8,11,Matt,The Reverso,CJ McCollum
+2023-24,8,12,Liam,Tacko Tuuuuuesday,Zach Collins
+2023-24,9,1,Liam,Tacko Tuuuuuesday,Andrew Wiggins
+2023-24,9,2,Matt,The Reverso,Mitchell Robinson
+2023-24,9,3,Tom,WORLD TOMINATION,Steven Adams
+2023-24,9,4,Michael,Big Big Chungus Big Chungus,Jonas Valančiūnas
+2023-24,9,5,Chivy,Coach Carter,Jusuf Nurkić
+2023-24,9,6,Josh,Silver Surfer,Wendell Carter Jr.
+2023-24,9,7,Mitchell,Team Limbs,Ivica Zubac
+2023-24,9,8,Saxon,Zaddy Lonzo,Scoot Henderson
+2023-24,9,9,Stefan,🅱️IG FACE COFFEE,Austin Reaves
+2023-24,9,10,Jason,Taco's Team,Keegan Murray
+2023-24,9,11,Alan,Kd's burner account,Jalen Green
+2023-24,9,12,John,Bubble Suns,Bobby Portis
+2023-24,10,1,John,Bubble Suns,Jaden McDaniels
+2023-24,10,2,Alan,Kd's burner account,John Collins
+2023-24,10,3,Jason,Taco's Team,Collin Sexton
+2023-24,10,4,Stefan,🅱️IG FACE COFFEE,Spencer Dinwiddie
+2023-24,10,5,Saxon,Zaddy Lonzo,Gary Trent Jr.
+2023-24,10,6,Mitchell,Team Limbs,Trey Murphy III
+2023-24,10,7,Josh,Silver Surfer,De'Anthony Melton
+2023-24,10,8,Chivy,Coach Carter,P.J. Washington
+2023-24,10,9,Michael,Big Big Chungus Big Chungus,Jalen Duren
+2023-24,10,10,Tom,WORLD TOMINATION,Herbert Jones
+2023-24,10,11,Matt,The Reverso,Russell Westbrook
+2023-24,10,12,Liam,Tacko Tuuuuuesday,Obi Toppin
+2023-24,11,1,Liam,Tacko Tuuuuuesday,Aaron Gordon
+2023-24,11,2,Matt,The Reverso,D'Angelo Russell
+2023-24,11,3,Tom,WORLD TOMINATION,Bruce Brown
+2023-24,11,4,Michael,Big Big Chungus Big Chungus,Bennedict Mathurin
+2023-24,11,5,Chivy,Coach Carter,Josh Hart
+2023-24,11,6,Josh,Silver Surfer,Bojan Bogdanović
+2023-24,11,7,Mitchell,Team Limbs,Immanuel Quickley
+2023-24,11,8,Saxon,Zaddy Lonzo,Dennis Schröder
+2023-24,11,9,Stefan,🅱️IG FACE COFFEE,Malcolm Brogdon
+2023-24,11,10,Jason,Taco's Team,Keldon Johnson
+2023-24,11,11,Alan,Kd's burner account,Al Horford
+2023-24,11,12,John,Bubble Suns,Jordan Clarkson
+2023-24,12,1,John,Bubble Suns,Kevin Huerter
+2023-24,12,2,Alan,Kd's burner account,Jaden Ivey
+2023-24,12,3,Jason,Taco's Team,Isaiah Stewart
+2023-24,12,4,Stefan,🅱️IG FACE COFFEE,Kentavious Caldwell-Pope
+2023-24,12,5,Saxon,Zaddy Lonzo,James Wiseman
+2023-24,12,6,Mitchell,Team Limbs,Naz Reid
+2023-24,12,7,Josh,Silver Surfer,Paul Reed
+2023-24,12,8,Chivy,Coach Carter,Christian Wood
+2023-24,12,9,Michael,Big Big Chungus Big Chungus,Jonathan Kuminga
+2023-24,12,10,Tom,WORLD TOMINATION,Tari Eason
+2023-24,12,11,Matt,The Reverso,Shaedon Sharpe
+2023-24,12,12,Liam,Tacko Tuuuuuesday,Mike Conley
+2023-24,13,1,Liam,Tacko Tuuuuuesday,Patrick Williams
+2023-24,13,2,Matt,The Reverso,Kevon Looney
+2023-24,13,3,Tom,WORLD TOMINATION,Matisse Thybulle
+2023-24,13,4,Michael,Big Big Chungus Big Chungus,Coby White
+2023-24,13,5,Chivy,Coach Carter,Saddiq Bey
+2023-24,13,6,Josh,Silver Surfer,Ausar Thompson
+2023-24,13,7,Mitchell,Team Limbs,Gradey Dick
+2023-24,13,8,Saxon,Zaddy Lonzo,Dillon Brooks
+2023-24,13,9,Stefan,🅱️IG FACE COFFEE,Harrison Barnes
+2023-24,13,10,Jason,Taco's Team,Jonathan Isaac
+2023-24,13,11,Alan,Kd's burner account,Norman Powell
+2023-24,13,12,John,Bubble Suns,Deni Avdija
+2024-25,1,1,Jason,Taco's Team,Nikola Jokić
+2024-25,1,2,Alan,Kd's burner account,Luka Dončić
+2024-25,1,3,John,Bubble Suns,Victor Wembanyama
+2024-25,1,4,Liam,Tacko Tuuuuuesday,Shai Gilgeous-Alexander
+2024-25,1,5,Matt,The Reverso,Giannis Antetokounmpo
+2024-25,1,6,Stefan,🅱️IG FACE COFFEE,Jayson Tatum
+2024-25,1,7,Chivy,Coach Carter,Anthony Davis
+2024-25,1,8,Josh,Silver Surfer,Tyrese Haliburton
+2024-25,1,9,Saxon,Zaddy Lonzo,Anthony Edwards
+2024-25,1,10,Adel,Team skiddies,Trae Young
+2024-25,1,11,Tom,WORLD TOMINATION,Chet Holmgren
+2024-25,1,12,Michael,Big Big Chungus Big Chungus,James Harden
+2024-25,2,1,Michael,Big Big Chungus Big Chungus,Karl-Anthony Towns
+2024-25,2,2,Tom,WORLD TOMINATION,Evan Mobley
+2024-25,2,3,Adel,Team skiddies,Joel Embiid
+2024-25,2,4,Saxon,Zaddy Lonzo,Jalen Brunson
+2024-25,2,5,Josh,Silver Surfer,Donovan Mitchell
+2024-25,2,6,Chivy,Coach Carter,LaMelo Ball
+2024-25,2,7,Stefan,🅱️IG FACE COFFEE,Stephen Curry
+2024-25,2,8,Matt,The Reverso,Scottie Barnes
+2024-25,2,9,Liam,Tacko Tuuuuuesday,Devin Booker
+2024-25,2,10,John,Bubble Suns,Kevin Durant
+2024-25,2,11,Alan,Kd's burner account,LeBron James
+2024-25,2,12,Jason,Taco's Team,Tyrese Maxey
+2024-25,3,1,Jason,Taco's Team,Domantas Sabonis
+2024-25,3,2,Alan,Kd's burner account,Alperen Şengün
+2024-25,3,3,John,Bubble Suns,Kyrie Irving
+2024-25,3,4,Liam,Tacko Tuuuuuesday,Jalen Williams
+2024-25,3,5,Matt,The Reverso,Damian Lillard
+2024-25,3,6,Stefan,🅱️IG FACE COFFEE,Bam Adebayo
+2024-25,3,7,Chivy,Coach Carter,De'Aaron Fox
+2024-25,3,8,Josh,Silver Surfer,Jaren Jackson Jr.
+2024-25,3,9,Saxon,Zaddy Lonzo,Desmond Bane
+2024-25,3,10,Adel,Team skiddies,Cade Cunningham
+2024-25,3,11,Tom,WORLD TOMINATION,Rudy Gobert
+2024-25,3,12,Michael,Big Big Chungus Big Chungus,Fred VanVleet
+2024-25,4,1,Michael,Big Big Chungus Big Chungus,Lauri Markkanen
+2024-25,4,2,Tom,WORLD TOMINATION,Jarrett Allen
+2024-25,4,3,Adel,Team skiddies,Paolo Banchero
+2024-25,4,4,Saxon,Zaddy Lonzo,Franz Wagner
+2024-25,4,5,Josh,Silver Surfer,Paul George
+2024-25,4,6,Chivy,Coach Carter,Ja Morant
+2024-25,4,7,Stefan,🅱️IG FACE COFFEE,Dejounte Murray
+2024-25,4,8,Matt,The Reverso,Derrick White
+2024-25,4,9,Liam,Tacko Tuuuuuesday,Myles Turner
+2024-25,4,10,John,Bubble Suns,Jalen Johnson
+2024-25,4,11,Alan,Kd's burner account,Jaylen Brown
+2024-25,4,12,Jason,Taco's Team,Zion Williamson
+2024-25,5,1,Jason,Taco's Team,Pascal Siakam
+2024-25,5,2,Alan,Kd's burner account,Jimmy Butler III
+2024-25,5,3,John,Bubble Suns,Tobias Harris
+2024-25,5,4,Liam,Tacko Tuuuuuesday,Mikal Bridges
+2024-25,5,5,Matt,The Reverso,Immanuel Quickley
+2024-25,5,6,Stefan,🅱️IG FACE COFFEE,Jalen Duren
+2024-25,5,7,Chivy,Coach Carter,Nikola Vučević
+2024-25,5,8,Josh,Silver Surfer,Kawhi Leonard
+2024-25,5,9,Saxon,Zaddy Lonzo,Julius Randle
+2024-25,5,10,Adel,Team skiddies,Deandre Ayton
+2024-25,5,11,Tom,WORLD TOMINATION,OG Anunoby
+2024-25,5,12,Michael,Big Big Chungus Big Chungus,Darius Garland
+2024-25,6,1,Michael,Big Big Chungus Big Chungus,Nic Claxton
+2024-25,6,2,Tom,WORLD TOMINATION,Walker Kessler
+2024-25,6,3,Adel,Team skiddies,Brandon Miller
+2024-25,6,4,Saxon,Zaddy Lonzo,DeMar DeRozan
+2024-25,6,5,Josh,Silver Surfer,Brandon Ingram
+2024-25,6,6,Chivy,Coach Carter,Zach LaVine
+2024-25,6,7,Stefan,🅱️IG FACE COFFEE,Miles Bridges
+2024-25,6,8,Matt,The Reverso,Cam Thomas
+2024-25,6,9,Liam,Tacko Tuuuuuesday,Bradley Beal
+2024-25,6,10,John,Bubble Suns,Ivica Zubac
+2024-25,6,11,Alan,Kd's burner account,Jamal Murray
+2024-25,6,12,Jason,Taco's Team,Anfernee Simons
+2024-25,7,1,Jason,Taco's Team,D'Angelo Russell
+2024-25,7,2,Alan,Kd's burner account,Trey Murphy III
+2024-25,7,3,John,Bubble Suns,Jordan Poole
+2024-25,7,4,Liam,Tacko Tuuuuuesday,Michael Porter Jr.
+2024-25,7,5,Matt,The Reverso,Josh Giddey
+2024-25,7,6,Stefan,🅱️IG FACE COFFEE,Brook Lopez
+2024-25,7,7,Chivy,Coach Carter,Devin Vassell
+2024-25,7,8,Josh,Silver Surfer,Collin Sexton
+2024-25,7,9,Saxon,Zaddy Lonzo,Jusuf Nurkić
+2024-25,7,10,Adel,Team skiddies,Zach Edey
+2024-25,7,11,Tom,WORLD TOMINATION,Amen Thompson
+2024-25,7,12,Michael,Big Big Chungus Big Chungus,Herbert Jones
+2024-25,8,1,Michael,Big Big Chungus Big Chungus,Jonas Valančiūnas
+2024-25,8,2,Tom,WORLD TOMINATION,Alex Caruso
+2024-25,8,3,Adel,Team skiddies,Naz Reid
+2024-25,8,4,Saxon,Zaddy Lonzo,Keegan Murray
+2024-25,8,5,Josh,Silver Surfer,Draymond Green
+2024-25,8,6,Chivy,Coach Carter,Jabari Smith Jr.
+2024-25,8,7,Stefan,🅱️IG FACE COFFEE,Coby White
+2024-25,8,8,Matt,The Reverso,CJ McCollum
+2024-25,8,9,Liam,Tacko Tuuuuuesday,Isaiah Hartenstein
+2024-25,8,10,John,Bubble Suns,Bogdan Bogdanović
+2024-25,8,11,Alan,Kd's burner account,Mark Williams
+2024-25,8,12,Jason,Taco's Team,Kyle Kuzma
+2024-25,9,1,Jason,Taco's Team,Jalen Suggs
+2024-25,9,2,Alan,Kd's burner account,Jonathan Kuminga
+2024-25,9,3,John,Bubble Suns,Tyler Herro
+2024-25,9,4,Liam,Tacko Tuuuuuesday,John Collins
+2024-25,9,5,Matt,The Reverso,Jakob Poeltl
+2024-25,9,6,Stefan,🅱️IG FACE COFFEE,Daniel Gafford
+2024-25,9,7,Chivy,Coach Carter,Jrue Holiday
+2024-25,9,8,Josh,Silver Surfer,Austin Reaves
+2024-25,9,9,Saxon,Zaddy Lonzo,Clint Capela
+2024-25,9,10,Adel,Team skiddies,Scoot Henderson
+2024-25,9,11,Tom,WORLD TOMINATION,Dyson Daniels
+2024-25,9,12,Michael,Big Big Chungus Big Chungus,Donte DiVincenzo
+2024-25,10,1,Michael,Big Big Chungus Big Chungus,Jalen Green
+2024-25,10,2,Tom,WORLD TOMINATION,Marcus Smart
+2024-25,10,3,Adel,Team skiddies,Keyonte George
+2024-25,10,4,Saxon,Zaddy Lonzo,Trayce Jackson-Davis
+2024-25,10,5,Josh,Silver Surfer,Dereck Lively II
+2024-25,10,6,Chivy,Coach Carter,Onyeka Okongwu
+2024-25,10,7,Stefan,🅱️IG FACE COFFEE,RJ Barrett
+2024-25,10,8,Matt,The Reverso,Bobby Portis
+2024-25,10,9,Liam,Tacko Tuuuuuesday,Jerami Grant
+2024-25,10,10,John,Bubble Suns,Kristaps Porziņģis
+2024-25,10,11,Alan,Kd's burner account,Brandin Podziemski
+2024-25,10,12,Jason,Taco's Team,Deni Avdija
+2024-25,11,1,Jason,Taco's Team,Klay Thompson
+2024-25,11,2,Alan,Kd's burner account,Chris Paul
+2024-25,11,3,John,Bubble Suns,Cameron Johnson
+2024-25,11,4,Liam,Tacko Tuuuuuesday,Ausar Thompson
+2024-25,11,5,Matt,The Reverso,P.J. Washington
+2024-25,11,6,Stefan,🅱️IG FACE COFFEE,Malik Monk
+2024-25,11,7,Chivy,Coach Carter,Aaron Gordon
+2024-25,11,8,Josh,Silver Surfer,Norman Powell
+2024-25,11,9,Saxon,Zaddy Lonzo,Josh Hart
+2024-25,11,10,Adel,Team skiddies,Alex Sarr
+2024-25,11,11,Tom,WORLD TOMINATION,Andre Drummond
+2024-25,11,12,Michael,Big Big Chungus Big Chungus,Terry Rozier
+2024-25,12,1,Michael,Big Big Chungus Big Chungus,Tyus Jones
+2024-25,12,2,Tom,WORLD TOMINATION,Bilal Coulibaly
+2024-25,12,3,Adel,Team skiddies,Jordan Clarkson
+2024-25,12,4,Saxon,Zaddy Lonzo,Shaedon Sharpe
+2024-25,12,5,Josh,Silver Surfer,Al Horford
+2024-25,12,6,Chivy,Coach Carter,Wendell Carter Jr.
+2024-25,12,7,Stefan,🅱️IG FACE COFFEE,Buddy Hield
+2024-25,12,8,Matt,The Reverso,Kelly Olynyk
+2024-25,12,9,Liam,Tacko Tuuuuuesday,Aaron Nesmith
+2024-25,12,10,John,Bubble Suns,Zaccharie Risacher
+2024-25,12,11,Alan,Kd's burner account,Andrew Wiggins
+2024-25,12,12,Jason,Taco's Team,Luguentz Dort
+2024-25,13,1,Jason,Taco's Team,Ben Simmons
+2024-25,13,2,Alan,Kd's burner account,Jeremy Sochan
+2024-25,13,3,John,Bubble Suns,Jaden Ivey
+2024-25,13,4,Liam,Tacko Tuuuuuesday,Noah Clowney
+2024-25,13,5,Matt,The Reverso,De'Anthony Melton
+2024-25,13,6,Stefan,🅱️IG FACE COFFEE,Jalen Smith
+2024-25,13,7,Chivy,Coach Carter,Malcolm Brogdon
+2024-25,13,8,Josh,Silver Surfer,Khris Middleton
+2024-25,13,9,Saxon,Zaddy Lonzo,Taylor Hendricks
+2024-25,13,10,Adel,Team skiddies,Terance Mann
+2024-25,13,11,Tom,WORLD TOMINATION,Jonathan Isaac
+2024-25,13,12,Michael,Big Big Chungus Big Chungus,Tari Eason
+2025-26,1,1,Matt,The Reverso,Nikola Jokić
+2025-26,1,2,Stefan,🅱️IG FACE COFFEE,Victor Wembanyama
+2025-26,1,3,Hugh,Big Honey,Shai Gilgeous-Alexander
+2025-26,1,4,Liam,Tacko Tuuuuuesday,Luka Dončić
+2025-26,1,5,Tom,WORLD TOMINATION,Amen Thompson
+2025-26,1,6,Chivy,Coach Carter,Giannis Antetokounmpo
+2025-26,1,7,Michael,Big Big Chungus Big Chungus,Anthony Edwards
+2025-26,1,8,John,Bubble Suns,Cade Cunningham
+2025-26,1,9,Saxon,Zaddy Lonzo,Trae Young
+2025-26,1,10,Alan,Kd's burner account,Devin Booker
+2025-26,1,11,Josh,Silver Surfer,Anthony Davis
+2025-26,1,12,Jason,Taco's Team,Karl-Anthony Towns
+2025-26,2,1,Jason,Taco's Team,James Harden
+2025-26,2,2,Josh,Silver Surfer,Kevin Durant
+2025-26,2,3,Alan,Kd's burner account,Stephen Curry
+2025-26,2,4,Saxon,Zaddy Lonzo,LaMelo Ball
+2025-26,2,5,John,Bubble Suns,Tyrese Maxey
+2025-26,2,6,Michael,Big Big Chungus Big Chungus,Donovan Mitchell
+2025-26,2,7,Chivy,Coach Carter,Evan Mobley
+2025-26,2,8,Tom,WORLD TOMINATION,Chet Holmgren
+2025-26,2,9,Liam,Tacko Tuuuuuesday,Alperen Şengün
+2025-26,2,10,Hugh,Big Honey,Jalen Johnson
+2025-26,2,11,Stefan,🅱️IG FACE COFFEE,Scottie Barnes
+2025-26,2,12,Matt,The Reverso,Derrick White
+2025-26,3,1,Matt,The Reverso,Josh Giddey
+2025-26,3,2,Stefan,🅱️IG FACE COFFEE,Jalen Williams
+2025-26,3,3,Hugh,Big Honey,Pascal Siakam
+2025-26,3,4,Liam,Tacko Tuuuuuesday,Bam Adebayo
+2025-26,3,5,Tom,WORLD TOMINATION,Dyson Daniels
+2025-26,3,6,Chivy,Coach Carter,Joel Embiid
+2025-26,3,7,Michael,Big Big Chungus Big Chungus,Domantas Sabonis
+2025-26,3,8,John,Bubble Suns,Jaren Jackson Jr.
+2025-26,3,9,Saxon,Zaddy Lonzo,Paolo Banchero
+2025-26,3,10,Alan,Kd's burner account,Trey Murphy III
+2025-26,3,11,Josh,Silver Surfer,Jalen Brunson
+2025-26,3,12,Jason,Taco's Team,Jaylen Brown
+2025-26,4,1,Jason,Taco's Team,Franz Wagner
+2025-26,4,2,Josh,Silver Surfer,Jamal Murray
+2025-26,4,3,Alan,Kd's burner account,Ivica Zubac
+2025-26,4,4,Saxon,Zaddy Lonzo,LeBron James
+2025-26,4,5,John,Bubble Suns,Austin Reaves
+2025-26,4,6,Michael,Big Big Chungus Big Chungus,Kawhi Leonard
+2025-26,4,7,Chivy,Coach Carter,Brandon Miller
+2025-26,4,8,Tom,WORLD TOMINATION,Walker Kessler
+2025-26,4,9,Liam,Tacko Tuuuuuesday,Deni Avdija
+2025-26,4,10,Hugh,Big Honey,Desmond Bane
+2025-26,4,11,Stefan,🅱️IG FACE COFFEE,De'Aaron Fox
+2025-26,4,12,Matt,The Reverso,Zion Williamson
+2025-26,5,1,Matt,The Reverso,Miles Bridges
+2025-26,5,2,Stefan,🅱️IG FACE COFFEE,Myles Turner
+2025-26,5,3,Hugh,Big Honey,Jarrett Allen
+2025-26,5,4,Liam,Tacko Tuuuuuesday,Nikola Vučević
+2025-26,5,5,Tom,WORLD TOMINATION,Ausar Thompson
+2025-26,5,6,Chivy,Coach Carter,Tyler Herro
+2025-26,5,7,Michael,Big Big Chungus Big Chungus,Deandre Ayton
+2025-26,5,8,John,Bubble Suns,Cooper Flagg
+2025-26,5,9,Saxon,Zaddy Lonzo,Ja Morant
+2025-26,5,10,Alan,Kd's burner account,Kristaps Porziņģis
+2025-26,5,11,Josh,Silver Surfer,Brandon Ingram
+2025-26,5,12,Jason,Taco's Team,Julius Randle
+2025-26,6,1,Jason,Taco's Team,Jimmy Butler III
+2025-26,6,2,Josh,Silver Surfer,OG Anunoby
+2025-26,6,3,Alan,Kd's burner account,Jalen Duren
+2025-26,6,4,Saxon,Zaddy Lonzo,Shaedon Sharpe
+2025-26,6,5,John,Bubble Suns,Mark Williams
+2025-26,6,6,Michael,Big Big Chungus Big Chungus,Coby White
+2025-26,6,7,Chivy,Coach Carter,Lauri Markkanen
+2025-26,6,8,Tom,WORLD TOMINATION,Jakob Poeltl
+2025-26,6,9,Liam,Tacko Tuuuuuesday,Andrew Nembhard
+2025-26,6,10,Hugh,Big Honey,Payton Pritchard
+2025-26,6,11,Stefan,🅱️IG FACE COFFEE,Zach LaVine
+2025-26,6,12,Matt,The Reverso,DeMar DeRozan
+2025-26,7,1,Matt,The Reverso,Jordan Poole
+2025-26,7,2,Stefan,🅱️IG FACE COFFEE,Michael Porter Jr.
+2025-26,7,3,Hugh,Big Honey,Matas Buzelis
+2025-26,7,4,Liam,Tacko Tuuuuuesday,Bennedict Mathurin
+2025-26,7,5,Tom,WORLD TOMINATION,Isaiah Hartenstein
+2025-26,7,6,Chivy,Coach Carter,Cam Thomas
+2025-26,7,7,Michael,Big Big Chungus Big Chungus,John Collins
+2025-26,7,8,John,Bubble Suns,Paul George
+2025-26,7,9,Saxon,Zaddy Lonzo,Rudy Gobert
+2025-26,7,10,Alan,Kd's burner account,Darius Garland
+2025-26,7,11,Josh,Silver Surfer,Donovan Clingan
+2025-26,7,12,Jason,Taco's Team,Immanuel Quickley
+2025-26,8,1,Jason,Taco's Team,Josh Hart
+2025-26,8,2,Josh,Silver Surfer,Onyeka Okongwu
+2025-26,8,3,Alan,Kd's burner account,Mikal Bridges
+2025-26,8,4,Saxon,Zaddy Lonzo,Nic Claxton
+2025-26,8,5,John,Bubble Suns,Kel'el Ware
+2025-26,8,6,Michael,Big Big Chungus Big Chungus,Cameron Johnson
+2025-26,8,7,Chivy,Coach Carter,Dereck Lively II
+2025-26,8,8,Tom,WORLD TOMINATION,Tari Eason
+2025-26,8,9,Liam,Tacko Tuuuuuesday,Alex Sarr
+2025-26,8,10,Hugh,Big Honey,Christian Braun
+2025-26,8,11,Stefan,🅱️IG FACE COFFEE,Norman Powell
+2025-26,8,12,Matt,The Reverso,Draymond Green
+2025-26,9,1,Matt,The Reverso,Anfernee Simons
+2025-26,9,2,Stefan,🅱️IG FACE COFFEE,Naz Reid
+2025-26,9,3,Hugh,Big Honey,Santi Aldama
+2025-26,9,4,Liam,Tacko Tuuuuuesday,Devin Vassell
+2025-26,9,5,Tom,WORLD TOMINATION,Cason Wallace
+2025-26,9,6,Chivy,Coach Carter,Jrue Holiday
+2025-26,9,7,Michael,Big Big Chungus Big Chungus,Jalen Green
+2025-26,9,8,John,Bubble Suns,Toumani Camara
+2025-26,9,9,Saxon,Zaddy Lonzo,RJ Barrett
+2025-26,9,10,Alan,Kd's burner account,CJ McCollum
+2025-26,9,11,Josh,Silver Surfer,Tobias Harris
+2025-26,9,12,Jason,Taco's Team,Herbert Jones
+2025-26,10,1,Jason,Taco's Team,Jalen Suggs
+2025-26,10,2,Josh,Silver Surfer,Andrew Wiggins
+2025-26,10,3,Alan,Kd's burner account,Jaden McDaniels
+2025-26,10,4,Saxon,Zaddy Lonzo,Jabari Smith Jr.
+2025-26,10,5,John,Bubble Suns,Reed Sheppard
+2025-26,10,6,Michael,Big Big Chungus Big Chungus,Bobby Portis
+2025-26,10,7,Chivy,Coach Carter,Kyrie Irving
+2025-26,10,8,Tom,WORLD TOMINATION,Zach Edey
+2025-26,10,9,Liam,Tacko Tuuuuuesday,Keegan Murray
+2025-26,10,10,Hugh,Big Honey,Keyonte George
+2025-26,10,11,Stefan,🅱️IG FACE COFFEE,P.J. Washington
+2025-26,10,12,Matt,The Reverso,Aaron Gordon
+2025-26,11,1,Matt,The Reverso,Brandin Podziemski
+2025-26,11,2,Stefan,🅱️IG FACE COFFEE,Jonathan Kuminga
+2025-26,11,3,Hugh,Big Honey,Bradley Beal
+2025-26,11,4,Liam,Tacko Tuuuuuesday,D'Angelo Russell
+2025-26,11,5,Tom,WORLD TOMINATION,Isaiah Jackson
+2025-26,11,6,Chivy,Coach Carter,Jerami Grant
+2025-26,11,7,Michael,Big Big Chungus Big Chungus,Donte DiVincenzo
+2025-26,11,8,John,Bubble Suns,Nikola Jović
+2025-26,11,9,Saxon,Zaddy Lonzo,Stephon Castle
+2025-26,11,10,Alan,Kd's burner account,Kevin Porter Jr.
+2025-26,11,11,Josh,Silver Surfer,Kyshawn George
+2025-26,11,12,Jason,Taco's Team,VJ Edgecombe
+2025-26,12,1,Jason,Taco's Team,Moussa Diabaté
+2025-26,12,2,Josh,Silver Surfer,Keon Ellis
+2025-26,12,3,Alan,Kd's burner account,Sam Hauser
+2025-26,12,4,Saxon,Zaddy Lonzo,Isaiah Collier
+2025-26,12,5,John,Bubble Suns,Zaccharie Risacher
+2025-26,12,6,Michael,Big Big Chungus Big Chungus,Alex Caruso
+2025-26,12,7,Chivy,Coach Carter,Malik Monk
+2025-26,12,8,Tom,WORLD TOMINATION,Mitchell Robinson
+2025-26,12,9,Liam,Tacko Tuuuuuesday,Aaron Nesmith
+2025-26,12,10,Hugh,Big Honey,Yves Missi
+2025-26,12,11,Stefan,🅱️IG FACE COFFEE,Chris Paul
+2025-26,12,12,Matt,The Reverso,De'Andre Hunter
+2025-26,13,1,Matt,The Reverso,Jaylen Wells
+2025-26,13,2,Stefan,🅱️IG FACE COFFEE,Quentin Grimes
+2025-26,13,3,Hugh,Big Honey,Collin Sexton
+2025-26,13,4,Liam,Tacko Tuuuuuesday,Ace Bailey
+2025-26,13,5,Tom,WORLD TOMINATION,Bilal Coulibaly
+2025-26,13,6,Chivy,Coach Carter,Wendell Carter Jr.
+2025-26,13,7,Michael,Big Big Chungus Big Chungus,Luguentz Dort
+2025-26,13,8,John,Bubble Suns,Klay Thompson
+2025-26,13,9,Saxon,Zaddy Lonzo,Lonzo Ball
+2025-26,13,10,Alan,Kd's burner account,Daniel Gafford
+2025-26,13,11,Josh,Silver Surfer,Neemias Queta
+2025-26,13,12,Jason,Taco's Team,Davion Mitchell

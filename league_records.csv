@@ -1,0 +1,30 @@
+stat_id,scope,kind,season,week,manager,team,value
+5,week,best,2024-25,16,Tom,WORLD TOMINATION,.637
+5,season,best,2025-26,,Tom,WORLD TOMINATION,.558
+8,week,best,2019-20,4,Justin,KATmandu,.931
+8,season,best,2025-26,,Alan,Kd's burner account,.879
+10,week,best,2024-25,7,John,Bubble Suns,148
+10,season,best,2022-23,,Liam,Tacko Tuuuuuesday,1928
+12,week,best,2024-25,7,Liam,Tacko Tuuuuuesday,1220
+12,season,best,2022-23,,Josh,Silver Surfer,16592
+15,week,best,2024-25,7,Jason,Taco's Team,450
+15,season,best,2021-22,,Michael,Big Big Chungus Big Chungus,6509
+16,week,best,2024-25,7,Matt,The Reverso,317
+16,season,best,2016-17,,Josh,Silver Surfer,4175
+17,week,best,2024-25,7,Tom,WORLD TOMINATION,88
+17,season,best,2021-22,,Michael,Big Big Chungus Big Chungus,1061
+18,week,best,2023-24,17,Tom,WORLD TOMINATION,81
+18,season,best,2023-24,,Tom,WORLD TOMINATION,1041
+19,week,best,2022-23,21,Jack,Flint Tropics,16
+19,week,best,2021-22,9,Justin,KATmandu,16
+19,week,worst,2024-25,7,John,Bubble Suns,149
+19,season,worst,2016-17,,Josh,Silver Surfer,2204
+5,lead_streak,best,2023-24,1,Tom,WORLD TOMINATION,9
+8,lead_streak,best,2019-20,10,Justin,KATmandu,4
+10,lead_streak,best,2020-21,10,Michael,Poo Anthony Towns,6
+12,lead_streak,best,2016-17,14,John,Booker's Bitches,8
+15,lead_streak,best,2016-17,1,Josh,Silver Surfer,12
+16,lead_streak,best,2016-17,1,Josh,Silver Surfer,22
+17,lead_streak,best,2024-25,2,Tom,WORLD TOMINATION,6
+18,lead_streak,best,2016-17,7,Unknown (Queen Liz Did 9/11),Queen Liz Did 9/11,8
+19,lead_streak,best,2022-23,16,Jack,Flint Tropics,7
