@@ -48,3 +48,54 @@ def draw(entrants, rng=None):
                 order.append(chosen)
                 break
     return order
+
+
+def reveal_script(order, delay):
+    """Messages for revealing a finished draw, last pick first.
+
+    Returns a list of (seconds_to_wait_before, message). The top three
+    picks get a drumroll teaser and a longer pause before the name.
+    """
+    medals = {1: "🥇", 2: "🥈", 3: "🥉"}
+    long_pause = delay * 1.5
+    by_pick = sorted(order, key=lambda e: e["pick"], reverse=True)
+
+    def who(e):
+        text = "**{}** ({})".format(e["manager_name"], e["team_name"])
+        if e.get("discord_id"):
+            text += " <@{}>".format(e["discord_id"])
+        return text
+
+    steps = []
+    for e in by_pick:
+        p = e["pick"]
+        if p > 3:
+            steps.append((delay, "🔹 Pick **#{}**: {} · had {} balls".format(
+                p, who(e), e["balls"])))
+            continue
+        if p == min(3, len(order)) and len(order) > 1:
+            # Alphabetical, so the list doesn't give away the order
+            left = sorted(
+                (x for x in order if x["pick"] <= p),
+                key=lambda x: x["manager_name"].lower(),
+            )
+            names = [
+                "<@{}>".format(x["discord_id"]) if x.get("discord_id")
+                else x["manager_name"]
+                for x in left
+            ]
+            names_text = (", ".join(names[:-1]) + " and " + names[-1]
+                          if len(names) > 1 else names[0])
+            steps.append((delay, "😬 **{} teams left:** {}. One of you is "
+                          "getting the #1 pick…".format(len(left),
+                                                        names_text)))
+        if p == 1 and len(order) > 1:
+            teaser = "🥁 …which means the **#1 pick** goes to…"
+        else:
+            teaser = "🥁 Pick **#{}** goes to…".format(p)
+        steps.append((delay, teaser))
+        reveal = "{} {}!".format(medals[p], who(e))
+        if p == 1:
+            reveal = "🎉 " + reveal + " 🎉"
+        steps.append((long_pause, reveal))
+    return steps
