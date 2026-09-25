@@ -13,6 +13,7 @@ from harambot.config import settings
 from harambot.database.models import Guild
 from harambot.database.history_models import create_history_tables
 from harambot.database.migrations import migrations
+from harambot.yahoo_gate import FishBallersTree
 
 
 que = queue.Queue(-1)  # no limit on size
@@ -35,6 +36,7 @@ bot = commands.Bot(
     command_prefix="$",
     description="",
     intents=intents,
+    tree_cls=FishBallersTree,
 )
 bot.remove_command("help")
 
