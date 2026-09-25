@@ -19,12 +19,12 @@ class Meta(commands.Cog):
     @app_commands.command(name="help", description="View available commands")
     async def help(self, interaction: discord.Interaction):
         embed = discord.Embed(
-            title="Harambot",
-            description="Yahoo Fantasy Sports Bot for Discord",
+            title="FishBallersBot",
+            description="Fish Ballers fantasy basketball bot",
             color=0xEEE657,
         )
         embed.add_field(
-            name="/ping", value="Gives the latency of harambot", inline=False
+            name="/ping", value="Gives the latency of FishBallersBot", inline=False
         )
         embed.add_field(
             name="/rip", value="Pay respects to Harambe", inline=False
@@ -60,8 +60,33 @@ class Meta(commands.Cog):
             inline=False,
         )
         embed.add_field(
+            name="/trophycase",
+            value="Every past champion and consolation winner",
+            inline=False,
+        )
+        embed.add_field(
+            name="/records [category]",
+            value="All-time best (or worst) single-week category totals",
+            inline=False,
+        )
+        embed.add_field(
+            name="/alltime",
+            value="Career records and titles for every manager",
+            inline=False,
+        )
+        embed.add_field(
+            name="/draftlottery odds | run | results",
+            value="Weighted draft-order lottery",
+            inline=False,
+        )
+        embed.add_field(
+            name="/history sync",
+            value="Import league history from Yahoo (admins)",
+            inline=False,
+        )
+        embed.add_field(
             name="/configure",
-            value="Configure your guild for Harambot",
+            value="Configure your guild for FishBallersBot",
             inline=False,
         )
         embed.add_field(
@@ -71,20 +96,20 @@ class Meta(commands.Cog):
         )
         embed.add_field(
             name="/league",
-            value="Set which league harambot should use for commands",
+            value="Set which league FishBallersBot should use for commands",
             inline=False,
         )
         await interaction.response.send_message(embed=embed)
 
     @app_commands.command(
-        name="ping", description="Gives the latency of harambot"
+        name="ping", description="Gives the latency of FishBallersBot"
     )
     async def ping(self, interaction: discord.Interaction):
         await interaction.response.send_message(self.bot.latency)
 
     @app_commands.command(
         name="configure",
-        description="Configure your guild for Harambot",
+        description="Configure your guild for FishBallersBot",
     )
     @app_commands.checks.has_permissions(administrator=True)
     async def configure(self, interaction: discord.Interaction):
@@ -92,7 +117,7 @@ class Meta(commands.Cog):
             """
             Lets setup your guild
             1. Login into Yahoo and copy you authentication token
-2. Configure harambot with your league information
+2. Configure FishBallersBot with your league information
             """,
             view=ConfigView(),
             ephemeral=True,
@@ -138,16 +163,16 @@ class Meta(commands.Cog):
     ):
         if isinstance(error, app_commands.MissingPermissions):
             await interaction.response.send_message(
-                "Grant Harambot the Manage Webhooks permission to use this command"
+                "Grant FishBallersBot the Manage Webhooks permission to use this command"
             )
         elif isinstance(error, app_commands.CheckFailure):
             await interaction.response.send_message(
-                "This guild is not configured for Harambot. Please run `/configure` first."
+                "This guild is not configured for FishBallersBot. Please run `/configure` first."
             )
 
     @app_commands.command(
             name="league",
-            description="Set which league harambot should use for commands"
+            description="Set which league FishBallersBot should use for commands"
             )
     @app_commands.check(guild_is_configured)
     async def league(self, interaction: discord.Interaction):

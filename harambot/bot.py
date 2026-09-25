@@ -8,9 +8,11 @@ from discord.ext import commands
 from harambot.cogs.meta import Meta
 from harambot.cogs.misc import Misc
 from harambot.cogs.yahoo import YahooCog
+from harambot.cogs.history import HistoryCog
 from harambot.services.webserver import WebServer
 from harambot.config import settings
 from harambot.database.models import Guild
+from harambot.database.history_models import create_history_tables
 from harambot.database.migrations import migrations
 
 
@@ -43,11 +45,13 @@ async def on_ready():
     await bot.add_cog(Meta(bot))
     await bot.add_cog(YahooCog(bot))
     await bot.add_cog(Misc(bot))
+    await bot.add_cog(HistoryCog(bot))
     server = WebServer(bot)
     bot.loop.create_task(server.webserver())
 
     if not Guild.table_exists():
         Guild.create_table()
+    create_history_tables()
     if "RUN_MIGRATIONS" in settings and settings.run_migrations:
         migrations[settings.version]()
     await bot.tree.sync()

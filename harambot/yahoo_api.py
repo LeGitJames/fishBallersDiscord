@@ -75,6 +75,21 @@ class Yahoo:
             )
             return self.current_league
     
+    @handle_oauth
+    def get_current_league(self, guild_id):
+        """Uncached League object for the guild's configured league.
+        Used by the history sync, which walks back through past seasons."""
+        try:
+            gm = game.Game(self.oauth, self.league_type)
+            return gm.to_league(gm.game_id() + ".l." + self.league_id)
+        except Exception:
+            logger.exception(
+                "Error while building league {} for guild {}".format(
+                    self.league_id, guild_id
+                )
+            )
+            return None
+
     @cached(cache, key=functools.partial(keys.hashkey, "get_game"))
     @handle_oauth
     def get_game(self, guild_id):

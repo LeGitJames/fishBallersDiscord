@@ -109,7 +109,7 @@ class ReportConfigView(discord.ui.View):
 
         if not guild.transaction_polling_webhook:
             webhook = await channel.create_webhook(
-                name="Harambot Reports", avatar=get_avatar_bytes()
+                name="FishBallersBot Reports", avatar=get_avatar_bytes()
             )
             guild.transaction_polling_webhook = webhook.url
 

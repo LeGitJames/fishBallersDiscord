@@ -17,8 +17,8 @@ class WebServer():
     async def webserver(self):
         async def handler(request):
             status = f"""
-            Harambot
-            Harambot v{settings.version} is running!
+            FishBallersBot
+            FishBallersBot v{settings.version} is running!
             Bot status: {request.config_dict["bot"].status}
             Latency: {round(request.config_dict["bot"].latency * 1000)}ms
             """

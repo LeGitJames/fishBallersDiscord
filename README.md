@@ -30,6 +30,10 @@ _An interactive Yahoo Fantasy sports bot for Discord._
 You can find example output of these commands [here](https://github.com/DMcP89/harambot/wiki#command-examples)
 
 
+## League history & draft lottery (fork addition)
+
+This fork adds `/trophycase`, `/records`, `/alltime` and a weighted `/draftlottery`, all imported automatically from Yahoo with `/history sync`. See [docs/LEAGUE_HISTORY.md](docs/LEAGUE_HISTORY.md).
+
 ## Roll your own instance
 
 ### Prerequisites
