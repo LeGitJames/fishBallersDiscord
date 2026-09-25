@@ -281,3 +281,400 @@ def test_lottery_draw_saved_shape(two_seasons):
                         results=json.dumps(order))
     saved = json.loads(DraftLottery.get().results)
     assert [e["pick"] for e in saved] == list(range(1, 13))
+
+
+# --------------------------------------------------------- manual import
+
+from harambot.history.manual_import import (  # noqa: E402
+    parse_history_csv,
+    save_history,
+)
+
+
+def manual_csv(consolation="Mgr7"):
+    lines = ["season,manager,team,finish,draft_pick,consolation_winner"]
+    for i in range(1, 13):
+        lines.append("2025-26,Mgr{0},Team{0},{0},{1},{2}".format(
+            i, 13 - i, "yes" if "Mgr{}".format(i) == consolation else ""))
+    lines.append("2024,Mgr3,Old3,1,,")
+    for i in (1, 2, 4):
+        lines.append("2024,Mgr{0},Old{0},{1},,".format(i, i + 1))
+    # Upcoming season: Mgr12 leaves, Newbie takes over his team
+    for i in range(1, 12):
+        lines.append("2026,Mgr{0},New{0},,,".format(i))
+    lines.append("2026,Newbie,Rookie,,,")
+    return "\ufeff" + "\r\n".join(lines) + "\r\n"
+
+
+def with_took_over(text):
+    return text.replace(
+        "season,manager,team,finish,draft_pick,consolation_winner",
+        "season,manager,team,finish,draft_pick,consolation_winner,"
+        "took_over_from").replace("2026,Newbie,Rookie,,,",
+                                  "2026,Newbie,Rookie,,,,mgr12")
+
+
+def test_manual_parse_ok():
+    seasons, errors = parse_history_csv(with_took_over(manual_csv()))
+    assert errors == []
+    assert sorted(seasons) == [2024, 2025, 2026]
+    assert len(seasons[2025]) == 12
+
+
+def test_manual_parse_reports_problems():
+    bad = ("season,manager,finish,draft_pick\n"
+           "2025,Josh,1,1\n2025,josh,2,1\n2025,Sam,x,\n")
+    _, errors = parse_history_csv(bad)
+    text = " | ".join(errors)
+    assert "listed twice" in text
+    assert "draft_pick 1" in text
+    assert "whole number" in text
+    _, errors = parse_history_csv("team,finish\nA,1\n")
+    assert "Missing column" in errors[0]
+
+
+def test_manual_import_trophies_and_lottery():
+    seasons, _ = parse_history_csv(with_took_over(manual_csv()))
+    saved, skipped = save_history(GUILD, seasons)
+    assert saved == [2024, 2025, 2026] and skipped == []
+    s25 = Season.get(Season.season == 2025)
+    assert s25.is_finished and s25.champion_guid == "manual:mgr1"
+    assert s25.consolation_guid == "manual:mgr7"
+    assert not Season.get(Season.season == 2026).is_finished
+
+    entrants, previous, problems = build_lottery_entrants(GUILD)
+    assert problems == [] and previous.season == 2025
+    by = {e["manager_name"]: e for e in entrants}
+    assert by["Mgr1"]["balls"] == 21        # picked 12th
+    assert by["Mgr7"]["balls"] == 16        # picked 6th + consolation
+    assert by["Newbie"]["balls"] == 10      # inherits Mgr12's 1st pick
+    assert len(entrants) == 12
+
+
+def test_manual_import_without_next_season():
+    # Only last season entered: the lottery uses last season's managers.
+    text = "\n".join(manual_csv().splitlines()[:13])
+    seasons, errors = parse_history_csv(text)
+    assert errors == []
+    save_history(GUILD, seasons)
+    entrants, previous, problems = build_lottery_entrants(GUILD)
+    assert problems == [] and len(entrants) == 12
+
+
+def test_manual_reimport_replaces_and_yahoo_wins(two_seasons):
+    seasons, _ = parse_history_csv(with_took_over(manual_csv()))
+    save_history(GUILD, seasons)
+    save_history(GUILD, seasons)  # re-import is fine
+    assert ManagerSeason.select().where(
+        ManagerSeason.season == 2025).count() == 12
+    # Yahoo sync replaces the manual 2024 season even though it's finished
+    sync_league_history(GUILD, two_seasons)
+    s24 = Season.get(Season.season == 2024)
+    assert s24.league_key == "1.l.1" and s24.champion_guid == "G1"
+    # ...and manual import then leaves Yahoo seasons alone
+    _, skipped = save_history(GUILD, seasons)
+    assert 2024 in skipped
+
+
+def test_manual_note_and_champion_only_seasons():
+    text = ("season,manager,team,finish,note\n"
+            "2019-20,Liam,Tacko,1,COVID year\n2020,Mitchell,Gasol,1,\n")
+    seasons, errors = parse_history_csv(text)
+    assert errors == []
+    save_history(GUILD, seasons)
+    s19 = Season.get(Season.season == 2019)
+    assert s19.note == "COVID year" and s19.is_finished
+    assert s19.champion_guid == "manual:liam"
+    assert Season.get(Season.season == 2020).note is None
+
+
+def test_old_database_gets_note_column():
+    from harambot.database.history_models import create_history_tables
+    database.execute_sql('ALTER TABLE "season" DROP COLUMN "note"')
+    assert "note" not in {c.name for c in database.get_columns("season")}
+    create_history_tables()
+    assert "note" in {c.name for c in database.get_columns("season")}
+
+
+def test_reveal_script_order_and_drama():
+    entrants = [{"manager_name": "M{}".format(i), "team_name": "T{}".format(i),
+                 "balls": lottery.balls_for(i)} for i in range(1, 13)]
+    order = lottery.draw(entrants, rng=random.Random(5))
+    steps = lottery.reveal_script(order, 8)
+    text = [m for _, m in steps]
+    # last pick first, #1 last
+    assert "Pick **#12**" in text[0]
+    assert "#1 pick" in text[-2] and text[-1].startswith("🎉 🥇")
+    left = next(m for m in text if "3 teams left" in m)
+    top3 = sorted((e for e in order if e["pick"] <= 3),
+                  key=lambda e: e["manager_name"])
+    assert left.index(top3[0]["manager_name"]) < left.index(
+        top3[1]["manager_name"]) < left.index(top3[2]["manager_name"])
+    # names revealed after a longer pause
+    assert steps[-1][0] == 12
+    # every manager revealed exactly once
+    for e in entrants:
+        assert sum("**{}**".format(e["manager_name"]) in m
+                   for m in text) == 1
+
+
+def test_reveal_script_small_league():
+    order = [{"pick": 1, "manager_name": "A", "team_name": "a", "balls": 10},
+             {"pick": 2, "manager_name": "B", "team_name": "b", "balls": 11}]
+    text = [m for _, m in lottery.reveal_script(order, 2)]
+    assert "2 teams left" in text[0] and "A and B" in text[0]
+    assert text[-1].startswith("🎉 🥇 **A**")
+
+
+def test_discord_links_tag_managers_in_reveal():
+    from harambot.database.history_models import DiscordLink
+    seasons, _ = parse_history_csv(manual_csv())
+    save_history(GUILD, seasons)
+    DiscordLink.create(guild_id=GUILD, manager_guid="manual:mgr1",
+                       discord_user_id="111")
+    entrants, _, _ = build_lottery_entrants(GUILD)
+    by = {e["manager_name"]: e for e in entrants}
+    assert by["Mgr1"]["discord_id"] == "111"
+    assert by["Mgr2"]["discord_id"] is None
+    order = lottery.draw(entrants, rng=random.Random(1))
+    text = "\n".join(m for _, m in lottery.reveal_script(order, 2))
+    assert text.count("<@111>") in (1, 2)  # reveal (+ "teams left" line)
+    assert "**Mgr1**" in text
+    # re-importing the CSV keeps links (same manager ids)
+    save_history(GUILD, seasons)
+    entrants, _, _ = build_lottery_entrants(GUILD)
+    assert {e["manager_name"]: e for e in entrants}["Mgr1"]["discord_id"]
+
+
+def test_manual_badge():
+    text = "season,manager,finish,badge\n2016,Josh,1,🪠\n2018,Josh,1,\n"
+    seasons, errors = parse_history_csv(text)
+    assert errors == []
+    save_history(GUILD, seasons)
+    assert Season.get(Season.season == 2016).badge == "🪠"
+    assert Season.get(Season.season == 2018).badge is None
+
+
+def test_hall_of_shame_winless_and_sweeps():
+    from harambot.history.matchups_import import (
+        looks_like_matchups, parse_matchups_csv, save_matchups)
+    from harambot.history.queries import hall_of_shame
+    hist = ("season,manager,team,finish,wins,losses,ties\n"
+            "2022,Jerry,TERMINATOR,2,0,20,0\n2022,Josh,Surfer,1,16,4,0\n"
+            "2021,Jack,Flint,1,1,18,1\n2021,Tom,World,2,10,10,0\n")
+    s, e = parse_history_csv(hist)
+    assert e == []
+    save_history(GUILD, s)
+    m = ("season,week,manager1,team1,score1,manager2,team2,score2\n"
+         "2022-23,5,Josh,Surfer,9,Jerry,TERMINATOR,0\n"
+         "2022,6,Jerry,TERMINATOR,0,Josh,Surfer,9\n"
+         "2022,7,Jerry,TERMINATOR,0,Josh,Surfer,8\n"   # 8-0-1: not a sweep
+         "2021,3,Tom,World,4,Jack,Flint,5\n")
+    assert looks_like_matchups(m) and not looks_like_matchups(hist)
+    ms, me = parse_matchups_csv(m)
+    assert me == []
+    assert save_matchups(GUILD, ms) == 4
+    assert save_matchups(GUILD, ms) == 4  # re-import replaces
+    data = hall_of_shame(GUILD)
+    assert [r.manager_name for r in data["winless"]] == ["Jerry"]
+    assert data["worst"][0].manager_name == "Jack"
+    assert [(s[0], s[1], s[2]) for s in data["sweeps"]] == [
+        (2022, 6, "Jerry"), (2022, 5, "Jerry")]
+    _, bad = parse_matchups_csv("season,week,manager1,score1,manager2,"
+                                "score2\n2022,x,A,9,B,0\n")
+    assert "numbers" in bad[0]
+
+
+def test_most_drafted():
+    from harambot.history.drafts_import import (
+        looks_like_drafts, parse_drafts_csv, save_drafts)
+    from harambot.history.queries import most_drafted
+    text = ("season,round,pick,manager,team,player\n"
+            "2023,1,4,Josh,Surfer,Jokic\n2024,2,8,Josh,Surfer,Jokic\n"
+            "2025,1,1,Josh,Surfer,Jokic\n2025,3,1,Josh,Surfer,Curry\n"
+            "2024,1,1,Liam,Tacko,Curry\n2024,1,2,Liam,Tacko,Jokic\n")
+    assert looks_like_drafts(text)
+    seasons, errors = parse_drafts_csv(text)
+    assert errors == []
+    assert save_drafts(GUILD, seasons) == 6
+    josh = most_drafted(GUILD, "manual:josh")
+    assert josh[0]["player"] == "Jokic" and josh[0]["times"] == 3
+    assert josh[0]["seasons"] == [2023, 2024, 2025]
+    assert josh[0]["best_round"] == 1
+    league = most_drafted(GUILD)
+    assert league[0]["player"] == "Jokic" and league[0]["times"] == 4
+    assert league[0]["managers"] == ["Josh", "Liam"]
+    assert league[1]["player"] == "Curry"
+    _, bad = parse_drafts_csv("season,round,pick,manager,player\n"
+                              "2024,one,1,Josh,Jokic\n")
+    assert "numbers" in bad[0]
+
+
+def test_loyal_pairs():
+    from harambot.history.drafts_import import parse_drafts_csv, save_drafts
+    from harambot.history.queries import loyal_pairs
+    text = ("season,round,pick,manager,player\n"
+            "2023,1,4,Josh,Jokic\n2024,2,8,Josh,Jokic\n2025,1,1,Josh,Jokic\n"
+            "2024,1,1,Liam,Jokic\n2023,3,1,Liam,Curry\n2025,2,1,Liam,Curry\n"
+            "2025,5,1,Tom,Lopez\n")
+    save_drafts(GUILD, parse_drafts_csv(text)[0])
+    pairs = loyal_pairs(GUILD)
+    assert [(p["manager"], p["player"], p["times"]) for p in pairs] == [
+        ("Josh", "Jokic", 3), ("Liam", "Curry", 2)]
+
+
+def test_rip_marker_for_former_managers():
+    from harambot.history.queries import name_marker
+    text = ("season,manager,team,finish\n"
+            "2024,Mitchell,Gasol,1\n2024,Josh,Surfer,2\n"
+            "2025,Josh,Surfer,1\n2025,Liam,Tacko,2\n")
+    save_history(GUILD, parse_history_csv(text)[0])
+    tag = name_marker(GUILD)
+    assert tag("manual:mitchell", "Mitchell") == "Mitchell 🪦"
+    assert tag("manual:josh", "Josh") == "Josh"
+
+
+def test_record_book_import():
+    from harambot.database.history_models import RecordBookEntry
+    from harambot.history.records_import import (
+        looks_like_records, parse_records_csv, save_records)
+    with open(os.path.join(root_path, "..", "league_records.csv"),
+              encoding="utf-8") as f:
+        text = f.read()
+    assert looks_like_records(text)
+    parsed, errors = parse_records_csv(text)
+    assert errors == []
+    assert save_records(GUILD, parsed) == 29
+    assert save_records(GUILD, parsed) == 29  # re-import replaces
+    fewest_to = RecordBookEntry.select().where(
+        (RecordBookEntry.stat_id == "19") & (RecordBookEntry.kind == "best")
+        & (RecordBookEntry.scope == "week"))
+    assert sorted(e.manager_name for e in fewest_to) == ["Jack", "Justin"]
+    pts = RecordBookEntry.get((RecordBookEntry.stat_id == "12")
+                              & (RecordBookEntry.scope == "week"))
+    assert (pts.manager_guid, pts.season, pts.week, pts.value) == (
+        "manual:liam", 2024, 7, 1220)
+    _, bad = parse_records_csv("stat_id,scope,kind,season,manager,value\n"
+                               "5,month,best,2024,Tom,.5\n")
+    assert "scope" in bad[0]
+
+
+def test_matchup_streaks():
+    from harambot.history.matchups_import import (
+        parse_matchups_csv, save_matchups)
+    from harambot.history.queries import matchup_streaks
+    rows = ["season,week,manager1,team1,score1,manager2,team2,score2"]
+    for w in range(1, 6):   # Josh beats Jerry weeks 1-5
+        rows.append("2022,{},Josh,S,6,Jerry,T,3".format(w))
+    rows.append("2022,6,Josh,S,4,Jerry,T,4")   # tie ends both streaks
+    rows.append("2022,7,Josh,S,3,Jerry,T,6")
+    save_matchups(GUILD, parse_matchups_csv("\n".join(rows))[0])
+    s = matchup_streaks(GUILD)
+    assert (s["W"][0]["manager"], s["W"][0]["length"],
+            s["W"][0]["start"], s["W"][0]["end"]) == ("Josh", 5, 1, 5)
+    assert (s["L"][0]["manager"], s["L"][0]["length"]) == ("Jerry", 5)
+    assert {(x["manager"], x["length"]) for x in s["W"]} == {
+        ("Josh", 5), ("Jerry", 1)}
+
+
+def test_draft_board_filters():
+    from harambot.history.drafts_import import parse_drafts_csv, save_drafts
+    from harambot.history.queries import draft_board, drafted_players
+    text = ("season,round,pick,manager,team,player\n"
+            "2016,1,2,Josh,S,Curry\n2016,1,1,Liam,T,Westbrook\n"
+            "2016,2,1,Josh,S,Lillard\n2019,1,1,Liam,T,Harden\n"
+            "2019,2,5,Liam,T,Curry\n")
+    save_drafts(GUILD, parse_drafts_csv(text)[0])
+    assert [p.player for p in draft_board(GUILD, 2016, 1)] == [
+        "Westbrook", "Curry"]
+    assert [p.player for p in draft_board(GUILD, 2016, 2)] == [
+        "Westbrook", "Curry", "Lillard"]
+    assert [p.player for p in draft_board(GUILD, 2019, None,
+                                          "manual:liam")] == [
+        "Harden", "Curry"]
+    assert [(p.season, p.manager_name) for p in draft_board(
+        GUILD, player="Curry")] == [(2016, "Josh"), (2019, "Liam")]
+    assert drafted_players(GUILD, "Cur") == ["Curry"]
+
+
+def _stats_league():
+    from harambot.history.matchups_import import (
+        parse_matchups_csv, save_matchups)
+    hist = ("season,manager,team,finish,draft_pick,wins,losses,ties\n"
+            "2024,Josh,Surfer,1,3,2,1,0\n2024,Liam,Tacko,2,1,1,2,0\n"
+            "2024,Tom,World,3,2,1,1,0\n"
+            "2025,Josh,Surfer,2,1,3,0,0\n2025,Liam,Tacko,1,2,0,3,0\n"
+            "2025,Tom,World,3,3,1,1,0\n")
+    save_history(GUILD, parse_history_csv(hist)[0])
+    m = ("season,week,manager1,team1,score1,manager2,team2,score2,"
+         "is_playoffs\n"
+         "2024,1,Josh,Surfer,9,Liam,Tacko,0,\n"
+         "2024,2,Liam,Tacko,5,Josh,Surfer,4,\n"
+         "2024,3,Josh,Surfer,6,Tom,World,3,\n"
+         "2024,4,Josh,Surfer,5,Liam,Tacko,4,1\n"
+         "2025,1,Josh,Surfer,6,Liam,Tacko,2,\n"
+         "2025,2,Josh,Surfer,7,Liam,Tacko,1,\n"
+         "2025,3,Tom,World,5,Liam,Tacko,4,\n")
+    save_matchups(GUILD, parse_matchups_csv(m)[0])
+
+
+def test_head_to_head_and_nemesis():
+    from harambot.history import stats
+    _stats_league()
+    h = stats.head_to_head(GUILD, "manual:josh", "manual:liam")
+    assert (h["overall"]["w"], h["overall"]["l"]) == (4, 1)
+    assert (h["regular"]["w"], h["regular"]["l"]) == (3, 1)
+    assert [(g["season"], g["week"]) for g in h["playoff_meetings"]] == [
+        (2024, 4)]
+    assert h["biggest_win"]["mine"] == 9 and h["biggest_loss"]["week"] == 2
+    assert h["streak"] == ("W", 3)
+    assert stats.head_to_head(GUILD, "manual:tom", "manual:nobody") is None
+    o = stats.opponents(GUILD, "manual:liam", min_games=1)
+    assert o["nemesis"]["name"] == "Josh"
+    assert o["punching_bag"]["name"] == "Josh"  # only win came vs Josh
+
+
+def test_profile_chokers_draft_luck_recap():
+    from harambot.history import stats
+    _stats_league()
+    p = stats.profile(GUILD, "manual:josh")
+    assert p["titles"] == [2024] and p["finals"] == [2025]
+    assert p["sweeps_given"] == 1 and p["sweeps_taken"] == 0
+    assert (p["playoff_record"]["w"], p["playoff_record"]["l"]) == (1, 0)
+    c = stats.chokers(GUILD)
+    assert c["no_title"][0].manager_name == "Josh"   # 3-0, finished 2nd
+    d = stats.draft_luck(GUILD)
+    assert [(r.season, r.draft_position) for r in d["champions"]] == [
+        (2025, 2), (2024, 3)]
+    assert d["avg_by_slot"][1] == 2.0   # Liam 2nd, Josh 2nd
+    r = stats.season_recap(GUILD, 2024)
+    assert [m.manager_name for m in r["standings"]] == ["Josh", "Liam",
+                                                        "Tom"]
+    assert len(r["sweeps"]) == 1 and r["first_pick"].manager_name == "Liam"
+    assert stats.season_recap(GUILD, 1999) is None
+
+
+def test_playoff_round_names():
+    from harambot.history import stats
+    from harambot.history.matchups_import import (
+        parse_matchups_csv, save_matchups)
+    hist = ("season,manager,finish\n2024,A,1\n2024,B,2\n2024,C,3\n"
+            "2024,D,4\n2024,E,5\n2024,F,6\n")
+    save_history(GUILD, parse_history_csv(hist)[0])
+    m = ("season,week,manager1,score1,manager2,score2,is_playoffs\n"
+         "2024,18,A,5,B,4,\n"
+         "2024,19,C,5,F,4,1\n2024,19,D,5,E,4,1\n"
+         "2024,20,A,5,D,4,1\n2024,20,B,5,C,4,1\n2024,20,E,5,F,4,1\n"
+         "2024,21,A,5,B,4,1\n2024,21,C,5,D,4,1\n")
+    save_matchups(GUILD, parse_matchups_csv(m)[0])
+
+    def rnd(week, x, y):
+        return stats.playoff_round(GUILD, 2024, week,
+                                   ("manual:" + x, "manual:" + y))
+    assert rnd(19, "c", "f") == "Quarter-final"
+    assert rnd(20, "a", "d") == "Semi-final"
+    assert rnd(20, "e", "f") == "5th-place game"
+    assert rnd(21, "a", "b") == "Grand Final"
+    assert rnd(21, "c", "d") == "3rd-place game"
+    o = stats.opponents(GUILD, "manual:a")
+    assert o["rows"] == [] and o["hidden"] == 2 and o["nemesis"] is None
