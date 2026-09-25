@@ -32,7 +32,9 @@ def _season_is_complete_in_db(guild_id, season):
     s = Season.get_or_none(
         (Season.guild_id == str(guild_id)) & (Season.season == season)
     )
-    return s is not None and s.is_finished
+    # Seasons typed in by hand (/history import) are always replaced by
+    # real Yahoo data.
+    return s is not None and s.is_finished and s.league_key != "manual"
 
 
 def sync_league_history(guild_id, current_league, full=False, progress=None):
