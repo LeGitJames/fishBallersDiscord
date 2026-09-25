@@ -23,14 +23,7 @@ class ConfigModal(discord.ui.Modal, title="Configure Guild"):
     league_type = discord.ui.TextInput(
         label="Yahoo League Type",
         placeholder="Enter Yahoo League Type(nfl, nhl, nba, mlb)",
-    )
-    RIP_text = discord.ui.TextInput(
-        label="RIP command text",
-        placeholder="Enter text to use with $RIP command",
-    )
-    RIP_image_url = discord.ui.TextInput(
-        label="RIP Image",
-        placeholder="Enter comma separated list of urls for $RIP command",
+        default="nba",
     )
 
     guild = None
@@ -52,15 +45,11 @@ class ConfigModal(discord.ui.Modal, title="Configure Guild"):
             self.remove_item(self.yahoo_token)
             self.league_id.default = self.guild.league_id
             self.league_type.default = self.guild.league_type
-            self.RIP_text.default = self.guild.RIP_text
-            self.RIP_image_url.default = self.guild.RIP_image_url
 
     async def on_submit(self, interaction: discord.Interaction):
         details = {
             "league_id": self.league_id.value,
             "league_type": self.league_type.value.lower(),
-            "RIP_text": self.RIP_text.value,
-            "RIP_image_url": self.RIP_image_url.value,
         }
         if self.guild:
             Guild.update(details).where(
@@ -76,6 +65,8 @@ class ConfigModal(discord.ui.Modal, title="Configure Guild"):
                 )
             else:
                 details.update(oauth_details)
+                # The database still has these columns; /rip was removed.
+                details.update({"RIP_text": "", "RIP_image_url": ""})
                 self.guild = Guild(
                     guild_id=str(interaction.guild_id), **details
                 )

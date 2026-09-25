@@ -20,3 +20,6 @@ answers.txt
 
 dist/
 backups/
+
+# Local secrets
+.env

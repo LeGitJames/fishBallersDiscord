@@ -27,9 +27,6 @@ class Meta(commands.Cog):
             name="/ping", value="Gives the latency of FishBallersBot", inline=False
         )
         embed.add_field(
-            name="/rip", value="Pay respects to Harambe", inline=False
-        )
-        embed.add_field(
             name="/standings",
             value="Returns the current standings of your league",
             inline=False,

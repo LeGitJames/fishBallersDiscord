@@ -6,7 +6,6 @@ from logging.handlers import QueueHandler, QueueListener
 from discord.ext import commands
 
 from harambot.cogs.meta import Meta
-from harambot.cogs.misc import Misc
 from harambot.cogs.yahoo import YahooCog
 from harambot.cogs.history import HistoryCog
 from harambot.services.webserver import WebServer
@@ -44,7 +43,6 @@ bot.remove_command("help")
 async def on_ready():
     await bot.add_cog(Meta(bot))
     await bot.add_cog(YahooCog(bot))
-    await bot.add_cog(Misc(bot))
     await bot.add_cog(HistoryCog(bot))
     server = WebServer(bot)
     bot.loop.create_task(server.webserver())
