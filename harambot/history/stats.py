@@ -11,6 +11,7 @@ from harambot.database.history_models import (
     Season,
     WeeklyMatchup,
 )
+from harambot.history.queries import lottery_picks
 
 PLAYOFF_SPOTS = 6  # finishing ranks 1-6 made the playoffs
 
@@ -272,6 +273,25 @@ def draft_luck(guild_id):
             "guid": r.manager_guid, "name": r.manager_name, "picks": []})
         d["name"] = r.manager_name
         d["picks"].append(r.draft_position)
+        d.setdefault("seasons_seen", set()).add(r.season)
+    # Count drafts the bot's lottery has decided but that haven't been
+    # played (or imported) yet.
+    for season, picks in lottery_picks(guild_id).items():
+        for guid, pick in picks.items():
+            d = by_mgr.get(guid)
+            if d is None:
+                ms = ManagerSeason.select().where(
+                    (ManagerSeason.guild_id == str(guild_id))
+                    & (ManagerSeason.manager_guid == guid)).order_by(
+                        ManagerSeason.season.desc()).first()
+                if ms is None:
+                    continue
+                d = by_mgr.setdefault(guid, {
+                    "guid": guid, "name": ms.manager_name, "picks": []})
+            seen = d.setdefault("seasons_seen", set())
+            if season not in seen:
+                seen.add(season)
+                d["picks"].append(pick)
     lottery = [
         dict(d, avg=sum(d["picks"]) / len(d["picks"]),
              seasons=len(d["picks"]),
