@@ -63,20 +63,48 @@ names must match `league_history.csv`.
 one row per pick: `season,round,pick,manager,team,player`. It's loaded by
 `/history import` the same way.
 
+**Past trades (optional).** For `/trades`, add `league_trades.csv`, one
+row per trade:
+`season,date,status,manager1,team1,manager1_gets,manager2,team2,manager2_gets`
+(`manager1_gets` is what manager1 received; join several players with
+` + `; `status` is `accepted` or `vetoed`; `date` as Yahoo shows it, e.g.
+`Jan 4, 3:57 am`). It's loaded by `/history import` the same way.
+
 **Category records (optional).** Until Yahoo approves API access, `/records`
 uses `league_records.csv`, copied from Yahoo's Record Book: the all-time
 #1 week and season in each category (plus most turnovers), one row per
 record: `stat_id,scope,kind,season,week,manager,team,value`. Once
 `/history sync` has pulled weekly stats from Yahoo, `/records` switches to
-full top-10 lists automatically.
+full top-10 lists automatically (leagues without a record book only).
 
 For the lottery you need last season's `finish`, `draft_pick` and
 `consolation_winner` rows. Add rows for the new season (manager and team
 only) if anyone new is joining; otherwise last season's managers are used.
 
 You can re-import as often as you like; each import replaces the seasons
-in the file. When Yahoo approves you, `/history sync` replaces imported
-seasons with the real data.
+in the file.
+
+**Syncing from Yahoo after importing.** `/history sync` never changes a
+finished season that came from the history files: it stops as soon as it
+reaches one. It only adds seasons that aren't in the files (the current
+one and every one after), with standings, weekly category stats,
+head-to-head results and draft picks, so `/rivalry`, `/streaks`,
+`/drafts` and friends carry straight on. `/records` keeps the record-book
+numbers and swaps in any synced week that beats them.
+
+Yahoo managers are matched to the names in `league_history.csv` by last
+season's team name, or a Yahoo nickname that's the same as their name.
+For anyone else (renamed team, nickname like `TheRealJosh`), add
+`league_managers.csv`:
+
+```
+yahoo_name,manager
+TheRealJosh,Josh
+```
+
+`yahoo_name` is a Yahoo nickname or team name. Anyone sync can't match is
+added under their Yahoo name and listed in the sync reply; add them to the
+file, run `/history import`, then sync again.
 
 ## Commands
 
@@ -88,8 +116,12 @@ seasons with the real data.
 | `/streaks` | everyone | Longest winning and losing streaks (from `league_matchups.csv`) and most weeks in a row leading the league per category (from `league_records.csv`) |
 | `/hallofshame` | everyone | Winless seasons, worst records, best records without a title, most runner-ups and every 9-0 sweep (sweeps need `league_matchups.csv`) |
 | `/drafts [season] [rounds] [manager] [player]` | everyone | Past drafts: a season's first X rounds (1 by default), a manager's whole draft, or every time a player was drafted (needs `league_drafts.csv`) |
+| `/trades [season] [manager] [partner] [player]` | everyone | Every past trade, oldest first, with vetoed trades and trades that were traded straight back flagged; filter by season, manager, a pair of managers, or a player (needs `league_trades.csv`) |
+| `/votetrade [trade]` | everyone | "Who won the trade?" poll for the latest trade (or any past one), open for 24 hours by default. This season's trades are pulled from Yahoo when it's connected |
+| `/draftfeed start [channel] [catch_up]` | admins | Posts each pick of the live Yahoo draft as it happens (checked every 20 seconds), with history notes: how often that manager has drafted the player, who had him last year, recent #1 picks. Picks are saved straight away so `/drafts` works during the draft. Turns itself off when the draft ends |
+| `/draftfeed stop` | admins | Turns the live draft feed off |
 | `/favourites [manager]` | everyone | A manager's 5 most-drafted players (with no manager: the manager/player pairs drafted together most often), with seasons and earliest round (needs `league_drafts.csv`) |
-| `/profile manager` | everyone | Titles, finishes, records, sweeps, nemesis and favourite player |
+| `/profile manager` | everyone | Titles, finishes, records, sweeps, nemesis, favourite player, trades and every team name they've used |
 | `/rivalry manager opponent` | everyone | All-time head-to-head, playoff meetings, biggest wins and recent form |
 | `/nemesis manager` | everyone | Record against every opponent, with nemesis and punching bag |
 | `/season season` | everyone | Recap: standings, streaks, sweeps and how the #1 pick did |
@@ -98,7 +130,8 @@ seasons with the real data.
 | `/draftlottery odds` | everyone | Each team's balls and #1-pick odds |
 | `/draftlottery run` | admins | Runs the lottery live, reveals picks from last to first, and saves the result |
 | `/draftlottery results` | everyone | Shows the last saved lottery |
-| `/history sync` | admins | Imports or refreshes history from Yahoo |
+| `/draftlottery breakdown` | everyone | How the last lottery played out: balls left and odds at every pick, expected vs actual pick, luckiest and unluckiest, odds of the exact order |
+| `/history sync` | admins | Adds new seasons from Yahoo; seasons from the history files are never changed |
 | `/history import` | admins | Loads history from a CSV (no Yahoo needed) |
 | `/history set-consolation` / `set-champion` | admins | Corrects a season's winners |
 

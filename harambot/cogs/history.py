@@ -2,18 +2,21 @@
 and the weighted draft lottery."""
 
 import asyncio
+import datetime
 import json
 import logging
 import os
+import time
 from typing import List, Optional
 
 import discord
 from discord import app_commands
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 from harambot.database.history_models import (
     RecordBookEntry,
     DiscordLink,
+    DraftFeed,
     DraftLottery,
     ManagerSeason,
     Season,
@@ -35,6 +38,10 @@ from harambot.history.queries import (
     matchup_streaks,
     most_drafted,
     name_marker,
+    team_name_history,
+    trade_summary,
+    traded_players,
+    trades as trade_list,
 )
 from harambot.history.parsers import LOWER_IS_BETTER, NBA_STATS
 from harambot.history.manual_import import parse_history_csv, save_history
@@ -53,9 +60,24 @@ from harambot.history.matchups_import import (
     parse_matchups_csv,
     save_matchups,
 )
+from harambot.history.trades_import import (
+    looks_like_trades,
+    parse_trades_csv,
+    save_trades,
+)
+from harambot.history.managers_import import (
+    looks_like_managers,
+    parse_managers_csv,
+    save_managers,
+)
+from harambot.history import draft_feed
 from harambot.history import stats
-from harambot.history.sync import sync_league_history
+from harambot.history.sync import (
+    refresh_current_trades,
+    sync_league_history,
+)
 from harambot.yahoo_api import Yahoo
+from harambot.yahoo_gate import yahoo_enabled
 
 logger = logging.getLogger("discord.harambot.cogs.history")
 
@@ -69,6 +91,8 @@ LOCAL_HISTORY_FILE = "league_history.csv"
 LOCAL_MATCHUPS_FILE = "league_matchups.csv"
 LOCAL_DRAFTS_FILE = "league_drafts.csv"
 LOCAL_RECORDS_FILE = "league_records.csv"
+LOCAL_TRADES_FILE = "league_trades.csv"
+LOCAL_MANAGERS_FILE = "league_managers.csv"
 
 # Extra files /history import understands, besides league_history.csv:
 # (label, local file name, detector, parser, saver)
@@ -79,6 +103,10 @@ EXTRA_FILES = [
      parse_drafts_csv, save_drafts),
     ("Category records", LOCAL_RECORDS_FILE, looks_like_records,
      parse_records_csv, save_records),
+    ("Trades", LOCAL_TRADES_FILE, looks_like_trades,
+     parse_trades_csv, save_trades),
+    ("Yahoo names", LOCAL_MANAGERS_FILE, looks_like_managers,
+     parse_managers_csv, save_managers),
 ]
 
 
@@ -126,6 +154,11 @@ class HistoryCog(commands.Cog):
     draftlottery = app_commands.Group(
         name="draftlottery", description="Weighted draft-order lottery"
     )
+    draftfeed = app_commands.Group(
+        name="draftfeed",
+        description="Post the live draft pick by pick (admins)",
+        default_permissions=discord.Permissions(administrator=True),
+    )
 
     def __init__(self, bot):
         self.bot = bot
@@ -133,6 +166,14 @@ class HistoryCog(commands.Cog):
         self.yahoo = Yahoo()
         # Guilds with a lottery reveal in progress
         self._lottery_running = set()
+        # guild -> when this season's trades were last pulled from Yahoo
+        self._trades_checked = {}
+
+    async def cog_load(self):
+        self.draft_feed_loop.start()
+
+    async def cog_unload(self):
+        self.draft_feed_loop.cancel()
 
     # ------------------------------------------------------------------
     # Autocomplete
@@ -260,7 +301,11 @@ class HistoryCog(commands.Cog):
 
         has_weekly = WeeklyTeamStat.select().where(
             WeeklyTeamStat.guild_id == guild_id).exists()
-        if not has_weekly:
+        has_book = RecordBookEntry.select().where(
+            RecordBookEntry.guild_id == guild_id).exists()
+        # Yahoo's record book covers every season loaded from the files;
+        # weeks synced since then are checked against it.
+        if has_book or not has_weekly:
             await self._record_book(interaction, tag, category, worst)
             return
 
@@ -339,11 +384,30 @@ class HistoryCog(commands.Cog):
         # "best" for TO means fewest; "worst" means most
         kind = "worst" if worst else "best"
 
+        def synced_best(stat_id):
+            ascending = (stat_id in LOWER_IS_BETTER) != worst
+            return (WeeklyTeamStat.select().where(
+                (WeeklyTeamStat.guild_id == str(interaction.guild_id))
+                & (WeeklyTeamStat.stat_id == stat_id))
+                .order_by(WeeklyTeamStat.value.asc() if ascending
+                          else WeeklyTeamStat.value.desc())
+                .first())
+
         def line(stat_id, scope):
             hits = [e for e in entries if e.stat_id == stat_id
                     and e.scope == scope and e.kind == kind]
             if not hits:
                 return None
+            if scope == "week":
+                new = synced_best(stat_id)
+                if new is not None:
+                    ascending = (stat_id in LOWER_IS_BETTER) != worst
+                    old = hits[0].value
+                    beats = new.value < old if ascending else \
+                        new.value > old
+                    if beats or new.value == old:
+                        new.team_name = new.team_name or ""
+                        hits = ([new] if beats else hits + [new])
             when = ", ".join(
                 "{} (*{}*) {}{}".format(
                     tag(e.manager_guid, e.manager_name), e.team_name,
@@ -378,9 +442,8 @@ class HistoryCog(commands.Cog):
                 "category (plus most turnovers)."
             )
         embed.set_footer(
-            text="From Yahoo's record book: only the #1 in each category "
-            "until Yahoo approves API access. Some weeks are longer than "
-            "others."
+            text="Yahoo's record book plus every week synced since. "
+            "Some weeks are longer than others."
         )
         await interaction.response.send_message(embed=embed)
 
@@ -720,6 +783,329 @@ class HistoryCog(commands.Cog):
         await interaction.response.send_message(embed=embed)
 
     # ------------------------------------------------------------------
+    # /draftfeed: live draft, pick by pick
+    # ------------------------------------------------------------------
+    @draftfeed.command(name="start",
+                       description="Post each pick here as it happens")
+    @app_commands.describe(
+        channel="Where to post (default: this channel)",
+        catch_up="Also post picks already made (default: no)",
+    )
+    @app_commands.check(guild_is_configured)
+    async def draftfeed_start(
+        self, interaction: discord.Interaction,
+        channel: Optional[discord.TextChannel] = None,
+        catch_up: bool = False,
+    ):
+        await interaction.response.defer(ephemeral=True, thinking=True)
+        guild_id = interaction.guild_id
+        target = channel or interaction.channel
+
+        def work():
+            league = self.yahoo.get_current_league(guild_id=guild_id)
+            if league is None:
+                return None
+            settings = league.settings()
+            made = [p for p in (league.draft_results() or [])
+                    if p.get("player_id")]
+            return (int(settings["season"]), settings.get("draft_status"),
+                    max((int(p["pick"]) for p in made), default=0))
+        try:
+            state = await asyncio.to_thread(work)
+        except Exception:
+            logger.exception("Draft feed start failed for %s", guild_id)
+            state = None
+        if state is None:
+            await interaction.followup.send(
+                "Couldn't reach the Yahoo league. Try `/configure` again.")
+            return
+        season, status, made = state
+        if status == "postdraft" and not catch_up:
+            await interaction.followup.send(
+                "The {} draft is already finished. Use `catch_up` to post "
+                "the whole thing.".format(season_label(season)))
+            return
+        DraftFeed.delete().where(
+            DraftFeed.guild_id == str(guild_id)).execute()
+        DraftFeed.create(guild_id=str(guild_id), channel_id=str(target.id),
+                         season=season, last_pick=0 if catch_up else made,
+                         active=True, started_by=str(interaction.user.id))
+        when = ("as soon as the draft starts" if status == "predraft"
+                else "from pick #{}".format(made + 1) if not catch_up
+                else "from pick #1")
+        await interaction.followup.send(
+            "🎙️ Live draft feed is on in {}. Picks will appear {}, within "
+            "about 20 seconds of being made. `/draftfeed stop` to turn it "
+            "off.".format(target.mention, when))
+
+    @draftfeed.command(name="stop", description="Turn the live draft feed off")
+    async def draftfeed_stop(self, interaction: discord.Interaction):
+        n = DraftFeed.update(active=False).where(
+            (DraftFeed.guild_id == str(interaction.guild_id))
+            & (DraftFeed.active == True)).execute()  # noqa: E712
+        await interaction.response.send_message(
+            "Draft feed stopped." if n else "The draft feed wasn't on.",
+            ephemeral=True)
+
+    @tasks.loop(seconds=20)
+    async def draft_feed_loop(self):
+        if not yahoo_enabled():
+            return
+        for feed in list(DraftFeed.select().where(
+                DraftFeed.active == True)):  # noqa: E712
+            try:
+                await self._run_draft_feed(feed)
+            except Exception:
+                logger.exception("Draft feed failed for %s", feed.guild_id)
+
+    @draft_feed_loop.before_loop
+    async def _before_draft_feed(self):
+        await self.bot.wait_until_ready()
+
+    async def _run_draft_feed(self, feed):
+        guild_id = int(feed.guild_id)
+        channel = self.bot.get_channel(int(feed.channel_id))
+        if channel is None:
+            channel = await self.bot.fetch_channel(int(feed.channel_id))
+
+        def work():
+            league = self.yahoo.get_current_league(guild_id=guild_id)
+            if league is None:
+                return None
+            return draft_feed.new_picks(guild_id, league, feed.last_pick)
+        result = await asyncio.to_thread(work)
+        if result is None:
+            return
+        season, picks, finished = result
+        links = discord_links(guild_id)
+        for pick in picks:
+            notes = await asyncio.to_thread(
+                draft_feed.pick_notes, guild_id, season, pick)
+            uid = links.get(pick["manager_guid"])
+            await channel.send(
+                draft_feed.format_pick(
+                    pick, notes, "<@{}>".format(uid) if uid else None),
+                allowed_mentions=discord.AllowedMentions(users=False))
+            draft_feed.save_pick(guild_id, season, pick)
+            feed.last_pick = pick["overall"]
+            feed.season = season
+            feed.save()
+        if finished and not picks:
+            feed.active = False
+            feed.save()
+            await channel.send(
+                "🏁 **That's the {} draft!** {} picks. See the board with "
+                "`/drafts season:{}`.".format(
+                    season_label(season), feed.last_pick, season))
+
+    # ------------------------------------------------------------------
+    # /trade: who won it?
+    # ------------------------------------------------------------------
+    async def _refresh_trades(self, guild_id):
+        """Pull this season's trades from Yahoo, at most every 5 minutes."""
+        if not yahoo_enabled():
+            return
+        if not Guild.select().where(Guild.guild_id == str(guild_id)).exists():
+            return
+        now = time.monotonic()
+        if now - self._trades_checked.get(guild_id, -1e9) < 300:
+            return
+        self._trades_checked[guild_id] = now
+
+        def work():
+            league = self.yahoo.get_current_league(guild_id=guild_id)
+            if league is not None:
+                refresh_current_trades(guild_id, league)
+        try:
+            await asyncio.wait_for(asyncio.to_thread(work), timeout=20)
+        except Exception:
+            logger.exception("Couldn't refresh trades for %s", guild_id)
+
+    @staticmethod
+    def _trade_label(t):
+        return "{} {}: {} ⇄ {} ({} / {})".format(
+            season_label(t.season), (t.date or "").split(",")[0],
+            t.manager1_name, t.manager2_name, t.manager1_gets,
+            t.manager2_gets)[:100]
+
+    async def trade_autocomplete(
+        self, interaction: discord.Interaction, current: str
+    ) -> List[app_commands.Choice[str]]:
+        rows = [t for t in reversed(trade_list(interaction.guild_id))
+                if t.status == "accepted"]
+        current = current.lower()
+        return [
+            app_commands.Choice(name=self._trade_label(t), value=str(t.id))
+            for t in rows if current in self._trade_label(t).lower()
+        ][:25]
+
+    @app_commands.command(
+        name="votetrade", description="Who won the trade? Put it to a vote")
+    @app_commands.describe(
+        trade="Which trade (default: the latest one)",
+        hours="How long the vote stays open (default 24)",
+    )
+    @app_commands.autocomplete(trade=trade_autocomplete)
+    async def trade_poll(
+        self,
+        interaction: discord.Interaction,
+        trade: Optional[str] = None,
+        hours: app_commands.Range[int, 1, 168] = 24,
+    ):
+        await interaction.response.defer()
+        if trade is None:
+            await self._refresh_trades(interaction.guild_id)
+        rows = [t for t in trade_list(interaction.guild_id)
+                if t.status == "accepted"]
+        if trade is not None:
+            rows = [t for t in rows if str(t.id) == str(trade)]
+        if not rows:
+            await interaction.followup.send(
+                "Couldn't find that trade." if trade else
+                "No trades saved yet.")
+            return
+        t = rows[-1]
+        tag = name_marker(interaction.guild_id)
+
+        def answer(name, gets):
+            text = "{}: {}".format(name, gets)
+            return text if len(text) <= 55 else text[:54] + "…"
+        poll = discord.Poll(
+            question="🔁 Who won this trade? ({}, {})".format(
+                season_label(t.season), (t.date or "").split(",")[0])[:300],
+            duration=datetime.timedelta(hours=hours),
+        )
+        poll.add_answer(text=answer(t.manager1_name, t.manager1_gets),
+                        emoji="1️⃣")
+        poll.add_answer(text=answer(t.manager2_name, t.manager2_gets),
+                        emoji="2️⃣")
+        poll.add_answer(text="Fair trade, both won", emoji="🤝")
+        poll.add_answer(text="Fair trade, both lost", emoji="🗑️")
+        content = "**{}** gets {}\n**{}** gets {}".format(
+            tag(t.manager1_guid, t.manager1_name), t.manager1_gets,
+            tag(t.manager2_guid, t.manager2_name), t.manager2_gets)
+        await interaction.followup.send(content=content[:2000], poll=poll)
+
+    # ------------------------------------------------------------------
+    # /trades
+    # ------------------------------------------------------------------
+    async def traded_player_autocomplete(
+        self, interaction: discord.Interaction, current: str
+    ) -> List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(name=p[:100], value=p[:100])
+            for p in traded_players(interaction.guild_id, current)
+        ]
+
+    @app_commands.command(name="trades", description="Every past trade")
+    @app_commands.describe(
+        season="Only this season",
+        manager="Only trades this manager made",
+        partner="...and only with this manager",
+        player="Every time this player was traded",
+    )
+    @app_commands.autocomplete(
+        season=season_autocomplete,
+        manager=manager_autocomplete,
+        partner=manager_autocomplete,
+        player=traded_player_autocomplete,
+    )
+    async def trades(
+        self,
+        interaction: discord.Interaction,
+        season: Optional[int] = None,
+        manager: Optional[str] = None,
+        partner: Optional[str] = None,
+        player: Optional[str] = None,
+    ):
+        names = latest_names(interaction.guild_id)
+        tag = name_marker(interaction.guild_id)
+        for m in (manager, partner):
+            if m and m not in names:
+                await interaction.response.send_message(
+                    "Pick a manager from the list.", ephemeral=True)
+                return
+        rows = trade_list(interaction.guild_id, season, manager, player,
+                          partner)
+        if not rows:
+            await interaction.response.send_message(
+                "No trades found for that." if trade_list(
+                    interaction.guild_id) else "No trade history saved yet.")
+            return
+
+        def sides(t):
+            return ({t.manager1_guid: set(t.manager1_gets.split(" + ")),
+                     t.manager2_guid: set(t.manager2_gets.split(" + "))})
+
+        # Spot trades that were traded straight back later that season.
+        undone = set()
+        everything = trade_list(interaction.guild_id)
+        for i, a in enumerate(everything):
+            for b in everything[i + 1:]:
+                if (a.season == b.season and a.status == b.status
+                        == "accepted" and set(sides(a)) == set(sides(b))):
+                    sa, sb = sides(a), sides(b)
+                    g1, g2 = list(sa)
+                    if sa[g1] == sb[g2] and sa[g2] == sb[g1]:
+                        undone.update({a.id, b.id})
+
+        def short_date(t):
+            return (t.date or "").split(",")[0]
+
+        lines, current = [], None
+        for t in rows:
+            if t.season != current:
+                current = t.season
+                lines.append("**— {} —**".format(season_label(t.season)))
+            flag = ""
+            if t.status == "vetoed":
+                flag = " 🚫 *vetoed*"
+            elif t.id in undone:
+                flag = " ↩️ *traded back*"
+            lines.append("`{}` **{}** ⇄ **{}**{}".format(
+                short_date(t), tag(t.manager1_guid, t.manager1_name),
+                tag(t.manager2_guid, t.manager2_name), flag))
+            lines.append("  ↳ {} gets {}".format(t.manager1_name,
+                                                 t.manager1_gets))
+            lines.append("  ↳ {} gets {}".format(t.manager2_name,
+                                                 t.manager2_gets))
+
+        bits = []
+        if player:
+            bits.append(player)
+        if manager:
+            bits.append(names[manager][0] + (
+                " × " + names[partner][0] if partner else ""))
+        elif partner:
+            bits.append(names[partner][0])
+        if season is not None:
+            bits.append(season_label(season))
+        title = "🔁 Trades" + (": " + " · ".join(bits) if bits else "")
+        vetoed = sum(1 for t in rows if t.status == "vetoed")
+        footer = "{} trade{}{}".format(
+            len(rows) - vetoed, "" if len(rows) - vetoed == 1 else "s",
+            " · {} vetoed".format(vetoed) if vetoed else "")
+        if not (season or manager or partner or player):
+            busy = {}
+            for t in rows:
+                if t.status != "accepted":
+                    continue
+                for g, n in ((t.manager1_guid, t.manager1_name),
+                             (t.manager2_guid, t.manager2_name)):
+                    busy.setdefault(g, [n, 0])[1] += 1
+            top = sorted(busy.items(), key=lambda kv: -kv[1][1])[:3]
+            footer += " · busiest: " + ", ".join(
+                "{} ({})".format(n, c) for _, (n, c) in top)
+
+        text = "\n".join(lines)
+        if len(text) > 4000:
+            text = text[:3960].rsplit("\n`", 1)[0] + \
+                "\n… too long for one message, pick a season or manager"
+        embed = discord.Embed(title=title, description=text, color=COLOR)
+        embed.set_footer(text=footer)
+        await interaction.response.send_message(embed=embed)
+
+    # ------------------------------------------------------------------
     # /rivalry, /nemesis, /profile, /season, /draftluck
     # ------------------------------------------------------------------
     @app_commands.command(
@@ -906,6 +1292,22 @@ class HistoryCog(commands.Cog):
             embed.add_field(
                 name="❤️ Favourite player",
                 value="{} (drafted {}x)".format(*p["favourite"]))
+        made, buddy = trade_summary(interaction.guild_id, manager)
+        if made:
+            embed.add_field(
+                name="🔁 Trades",
+                value="{}{}".format(made, " · most with {} ({})".format(
+                    tag(buddy[0], buddy[1]), buddy[2]) if buddy else ""))
+        names_used = team_name_history(interaction.guild_id, manager)
+        if len(names_used) > 1:
+            def span(a, b):
+                return season_label(a) if a == b else "{} – {}".format(
+                    season_label(a), season_label(b))
+            embed.add_field(
+                name="📛 Team names",
+                value="\n".join("{} *({})*".format(n, span(a, b))
+                                 for n, a, b in names_used)[:1024],
+                inline=False)
         await interaction.response.send_message(embed=embed)
 
     @app_commands.command(name="season",
@@ -1240,6 +1642,68 @@ class HistoryCog(commands.Cog):
             )
         )
 
+    @draftlottery.command(
+        name="breakdown",
+        description="How the last lottery played out: odds at every pick, "
+        "who got lucky",
+    )
+    async def lottery_breakdown(self, interaction: discord.Interaction):
+        last = (
+            DraftLottery.select()
+            .where(DraftLottery.guild_id == str(interaction.guild_id))
+            .order_by(DraftLottery.run_at.desc())
+            .first()
+        )
+        if last is None:
+            await interaction.response.send_message(
+                "No lottery has been run yet.")
+            return
+        await interaction.response.defer()
+        b = await asyncio.to_thread(lottery.breakdown,
+                                    json.loads(last.results))
+        steps = b["steps"]
+
+        def arrow(d):
+            return "🍀" if d >= 2 else "🌧️" if d <= -2 else "·"
+
+        lines = []
+        for s in steps:
+            ball = " · ball #{}".format(s["ball"]) if s.get("ball") else ""
+            lines.append(
+                "`#{:>2}` **{}**: {} of {} balls ({:.1%}){} · expected "
+                "~{:.1f} {} {:+.1f}".format(
+                    s["pick"], s["manager_name"], s["balls"], s["left"],
+                    s["chance"], ball, s["expected"], arrow(s["diff"]),
+                    s["diff"]))
+        embed = discord.Embed(
+            title="🔍 {} draft lottery breakdown".format(
+                season_label(last.season)),
+            description="\n".join(lines),
+            color=COLOR,
+        )
+        lucky = max(steps, key=lambda s: s["diff"])
+        unlucky = min(steps, key=lambda s: s["diff"])
+        embed.add_field(
+            name="🍀 Luckiest",
+            value="**{}**: pick {} vs ~{:.1f} expected".format(
+                lucky["manager_name"], lucky["pick"], lucky["expected"]))
+        embed.add_field(
+            name="🌧️ Unluckiest",
+            value="**{}**: pick {} vs ~{:.1f} expected".format(
+                unlucky["manager_name"], unlucky["pick"],
+                unlucky["expected"]))
+        upset = min(steps[:3], key=lambda s: s["chance"])
+        embed.add_field(
+            name="😮 Biggest top-3 upset",
+            value="**{}** took #{} with a {:.1%} chance".format(
+                upset["manager_name"], upset["pick"], upset["chance"]),
+            inline=False)
+        embed.set_footer(
+            text="Odds of this exact order: 1 in {:,} · balls left = what "
+            "was still in the hopper at that pick".format(
+                round(1 / b["exact_odds"])))
+        await interaction.followup.send(embed=embed)
+
     @staticmethod
     def _order_embed(season, order, user, run_at=None):
         embed = discord.Embed(
@@ -1265,8 +1729,8 @@ class HistoryCog(commands.Cog):
     # ------------------------------------------------------------------
     @history.command(
         name="sync",
-        description="Import past seasons, results and weekly stats from "
-        "Yahoo",
+        description="Pull new seasons from Yahoo (seasons from the "
+        "history files are never changed)",
     )
     @app_commands.describe(
         full="Re-import seasons that were already saved (slower)"
@@ -1297,9 +1761,14 @@ class HistoryCog(commands.Cog):
             )
             return
 
-        lines = []
+        lines, unmatched = [], []
         for s in summaries:
-            if s.get("skipped"):
+            unmatched += s.get("unmatched", [])
+            if s.get("from_files"):
+                lines.append("`{}` and earlier: kept from the history "
+                             "files, not touched".format(
+                                 season_label(s["season"])))
+            elif s.get("skipped"):
                 lines.append("`{}` already saved".format(
                     season_label(s["season"])))
             else:
@@ -1315,6 +1784,16 @@ class HistoryCog(commands.Cog):
             description="\n".join(lines),
             color=COLOR,
         )
+        if unmatched:
+            embed.add_field(
+                name="⚠️ New on Yahoo (added under their Yahoo name)",
+                value="\n".join("• " + u for u in
+                                 dict.fromkeys(unmatched))[:900]
+                + "\nIf any of these is an existing manager, add a line "
+                "to `{}` (`yahoo_name,manager`), run `/history import`, "
+                "then sync again.".format(LOCAL_MANAGERS_FILE),
+                inline=False,
+            )
         embed.add_field(
             name="Check this",
             value="Consolation winners are guessed from Yahoo's final "

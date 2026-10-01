@@ -153,6 +153,52 @@ class DiscordLink(BaseModel):
         indexes = ((("guild_id", "manager_guid"), True),)
 
 
+class Trade(BaseModel):
+    """A past trade between two managers (accepted or vetoed)."""
+
+    guild_id = TextField()
+    season = IntegerField()
+    seq = IntegerField()  # order within the season, oldest first
+    date = TextField(null=True)  # as Yahoo shows it, e.g. "Jan 4, 3:57 am"
+    status = TextField()  # "accepted" or "vetoed"
+    manager1_guid = TextField()
+    manager1_name = TextField()
+    team1 = TextField(null=True)
+    manager1_gets = TextField()  # players joined with " + "
+    manager2_guid = TextField()
+    manager2_name = TextField()
+    team2 = TextField(null=True)
+    manager2_gets = TextField()
+
+    class Meta:
+        indexes = ((("guild_id", "season"), False),)
+
+
+class ManagerAlias(BaseModel):
+    """Which league manager a Yahoo account (or Yahoo name) belongs to, so
+    seasons synced from Yahoo line up with history loaded from files."""
+
+    guild_id = TextField()
+    yahoo_guid = TextField(null=True)  # learned during /history sync
+    yahoo_name = TextField(null=True)  # from league_managers.csv
+    manager_guid = TextField()
+    manager_name = TextField()
+
+    class Meta:
+        indexes = ((("guild_id", "yahoo_guid"), False),)
+
+
+class DraftFeed(BaseModel):
+    """A live draft being posted pick by pick into a channel."""
+
+    guild_id = TextField(unique=True)
+    channel_id = TextField()
+    season = IntegerField(null=True)
+    last_pick = IntegerField(default=0)  # overall pick number last posted
+    active = BooleanField(default=True)
+    started_by = TextField(null=True)
+
+
 HISTORY_TABLES = [
     Season,
     ManagerSeason,
@@ -162,6 +208,9 @@ HISTORY_TABLES = [
     WeeklyMatchup,
     DraftPick,
     RecordBookEntry,
+    Trade,
+    ManagerAlias,
+    DraftFeed,
 ]
 
 

@@ -186,6 +186,12 @@ class FakeLeague:
     def draft_results(self):
         return self.yhandler.seasons[self.league_id]["draft"]
 
+    def transactions(self, kind, count):
+        return []
+
+    def teams(self):
+        return {}
+
 
 @pytest.fixture
 def two_seasons(monkeypatch):
@@ -367,13 +373,14 @@ def test_manual_reimport_replaces_and_yahoo_wins(two_seasons):
     save_history(GUILD, seasons)  # re-import is fine
     assert ManagerSeason.select().where(
         ManagerSeason.season == 2025).count() == 12
-    # Yahoo sync replaces the manual 2024 season even though it's finished
-    sync_league_history(GUILD, two_seasons)
+    # Yahoo sync never touches finished seasons from the files
+    summaries = sync_league_history(GUILD, two_seasons)
+    assert summaries == [{"season": 2025, "skipped": True,
+                          "from_files": True}]
     s24 = Season.get(Season.season == 2024)
-    assert s24.league_key == "1.l.1" and s24.champion_guid == "G1"
-    # ...and manual import then leaves Yahoo seasons alone
-    _, skipped = save_history(GUILD, seasons)
-    assert 2024 in skipped
+    assert s24.league_key == "manual" and s24.champion_guid == "manual:mgr3"
+    assert ManagerSeason.select().where(
+        ManagerSeason.season == 2025).count() == 12
 
 
 def test_manual_note_and_champion_only_seasons():
@@ -678,3 +685,269 @@ def test_playoff_round_names():
     assert rnd(21, "c", "d") == "3rd-place game"
     o = stats.opponents(GUILD, "manual:a")
     assert o["rows"] == [] and o["hidden"] == 2 and o["nemesis"] is None
+
+
+def test_lottery_breakdown():
+    entrants = [{"manager_name": "M{}".format(i), "team_name": "T",
+                 "balls": lottery.balls_for(i)} for i in range(1, 13)]
+    order = lottery.draw(entrants, rng=random.Random(9))
+    assert all(1 <= e["ball"] <= e["hopper"] for e in order)
+    assert order[0]["hopper"] == 186 and order[-1]["hopper"] == \
+        order[-1]["balls"]
+    b = lottery.breakdown(order, sims=3000, rng=random.Random(1))
+    steps = b["steps"]
+    assert steps[-1]["chance"] == 1.0
+    assert steps[0]["left"] == 186
+    assert abs(sum(s["expected"] for s in steps) - 78) < 1e-6  # 1+..+12
+    assert 0 < b["exact_odds"] < 1
+
+
+def test_trades_import_and_queries():
+    from harambot.history.matchups_import import looks_like_matchups
+    from harambot.history.drafts_import import looks_like_drafts
+    from harambot.history.trades_import import (
+        looks_like_trades, parse_trades_csv, save_trades)
+    from harambot.history.queries import (
+        trade_summary, traded_players, trades)
+    text = ("season,date,status,manager1,team1,manager1_gets,manager2,"
+            "team2,manager2_gets\n"
+            '2018-19,"Mar 10, 6:34 pm",accepted,Josh,Surfer,KD + Capela,'
+            "Liam,808s,Russell\n"
+            '2018-19,"Nov 7, 9:37 pm",accepted,Michael,Honey,Tatum,'
+            "Josh,Surfer,Draymond\n"
+            '2018-19,"Nov 7, 5:50 am",accepted,Michael,Honey,Draymond,'
+            "Josh,Surfer,Tatum\n"
+            '2021-22,"Nov 18, 8:42 pm",vetoed,Josh,Surfer,Bam,'
+            "Liam,Tacko,Barnes\n")
+    assert looks_like_trades(text)
+    assert not looks_like_matchups(text) and not looks_like_drafts(text)
+    seasons, errors = parse_trades_csv(text)
+    assert errors == []
+    # Sorted by date within the season: Nov 7 am, Nov 7 pm, then March.
+    assert [r["manager1_gets"] for r in seasons[2018]] == [
+        "Draymond", "Tatum", "KD + Capela"]
+    assert save_trades(GUILD, seasons) == 4
+    assert [t.seq for t in trades(GUILD, season=2018)] == [1, 2, 3]
+    assert len(trades(GUILD, player="capela")) == 1
+    assert len(trades(GUILD, manager_guid="manual:liam")) == 2
+    assert len(trades(GUILD, manager_guid="manual:josh",
+                      partner_guid="manual:michael")) == 2
+    assert "KD" in traded_players(GUILD, "k")
+    made, buddy = trade_summary(GUILD, "manual:josh")
+    assert made == 3 and buddy[1] == "Michael" and buddy[2] == 2
+    _, bad = parse_trades_csv(
+        "season,manager1,manager1_gets,manager2,manager2_gets,status\n"
+        "2020,Josh,KD,Liam,,accepted\n2020,Josh,KD,Liam,Bam,maybe\n")
+    assert len(bad) == 2
+
+
+def test_lottery_result_counts_in_draft_luck():
+    import datetime
+    import json as _json
+    from harambot.database.history_models import DraftLottery
+    from harambot.history import stats
+    from harambot.history.queries import lottery_picks
+    _stats_league()
+    assert stats.draft_luck(GUILD)["luckiest"] == []   # only 2 drafts each
+
+    def run(order, when):
+        DraftLottery.create(
+            guild_id=str(GUILD), season=2026, run_by="1",
+            run_at=datetime.datetime(2026, 9, when),
+            results=_json.dumps([
+                {"pick": i, "manager_guid": "manual:" + n.lower(),
+                 "manager_name": n} for i, n in enumerate(order, 1)]))
+    run(["Josh", "Liam", "Tom"], 1)    # older run, replaced by the next
+    run(["Tom", "Josh", "Liam"], 2)
+    assert lottery_picks(GUILD)[2026] == {
+        "manual:tom": 1, "manual:josh": 2, "manual:liam": 3}
+    luck = stats.draft_luck(GUILD)["luckiest"]
+    assert [(d["name"], d["seasons"], d["top3"]) for d in luck][0] == (
+        "Josh", 3, 3)
+    assert {d["name"]: d["picks"] for d in luck}["Tom"] == [2, 3, 1]
+
+
+def _manual_2024_only():
+    lines = ["season,manager,team,finish,draft_pick"]
+    for i in range(1, 13):
+        lines.append("2024,Mgr{0},Team{0},{0},{1}".format(i, 13 - i))
+    save_history(GUILD, parse_history_csv("\n".join(lines) + "\n")[0])
+
+
+def test_sync_keeps_file_history_and_maps_managers(two_seasons):
+    from harambot.database.history_models import ManagerAlias
+    from harambot.history.managers_import import (
+        looks_like_managers, parse_managers_csv, save_managers)
+    _manual_2024_only()
+    summaries = sync_league_history(GUILD, two_seasons, full=True)
+    assert summaries[1] == {"season": 2024, "skipped": True,
+                            "from_files": True}
+    assert summaries[0]["unmatched"] == ["Newbie (Rookie)"]
+    # 2024 untouched
+    s24 = Season.get(Season.season == 2024)
+    assert s24.league_key == "manual" and s24.champion_guid == "manual:mgr1"
+    assert WeeklyTeamStat.select().where(
+        WeeklyTeamStat.season == 2024).count() == 0
+    # 2025 from Yahoo, under the managers' existing ids
+    guids = {r.manager_guid for r in ManagerSeason.select().where(
+        ManagerSeason.season == 2025)}
+    assert "manual:mgr5" in guids and "G5" not in guids
+    assert "manual:newbie" in guids
+    assert ManagerAlias.get(ManagerAlias.yahoo_guid == "G5").manager_guid \
+        == "manual:mgr5"
+    # Tell it who Newbie is, sync again
+    text = "yahoo_name,manager\nNewbie,Mgr12\n"
+    assert looks_like_managers(text)
+    parsed, errors = parse_managers_csv(text)
+    assert errors == [] and save_managers(GUILD, parsed) == 1
+    summaries = sync_league_history(GUILD, two_seasons)
+    assert summaries[0]["unmatched"] == []
+    assert ManagerSeason.get(
+        (ManagerSeason.season == 2025) & (ManagerSeason.team_name == "Rookie")
+    ).manager_guid == "manual:mgr12"
+
+
+def test_sync_adds_matchups_and_draft_for_new_seasons(two_seasons):
+    from harambot.database.history_models import DraftPick, WeeklyMatchup
+    _manual_2024_only()
+    cur = two_seasons.yhandler.seasons["2.l.1"]
+    cur["settings"].update(draft_status="postdraft", current_week="3")
+    cur["draft"] = [
+        {"pick": 1, "round": 1, "team_key": "k.t.3", "player_id": 101},
+        {"pick": 13, "round": 2, "team_key": "k.t.3", "player_id": 102},
+    ]
+    two_seasons.player_details = lambda ids: [
+        {"player_id": str(i), "name": {"full": "Player {}".format(i)}}
+        for i in ids]
+    handler = two_seasons.yhandler
+    plain = handler.get_scoreboard_raw
+
+    def scoreboard(key, week=None):
+        raw = json.loads(json.dumps(plain(key, week)).replace(
+            "418.l.15944.t.", "k.t."))
+        return raw
+    handler.get_scoreboard_raw = scoreboard
+    sync_league_history(GUILD, two_seasons)
+    games = list(WeeklyMatchup.select().where(WeeklyMatchup.season == 2025))
+    assert {g.week for g in games} == {1, 2}
+    assert all(g.manager1_guid.startswith("manual:") for g in games)
+    assert all(0 <= g.score1 + g.score2 <= 9 for g in games)
+    picks = list(DraftPick.select().where(DraftPick.season == 2025)
+                 .order_by(DraftPick.round))
+    assert [(p.round, p.pick, p.player, p.manager_guid) for p in picks] == [
+        (1, 1, "Player 101", "manual:mgr3"),
+        (2, 1, "Player 102", "manual:mgr3")]
+    assert ManagerSeason.get(
+        (ManagerSeason.season == 2025)
+        & (ManagerSeason.manager_guid == "manual:mgr3")).draft_position == 1
+
+
+def _yahoo_trade(ts, a, b, a_gives, b_gives, status="successful"):
+    players, i = {}, 0
+    for src, dst, names in ((a, b, a_gives), (b, a, b_gives)):
+        for n in names:
+            players[str(i)] = {"player": [
+                [{"player_key": "p.{}".format(i)}, {"name": {"full": n}}],
+                {"transaction_data": [{
+                    "type": "trade", "source_team_key": src[0],
+                    "source_team_name": src[1],
+                    "destination_team_key": dst[0],
+                    "destination_team_name": dst[1]}]}]}
+            i += 1
+    players["count"] = i
+    return {"transaction_key": "t{}".format(ts), "type": "trade",
+            "status": status, "timestamp": str(ts),
+            "trader_team_key": a[0], "trader_team_name": a[1],
+            "tradee_team_key": b[0], "tradee_team_name": b[1],
+            "players": players}
+
+
+def test_parse_trade_and_trade_rows():
+    from harambot.history.sync import trade_rows
+    t = _yahoo_trade(1700000000, ("k.t.1", "Surfer"), ("k.t.2", "Tacko"),
+                     ["Kyrie Irving"], ["Nikola Vucevic", "Bam Adebayo"])
+    p = parsers.parse_trade(t)
+    assert p["teams"] == [("k.t.1", "Surfer"), ("k.t.2", "Tacko")]
+    assert p["gets"] == {"k.t.1": ["Nikola Vucevic", "Bam Adebayo"],
+                         "k.t.2": ["Kyrie Irving"]}
+    rows = trade_rows(
+        [t, _yahoo_trade(1600000000, ("k.t.3", "X"), ("k.t.1", "Surfer"),
+                         ["A"], ["B"]),
+         _yahoo_trade(1650000000, ("k.t.3", "X"), ("k.t.2", "Tacko"),
+                      ["C"], ["D"], status="pending")],
+        lambda key, name: ({"Surfer": "Josh", "Tacko": "Liam"}.get(
+            name, "Tom"), name))
+    assert [r["manager1"] for r in rows] == ["Tom", "Josh"]   # oldest first
+    assert rows[1]["manager1_gets"] == "Nikola Vucevic + Bam Adebayo"
+    assert rows[1]["status"] == "accepted"
+
+
+def test_refresh_current_trades_leaves_file_seasons(two_seasons):
+    from harambot.history.queries import trades
+    from harambot.history.sync import refresh_current_trades
+    _manual_2024_only()
+    sync_league_history(GUILD, two_seasons)   # 2025 from Yahoo
+    two_seasons.transactions = lambda kind, count: [_yahoo_trade(
+        1700000000, ("k.t.1", "New1"), ("k.t.2", "New2"), ["X"], ["Y"])]
+    assert refresh_current_trades(GUILD, two_seasons) == 2025
+    rows = trades(GUILD, season=2025)
+    assert [(r.manager1_guid, r.manager1_gets) for r in rows] == [
+        ("manual:mgr1", "Y")]
+    # a locked season is never touched
+    two_seasons.yhandler.seasons["2.l.1"]["settings"]["season"] = "2024"
+    assert refresh_current_trades(GUILD, two_seasons) is None
+
+
+def test_team_name_history():
+    from harambot.history.queries import team_name_history
+    _stats_league()
+    hist = ("season,manager,team,finish,draft_pick\n"
+            "2022,Josh,Old Name,1,1\n2023,Josh,Surfer,1,1\n")
+    save_history(GUILD, parse_history_csv(hist)[0])
+    assert team_name_history(GUILD, "manual:josh") == [
+        ("Old Name", 2022, 2022), ("Surfer", 2023, 2025)]
+
+
+def test_draft_feed_picks_and_notes(two_seasons):
+    from harambot.database.history_models import DraftPick
+    from harambot.history import draft_feed
+    _manual_2024_only()
+    DraftPick.create(guild_id=str(GUILD), season=2023, round=2, pick=1,
+                     manager_guid="manual:mgr3", manager_name="Mgr3",
+                     player="Paul George")
+    DraftPick.create(guild_id=str(GUILD), season=2024, round=1, pick=5,
+                     manager_guid="manual:mgr3", manager_name="Mgr3",
+                     player="Paul George")
+    DraftPick.create(guild_id=str(GUILD), season=2024, round=4, pick=1,
+                     manager_guid="manual:mgr5", manager_name="Mgr5",
+                     player="Jokic")
+    league = two_seasons
+    league.yhandler.seasons["2.l.1"]["settings"]["draft_status"] = "inprogress"
+    league.draft_results = lambda: [
+        {"pick": 1, "round": 1, "team_key": "k.t.3", "player_id": 7},
+        {"pick": 2, "round": 1, "team_key": "k.t.1", "player_id": 8},
+        {"pick": 3, "round": 1, "team_key": "k.t.2"},   # on the clock
+    ]
+    league.teams = lambda: {}
+    league.player_details = lambda ids: [
+        {"player_id": "7", "name": {"full": "Paul George"},
+         "editorial_team_abbr": "PHI", "display_position": "SF"},
+        {"player_id": "8", "name": {"full": "Jokic"},
+         "editorial_team_abbr": "DEN", "display_position": "C"}]
+    sync_league_history(GUILD, league)   # teams for 2025
+    season, picks, finished = draft_feed.new_picks(GUILD, league, 0)
+    assert season == 2025 and not finished
+    assert [(p["overall"], p["manager_guid"]) for p in picks] == [
+        (1, "manual:mgr3"), (2, "manual:mgr1")]
+    _, again, _ = draft_feed.new_picks(GUILD, league, 2)
+    assert again == []
+    notes = draft_feed.pick_notes(GUILD, 2025, picks[0])
+    assert notes[0].startswith("❤️ Mgr3 has drafted Paul George 2 times")
+    notes = draft_feed.pick_notes(GUILD, 2025, picks[1])
+    assert notes == ["📜 Last year: Mgr5's round 4 pick, 3 rounds earlier "
+                     "this time"]
+    text = draft_feed.format_pick(picks[0], ["x"], "<@1>")
+    assert text.splitlines()[0] == "**━━ Round 1 ━━**"
+    assert "**#1** Mgr1" not in text and "takes **Paul George**" in text
+    draft_feed.save_pick(GUILD, 2025, picks[0])
+    assert DraftPick.select().where(DraftPick.season == 2025).count() == 1

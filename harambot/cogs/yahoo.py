@@ -106,60 +106,6 @@ class YahooCog(commands.Cog):
         else:
             await interaction.followup.send(self.error_message)
     
-    def check_trade_ratification(interaction: discord.Interaction):
-        return yahoo_api.get_settings(guild_id=interaction.guild_id)["trade_ratify_type"] == "none"
-
-    @app_commands.command(
-        name="trade",
-        description="Create poll for latest trade for league approval",
-    )
-    @app_commands.check(check_trade_ratification)
-    async def trade(self, interaction: discord.Interaction):
-        logger.info("Command:Trade called in %i", interaction.guild_id)
-        await interaction.response.defer()
-        latest_trade = yahoo_api.get_latest_trade(
-            guild_id=interaction.guild_id
-        )
-        if latest_trade is None:
-            await interaction.followup.send(
-                "No trades up for approval at this time"
-            )
-            return
-
-        trader = yahoo_api.league().to_team(latest_trade["trader_team_key"]).details()["name"]
-        tradee = yahoo_api.league().to_team(latest_trade["tradee_team_key"]).details()["name"]
-
-        trader_player_names = []
-        for player in latest_trade["trader_players"]:
-            if player:
-                trader_player_names.append(player["name"])
-
-        tradee_player_names = []
-        for player in latest_trade["tradee_players"]:
-            tradee_player_names.append(player["name"])
-
-        confirm_trade_message = "\n{} sends {} to {} for {}".format(
-            trader,
-            ", ".join(trader_player_names),
-            tradee,
-            ", ".join(tradee_player_names),
-        )
-        trade_poll = discord.Poll(
-                question="The following trade is up for approval:{}".format(confirm_trade_message),
-                duration=timedelta(hours=24),
-                )
-        trade_poll.add_answer(text="Yes")
-        trade_poll.add_answer(text="No")
-
-        await interaction.followup.send(poll=trade_poll)
-
-    @trade.error
-    async def trade_check_error(self, interaction: discord.Interaction, error):
-        if isinstance(error, app_commands.CheckFailure):
-            await interaction.followup.send(
-                "Trade command only available for leagues with vote or commissioner ratification"
-            )
-
     async def stats_autocomplete(
         self,
         interaction: discord.Interaction,

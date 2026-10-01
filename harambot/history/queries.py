@@ -76,10 +76,16 @@ def build_lottery_entrants(guild_id):
         )
     )
     entrants, problems = [], []
+    drawn = lottery_picks(guild_id).get(previous.season, {})
     for r in current_rows:
         # Same manager as last year, or a new manager who took over the
         # same team slot.
         prev = by_guid.get(r.manager_guid) or by_team_id.get(r.team_id)
+        if prev is not None and prev.draft_position is None \
+                and prev.manager_guid in drawn:
+            # Pick wasn't in the history file, but the bot's own lottery
+            # decided it.
+            prev.draft_position = drawn[prev.manager_guid]
         if prev is None or prev.draft_position is None:
             problems.append(
                 "No {} draft pick found for **{}** ({})".format(
@@ -336,3 +342,99 @@ def drafted_players(guild_id, search="", limit=25):
     if search:
         q = q.where(DraftPick.player.contains(search))
     return sorted(p.player for p in q)[:limit]
+
+
+def trades(guild_id, season=None, manager_guid=None, player=None,
+           partner_guid=None):
+    """Past trades, oldest first, optionally filtered."""
+    from harambot.database.history_models import Trade
+
+    q = Trade.select().where(Trade.guild_id == str(guild_id))
+    if season is not None:
+        q = q.where(Trade.season == season)
+    if manager_guid:
+        q = q.where((Trade.manager1_guid == manager_guid)
+                    | (Trade.manager2_guid == manager_guid))
+    if partner_guid:
+        q = q.where((Trade.manager1_guid == partner_guid)
+                    | (Trade.manager2_guid == partner_guid))
+    rows = list(q.order_by(Trade.season, Trade.seq))
+    if player:
+        want = player.lower()
+        rows = [t for t in rows
+                if any(want == p.lower()
+                       for p in trade_players(t))]
+    return rows
+
+
+def trade_players(t):
+    """Every player that moved in a trade."""
+    return [p.strip() for side in (t.manager1_gets, t.manager2_gets)
+            for p in side.split(" + ") if p.strip()]
+
+
+def traded_players(guild_id, search="", limit=25):
+    """Distinct traded player names containing ``search``."""
+    names = set()
+    for t in trades(guild_id):
+        names.update(trade_players(t))
+    search = search.lower()
+    return sorted(n for n in names if search in n.lower())[:limit]
+
+
+def trade_summary(guild_id, manager_guid):
+    """(accepted trades, favourite partner (guid, name, count) or None)."""
+    partners, names, count = {}, {}, 0
+    for t in trades(guild_id, manager_guid=manager_guid):
+        if t.status != "accepted":
+            continue
+        count += 1
+        if t.manager1_guid == manager_guid:
+            other, name = t.manager2_guid, t.manager2_name
+        else:
+            other, name = t.manager1_guid, t.manager1_name
+        partners[other] = partners.get(other, 0) + 1
+        names[other] = name
+    if not partners:
+        return count, None
+    best = max(partners, key=lambda g: partners[g])
+    return count, (best, names[best], partners[best])
+
+
+def lottery_picks(guild_id):
+    """{season: {manager_guid: pick}} from the most recent real lottery
+    run for each season."""
+    import json
+
+    from harambot.database.history_models import DraftLottery
+
+    out = {}
+    for row in (DraftLottery.select()
+                .where(DraftLottery.guild_id == str(guild_id))
+                .order_by(DraftLottery.run_at)):
+        try:
+            order = json.loads(row.results)
+        except ValueError:
+            continue
+        out[row.season] = {e["manager_guid"]: e["pick"] for e in order
+                           if "manager_guid" in e and "pick" in e}
+    return out
+
+
+def team_name_history(guild_id, manager_guid):
+    """[(team name, first season, last season)] in order, merging seasons in
+    a row with the same name."""
+    rows = (ManagerSeason.select()
+            .where((ManagerSeason.guild_id == str(guild_id))
+                   & (ManagerSeason.manager_guid == manager_guid))
+            .order_by(ManagerSeason.season))
+    out = []
+    for r in rows:
+        name = (r.team_name or "").strip()
+        if not name:
+            continue
+        if out and out[-1][0] == name:
+            out[-1][2] = r.season
+        else:
+            out.append([name, r.season, r.season])
+    return [tuple(x) for x in out]

@@ -43,15 +43,15 @@ bot.remove_command("help")
 
 @bot.event
 async def on_ready():
+    if not Guild.table_exists():
+        Guild.create_table()
+    create_history_tables()
+
     await bot.add_cog(Meta(bot))
     await bot.add_cog(YahooCog(bot))
     await bot.add_cog(HistoryCog(bot))
     server = WebServer(bot)
     bot.loop.create_task(server.webserver())
-
-    if not Guild.table_exists():
-        Guild.create_table()
-    create_history_tables()
     if "RUN_MIGRATIONS" in settings and settings.run_migrations:
         migrations[settings.version]()
     await bot.tree.sync()
