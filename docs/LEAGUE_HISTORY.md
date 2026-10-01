@@ -31,7 +31,7 @@ yours is approved, you can type in your league history yourself so
 `/trophycase` and `/draftlottery` still work. (Weekly `/records` need
 Yahoo.)
 
-1. Make `league_history.csv` in the bot's folder, using
+1. Make `data/league_history.csv` (the `data` folder sits next to `harambot/`), using
    `docs/league_history_template.csv` as the pattern. One row per manager
    per season:
 
@@ -49,12 +49,12 @@ Yahoo.)
    | `badge` | trophy case | Emoji shown next to that season's trophy, e.g. `🪠`. One row per season is enough |
 
 2. In Discord, run **`/history import`** (admins). Leave `file` empty to
-   load `league_history.csv` from the bot's folder, or attach a CSV.
+   load every CSV in the `data` folder, or attach a CSV.
    If anything's wrong, nothing is saved and the bot lists what to fix.
 3. Check `/trophycase` and `/draftlottery odds`.
 
 **Weekly matchups (optional).** For `/hallofshame`'s 9-0 sweeps, add
-`league_matchups.csv` next to `league_history.csv`, one row per matchup:
+`league_matchups.csv` to the `data` folder, one row per matchup:
 `season,week,manager1,team1,score1,manager2,team2,score2,is_playoffs`
 (scores are categories won; `is_playoffs` is 1 for playoff weeks). `/history import` loads it too when it's there. Manager
 names must match `league_history.csv`.

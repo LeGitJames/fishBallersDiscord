@@ -87,6 +87,8 @@ STAT_CHOICES = [
     app_commands.Choice(name=name, value=stat_id)
     for stat_id, name in NBA_STATS.items()
 ]
+# League history CSVs live in this folder (relative to where the bot runs).
+DATA_DIR = "data"
 LOCAL_HISTORY_FILE = "league_history.csv"
 LOCAL_MATCHUPS_FILE = "league_matchups.csv"
 LOCAL_DRAFTS_FILE = "league_drafts.csv"
@@ -108,6 +110,16 @@ EXTRA_FILES = [
     ("Yahoo names", LOCAL_MANAGERS_FILE, looks_like_managers,
      parse_managers_csv, save_managers),
 ]
+
+
+def _data_path(name):
+    """Where a history CSV is: the data folder, or the project root for
+    setups from before the files moved."""
+    path = os.path.join(os.getcwd(), DATA_DIR, name)
+    old = os.path.join(os.getcwd(), name)
+    if not os.path.exists(path) and os.path.exists(old):
+        return old
+    return path
 
 
 def _decode(data):
@@ -378,7 +390,7 @@ class HistoryCog(commands.Cog):
         if not entries:
             await interaction.response.send_message(
                 "No category records saved yet. An admin needs to add "
-                "league_records.csv and run `/history import`."
+                "data/league_records.csv and run `/history import`."
             )
             return
         # "best" for TO means fewest; "worst" means most
@@ -503,7 +515,8 @@ class HistoryCog(commands.Cog):
             )
         if not embed.fields:
             embed.description = (
-                "No streaks yet. An admin needs to add league_matchups.csv "
+                "No streaks yet. An admin needs to add "
+                "data/league_matchups.csv "
                 "and run `/history import`."
             )
         embed.set_footer(text="Streaks run within a season, playoffs "
@@ -1791,7 +1804,7 @@ class HistoryCog(commands.Cog):
                                  dict.fromkeys(unmatched))[:900]
                 + "\nIf any of these is an existing manager, add a line "
                 "to `{}` (`yahoo_name,manager`), run `/history import`, "
-                "then sync again.".format(LOCAL_MANAGERS_FILE),
+                "then sync again.".format(DATA_DIR + "/" + LOCAL_MANAGERS_FILE),
                 inline=False,
             )
         embed.add_field(
@@ -1808,8 +1821,8 @@ class HistoryCog(commands.Cog):
         description="Load league history from a CSV file (no Yahoo needed)",
     )
     @app_commands.describe(
-        file="CSV file to load. Leave empty to use league_history.csv in "
-        "the bot's folder"
+        file="CSV file to load. Leave empty to load every file in the "
+        "data folder"
     )
     async def history_import(
         self,
@@ -1829,17 +1842,17 @@ class HistoryCog(commands.Cog):
                     text = None
                     break
         else:
-            path = os.path.join(os.getcwd(), LOCAL_HISTORY_FILE)
+            path = _data_path(LOCAL_HISTORY_FILE)
             if not os.path.exists(path):
                 await interaction.followup.send(
-                    "No file attached, and there's no {} in the bot's "
-                    "folder.".format(LOCAL_HISTORY_FILE)
+                    "No file attached, and there's no {}/{} in the bot's "
+                    "folder.".format(DATA_DIR, LOCAL_HISTORY_FILE)
                 )
                 return
             with open(path, "rb") as f:
                 text = _decode(f.read())
             for label, name, _, parser, saver in EXTRA_FILES:
-                extra_path = os.path.join(os.getcwd(), name)
+                extra_path = _data_path(name)
                 if os.path.exists(extra_path):
                     with open(extra_path, "rb") as f:
                         extras.append((label, _decode(f.read()), parser,

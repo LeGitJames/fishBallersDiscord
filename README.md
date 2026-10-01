@@ -71,7 +71,7 @@ Type `/help` in Discord for the same list, grouped.
 
 ## League history data
 
-The history lives in CSV files in the project root. `/history import` loads them all:
+The history lives in CSV files in the `data/` folder. `/history import` loads them all:
 
 | File | What's in it |
 | --- | --- |
