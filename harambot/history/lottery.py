@@ -45,6 +45,9 @@ def draw(entrants, rng=None):
             if ticket < running:
                 chosen = hopper.pop(i)
                 chosen["pick"] = len(order) + 1
+                # Recorded for /draftlottery breakdown
+                chosen["ball"] = ticket + 1
+                chosen["hopper"] = total
                 order.append(chosen)
                 break
     return order
@@ -99,3 +102,41 @@ def reveal_script(order, delay):
             reveal = "🎉 " + reveal + " 🎉"
         steps.append((long_pause, reveal))
     return steps
+
+
+def breakdown(order, sims=20000, rng=None):
+    """Explain a finished draw from its saved order (which has each
+    entrant's balls). Returns one dict per pick with the balls left in the
+    hopper, that pick's chance, the expected pick and the difference, plus
+    the odds of the exact order."""
+    import random as _random
+
+    rng = rng or _random.Random(0)
+    order = sorted(order, key=lambda e: e["pick"])
+    remaining = sum(e["balls"] for e in order)
+    steps, exact = [], 1.0
+    for e in order:
+        chance = e["balls"] / remaining
+        exact *= chance
+        steps.append(dict(e, left=remaining, chance=chance))
+        remaining -= e["balls"]
+
+    totals = {i: 0 for i in range(len(order))}
+    for _ in range(sims):
+        hopper = list(range(len(order)))
+        pick = 1
+        while hopper:
+            total = sum(order[i]["balls"] for i in hopper)
+            ticket = rng.randrange(total)
+            running = 0
+            for j, i in enumerate(hopper):
+                running += order[i]["balls"]
+                if ticket < running:
+                    totals[i] += pick
+                    hopper.pop(j)
+                    break
+            pick += 1
+    for i, step in enumerate(steps):
+        step["expected"] = totals[i] / sims
+        step["diff"] = step["expected"] - step["pick"]  # + = luckier
+    return {"steps": steps, "exact_odds": exact}
