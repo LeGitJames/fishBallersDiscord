@@ -153,3 +153,99 @@ def first_round_order(draft_results, team_key_to_guid):
         if guid and guid not in order:
             order[guid] = int(pick["pick"])
     return order
+
+
+def parse_matchup_results(raw):
+    """One dict per completed matchup in a raw ``/scoreboard`` response:
+    week, is_playoffs (playoff or consolation game), the two team keys and
+    names, and how many categories each team won."""
+    league = raw["fantasy_content"]["league"]
+    matchups = league[1]["scoreboard"]["0"]["matchups"]
+    out = []
+    for m in _numbered(matchups):
+        matchup = m["matchup"]
+        if matchup.get("status") != "postevent":
+            continue
+        teams = []
+        for t in _numbered(matchup["0"]["teams"]):
+            meta = _merge_team_meta(t["team"][0])
+            teams.append((meta["team_key"], meta.get("name", "")))
+        if len(teams) != 2:
+            continue
+        wins = {key: 0 for key, _ in teams}
+        for w in matchup.get("stat_winners") or []:
+            winner = (w.get("stat_winner") or {}).get("winner_team_key")
+            if winner in wins:
+                wins[winner] += 1
+        out.append({
+            "week": int(matchup["week"]),
+            "is_playoffs": str(matchup.get("is_playoffs", "0")) == "1"
+            or str(matchup.get("is_consolation", "0")) == "1",
+            "teams": teams,
+            "wins": wins,
+        })
+    return out
+
+
+def _transaction_data(player_entry):
+    """The transaction_data dict from one player in a transaction."""
+    parts = player_entry if isinstance(player_entry, list) else [player_entry]
+    for part in parts:
+        if isinstance(part, dict) and "transaction_data" in part:
+            data = part["transaction_data"]
+            if isinstance(data, list):
+                data = data[0] if data else {}
+            return data
+    return {}
+
+
+def _player_name(player_entry):
+    meta = player_entry[0] if isinstance(player_entry, list) else []
+    if isinstance(meta, dict):
+        meta = [meta]
+    for part in meta:
+        if isinstance(part, dict) and "name" in part:
+            name = part["name"]
+            return name.get("full") if isinstance(name, dict) else name
+    return None
+
+
+def parse_trade(t):
+    """Normalise one trade from ``League.transactions("trade", "")``.
+
+    Returns {key, timestamp, status, teams: [(team_key, team_name), ...],
+    gets: {team_key: [player names]}} or None if it isn't a trade."""
+    if t.get("type") not in (None, "trade"):
+        return None
+    gets, names = {}, {}
+    players = t.get("players") or {}
+    for p in _numbered(players) if isinstance(players, dict) else players:
+        entry = p.get("player") if isinstance(p, dict) else None
+        if entry is None:
+            continue
+        data = _transaction_data(entry)
+        dest = data.get("destination_team_key")
+        name = _player_name(entry)
+        if not dest or not name:
+            continue
+        names[dest] = data.get("destination_team_name") or names.get(dest)
+        src = data.get("source_team_key")
+        if src:
+            names.setdefault(src, data.get("source_team_name"))
+        gets.setdefault(dest, []).append(name)
+    trader = t.get("trader_team_key")
+    tradee = t.get("tradee_team_key")
+    if trader:
+        names.setdefault(trader, t.get("trader_team_name"))
+    if tradee:
+        names.setdefault(tradee, t.get("tradee_team_name"))
+    keys = [k for k in (trader, tradee) if k] or list(names)
+    if len(keys) < 2:
+        return None
+    return {
+        "key": t.get("transaction_key"),
+        "timestamp": int(t.get("timestamp") or 0),
+        "status": t.get("status", "successful"),
+        "teams": [(k, names.get(k) or "") for k in keys[:2]],
+        "gets": {k: gets.get(k, []) for k in keys[:2]},
+    }
