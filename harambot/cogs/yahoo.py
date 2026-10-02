@@ -19,7 +19,8 @@ yahoo_api = Yahoo()
 class YahooCog(commands.Cog):
 
     error_message = (
-        "I'm having trouble getting that right now please try again later"
+        "⚠️ Couldn't get that from Yahoo right now. Try again in a bit; if "
+        "it keeps happening, an admin may need to run `/configure` again."
     )
     
 
@@ -34,7 +35,11 @@ class YahooCog(commands.Cog):
     async def standings(self, interaction: discord.Interaction):
         logger.info("Command:Standings called in %i", interaction.guild_id)
         await interaction.response.defer()
-        scoring_type = yahoo_api.get_settings(guild_id=interaction.guild_id)["scoring_type"]
+        settings = yahoo_api.get_settings(guild_id=interaction.guild_id)
+        if not settings:
+            await interaction.followup.send(self.error_message)
+            return
+        scoring_type = settings.get("scoring_type")
         embed = discord.Embed(
             title="Standings",
             description="W-L-T" if scoring_type == "head" else "Team \nPoints For - Points Change",
@@ -87,7 +92,10 @@ class YahooCog(commands.Cog):
             color=0xEEE657,
         )
         settings = yahoo_api.get_settings(guild_id=interaction.guild_id)
-        if "draft_status" in settings and settings["draft_status"] == "predraft":
+        if not settings:
+            await interaction.followup.send(self.error_message)
+            return
+        if settings.get("draft_status") == "predraft":
             await interaction.followup.send("Rosters not available yet")
             return
         roster = yahoo_api.get_roster(
@@ -165,7 +173,11 @@ class YahooCog(commands.Cog):
             )
         )
         await interaction.response.defer()
-        if yahoo_api.get_settings(guild_id=interaction.guild_id)["draft_status"] == "predraft":
+        settings = yahoo_api.get_settings(guild_id=interaction.guild_id)
+        if not settings:
+            await interaction.followup.send(self.error_message)
+            return
+        if settings.get("draft_status") == "predraft":
             await interaction.followup.send("Matchups not available yet")
             return
         week, details = yahoo_api.get_matchups(

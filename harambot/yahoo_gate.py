@@ -6,6 +6,8 @@ failing. Everything else (trophy case, draft lottery, imports) still works.
 Remove the line, or set it to true, once Yahoo approves access.
 """
 
+import logging
+
 import discord
 from discord import app_commands
 
@@ -24,6 +26,13 @@ YAHOO_COMMANDS = {
     "reports",
     "history sync",
 }
+
+logger = logging.getLogger("discord.harambot.errors")
+
+ERROR_MESSAGE = (
+    "⚠️ Something went wrong running that command. It's been logged; try "
+    "again in a bit."
+)
 
 WAITING_MESSAGE = (
     "⏳ This one needs the Yahoo Fantasy API, and we're still waiting on "
@@ -52,3 +61,23 @@ class FishBallersTree(app_commands.CommandTree):
             )
         # Autocomplete requests are just dropped quietly.
         return False
+
+    async def on_error(self, interaction: discord.Interaction, error):
+        """Any command that crashes still gets a reply instead of Discord's
+        "The application did not respond"."""
+        if isinstance(error, app_commands.CheckFailure):
+            return  # already answered (Yahoo gate, permission checks)
+        cog = getattr(interaction.command, "binding", None)
+        if cog is not None and "cog_app_command_error" in type(cog).__dict__:
+            return  # that cog replies to its own errors
+        name = interaction.command.qualified_name if interaction.command \
+            else "?"
+        logger.error("Command /%s failed", name, exc_info=error)
+        try:
+            if interaction.response.is_done():
+                await interaction.followup.send(ERROR_MESSAGE, ephemeral=True)
+            else:
+                await interaction.response.send_message(ERROR_MESSAGE,
+                                                        ephemeral=True)
+        except discord.HTTPException:
+            pass
