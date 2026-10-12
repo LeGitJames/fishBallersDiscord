@@ -32,7 +32,7 @@ class YahooCog(commands.Cog):
 
     @app_commands.command(
         name="standings",
-        description="Returns the current standings of your league",
+        description="Current league standings",
     )
     async def standings(self, interaction: discord.Interaction):
         logger.info("Command:Standings called in %i", interaction.guild_id)
@@ -65,23 +65,34 @@ class YahooCog(commands.Cog):
         current: str,
     ) -> List[app_commands.Choice[str]]:
         teams = yahoo_api.get_teams(guild_id=interaction.guild_id)
-        if teams:
-            options = list(
-                map(
-                    lambda x: app_commands.Choice(
-                        name=teams[x]["name"], value=teams[x]["name"]
-                    ),
-                    teams,
-                )
-            )
-            return options
-        return []
+        if not teams:
+            return []
+        try:
+            settings = yahoo_api.get_settings(guild_id=interaction.guild_id)
+            season = int(settings["season"]) if settings else None
+            who = managers_for_teams(
+                interaction.guild_id, season,
+                [(key, t["name"]) for key, t in teams.items()])
+        except Exception:
+            who = {}
+        current = current.lower()
+        options = []
+        for key, t in teams.items():
+            label = t["name"]
+            if key in who:
+                label = "{} ({})".format(t["name"], who[key][1])
+            if current in label.lower():
+                options.append(app_commands.Choice(
+                    name=label[:100], value=t["name"][:100]))
+        return options[:25]
 
     @app_commands.command(
-        name="roster", description="Returns the roster of the given team"
+        name="roster", description="A team's current roster"
     )
-    @app_commands.autocomplete(team_name=roster_autocomplete)
-    async def roster(self, interaction: discord.Interaction, team_name: str):
+    @app_commands.describe(team="Team (shown with its manager)")
+    @app_commands.autocomplete(team=roster_autocomplete)
+    async def roster(self, interaction: discord.Interaction, team: str):
+        team_name = team
         logger.info(
             "Command:Roster called in %i with team_name:%s",
             interaction.guild_id,
@@ -139,15 +150,20 @@ class YahooCog(commands.Cog):
         return options
 
     @app_commands.command(
-        name="stats", description="Returns the details of the given player"
+        name="stats", description="A player's details and stats"
     )
-    @app_commands.autocomplete(player_name=stats_autocomplete)
+    @app_commands.describe(
+        player="Start typing a player's name",
+        week="Stats for one week (default: the season so far)",
+    )
+    @app_commands.autocomplete(player=stats_autocomplete)
     async def stats(
         self,
         interaction: discord.Interaction,
-        player_name: str,
-        week: Optional[int] = None,
+        player: str,
+        week: Optional[app_commands.Range[int, 1, 30]] = None,
     ):
+        player_name = player
         logger.info(
             "Command:Stats called in %i with player_name:%s",
             interaction.guild_id,
@@ -164,10 +180,13 @@ class YahooCog(commands.Cog):
             await interaction.followup.send("Player not found")
 
     @app_commands.command(
-        name="matchups", description="Returns the current weeks matchups"
+        name="matchups",
+        description="This week's matchups, with head-to-head history",
     )
+    @app_commands.describe(week="Which week (default: this week)")
     async def matchups(
-        self, interaction: discord.Interaction, week: Optional[int] = None
+        self, interaction: discord.Interaction,
+        week: Optional[app_commands.Range[int, 1, 30]] = None,
     ):
         logger.info(
             "Command:Matchups called in {} with week: {}".format(
@@ -230,9 +249,13 @@ class YahooCog(commands.Cog):
 
     @app_commands.command(
         name="waivers",
-        description="Returns the waiver transactions from the last 24 hours",
+        description="Recent adds and drops",
     )
-    async def waivers(self, interaction: discord.Interaction, days: int = 1):
+    @app_commands.describe(days="How many days back (default 1)")
+    async def waivers(
+        self, interaction: discord.Interaction,
+        days: app_commands.Range[int, 1, 30] = 1,
+    ):
         logger.info("Command:Waivers called in %i", interaction.guild_id)
 
         await interaction.response.defer()

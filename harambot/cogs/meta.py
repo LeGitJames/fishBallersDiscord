@@ -39,10 +39,10 @@ HELP_SECTIONS = [
     ]),
     ("📊 This season", [
         ("/standings", "Current standings"),
-        ("/matchups", "This week's matchups, with head-to-head history"),
-        ("/roster team_name", "A team's roster"),
-        ("/stats player_name", "A player's details"),
-        ("/waivers days", "Recent waiver moves"),
+        ("/matchups [week]", "This week's matchups, with head-to-head history"),
+        ("/roster team", "A team's roster"),
+        ("/stats player [week]", "A player's details and stats"),
+        ("/waivers [days]", "Recent adds and drops"),
     ]),
     ("🔧 Setup (admins)", [
         ("/history import", "Load league history from the CSV files"),
