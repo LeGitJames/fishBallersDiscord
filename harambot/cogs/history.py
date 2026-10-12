@@ -180,6 +180,8 @@ class HistoryCog(commands.Cog):
         self._lottery_running = set()
         # guild -> when this season's trades were last pulled from Yahoo
         self._trades_checked = {}
+        # draft feed id -> Yahoo connection, teams and backoff state
+        self._feeds = {}
 
     async def cog_load(self):
         self.draft_feed_loop.start()
@@ -848,7 +850,7 @@ class HistoryCog(commands.Cog):
                 else "from pick #1")
         await interaction.followup.send(
             "🎙️ Live draft feed is on in {}. Picks will appear {}, within "
-            "about 20 seconds of being made. `/draftfeed stop` to turn it "
+            "a few seconds of being made. `/draftfeed stop` to turn it "
             "off.".format(target.mention, when))
 
     @draftfeed.command(name="stop", description="Turn the live draft feed off")
@@ -860,36 +862,71 @@ class HistoryCog(commands.Cog):
             "Draft feed stopped." if n else "The draft feed wasn't on.",
             ephemeral=True)
 
-    @tasks.loop(seconds=20)
+    # How the live draft feed talks to Yahoo. Every check is a single
+    # "draft results" call; teams and settings are loaded once per draft.
+    FEED_INTERVAL = 5          # seconds between checks
+    FEED_STATUS_EVERY = 60     # how often to ask whether the draft is over
+    FEED_REBUILD_EVERY = 1800  # refresh the Yahoo connection every 30 min
+    FEED_MAX_BACKOFF = 120     # slowest it goes when Yahoo pushes back
+
+    @tasks.loop(seconds=FEED_INTERVAL)
     async def draft_feed_loop(self):
         if not yahoo_enabled():
             return
-        for feed in list(DraftFeed.select().where(
-                DraftFeed.active == True)):  # noqa: E712
+        feeds = list(DraftFeed.select().where(
+            DraftFeed.active == True))  # noqa: E712
+        live = {f.id for f in feeds}
+        for key in [k for k in self._feeds if k not in live]:
+            del self._feeds[key]
+        for feed in feeds:
+            state = self._feeds.setdefault(feed.id, {
+                "league": None, "built": 0, "status": None,
+                "status_at": 0, "wait_until": 0, "fails": 0})
+            if time.monotonic() < state["wait_until"]:
+                continue
             try:
-                await self._run_draft_feed(feed)
-            except Exception:
-                logger.exception("Draft feed failed for %s", feed.guild_id)
+                await self._run_draft_feed(feed, state)
+                state["fails"] = 0
+            except Exception as e:
+                # Yahoo hiccup or rate limit: back off 10s, 20s, 40s ...
+                # up to 2 minutes, then speed back up once it works.
+                state["fails"] += 1
+                wait = min(self.FEED_INTERVAL * 2 ** state["fails"],
+                           self.FEED_MAX_BACKOFF)
+                state["wait_until"] = time.monotonic() + wait
+                state["league"] = None  # reconnect next time
+                logger.warning("Draft feed for %s failed (%s); retrying in "
+                               "%ss", feed.guild_id, e, wait)
 
     @draft_feed_loop.before_loop
     async def _before_draft_feed(self):
         await self.bot.wait_until_ready()
 
-    async def _run_draft_feed(self, feed):
+    async def _run_draft_feed(self, feed, state):
         guild_id = int(feed.guild_id)
         channel = self.bot.get_channel(int(feed.channel_id))
         if channel is None:
             channel = await self.bot.fetch_channel(int(feed.channel_id))
 
         def work():
-            league = self.yahoo.get_current_league(guild_id=guild_id)
-            if league is None:
-                return None
-            return draft_feed.new_picks(guild_id, league, feed.last_pick)
-        result = await asyncio.to_thread(work)
-        if result is None:
-            return
-        season, picks, finished = result
+            now = time.monotonic()
+            if state["league"] is None or \
+                    now - state["built"] > self.FEED_REBUILD_EVERY:
+                league = self.yahoo.get_current_league(guild_id=guild_id)
+                if league is None:
+                    raise RuntimeError("couldn't connect to Yahoo")
+                season, status, teams = draft_feed.prepare(guild_id, league)
+                state.update(league=league, season=season, teams=teams,
+                             status=status, status_at=now, built=now)
+            picks = draft_feed.picks_since(state["league"], feed.last_pick,
+                                           state["teams"])
+            if not picks and now - state["status_at"] > \
+                    self.FEED_STATUS_EVERY:
+                state["status"] = draft_feed.draft_status(state["league"])
+                state["status_at"] = now
+            return picks
+        picks = await asyncio.to_thread(work)
+        season = state["season"]
         links = discord_links(guild_id)
         for pick in picks:
             notes = await asyncio.to_thread(
@@ -903,7 +940,7 @@ class HistoryCog(commands.Cog):
             feed.last_pick = pick["overall"]
             feed.season = season
             feed.save()
-        if finished and not picks:
+        if state["status"] == "postdraft" and not picks:
             feed.active = False
             feed.save()
             await channel.send(

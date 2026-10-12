@@ -39,7 +39,7 @@ HELP_SECTIONS = [
     ]),
     ("📊 This season", [
         ("/standings", "Current standings"),
-        ("/matchups", "This week's matchups"),
+        ("/matchups", "This week's matchups, with head-to-head history"),
         ("/roster team_name", "A team's roster"),
         ("/stats player_name", "A player's details"),
         ("/waivers days", "Recent waiver moves"),

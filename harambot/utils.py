@@ -36,7 +36,8 @@ def yahoo_auth(code):
     )
     if response.status_code != 200:
         logger.error(
-            "Failed to authenticate with Yahoo API: {}".format(response.json)
+            "Failed to authenticate with Yahoo API: {} {}".format(
+                response.status_code, response.text)
         )
         return {}
     details = response.json()

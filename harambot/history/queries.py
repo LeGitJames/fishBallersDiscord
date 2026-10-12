@@ -438,3 +438,29 @@ def team_name_history(guild_id, manager_guid):
         else:
             out.append([name, r.season, r.season])
     return [tuple(x) for x in out]
+
+
+def managers_for_teams(guild_id, season, teams):
+    """Map Yahoo teams to league managers: {team_key: (guid, name)}.
+
+    ``teams`` is [(team_key, team_name)]. Uses the synced season when
+    there is one, otherwise matches by team name (and league_managers.csv
+    names). Teams it can't place are left out."""
+    from harambot.history.sync import ManagerResolver
+
+    guild_id = str(guild_id)
+    synced = {r.team_key: (r.manager_guid, r.manager_name)
+              for r in ManagerSeason.select().where(
+                  (ManagerSeason.guild_id == guild_id)
+                  & (ManagerSeason.season == season))}
+    who = ManagerResolver(guild_id)
+    out = {}
+    for key, name in teams:
+        if key in synced:
+            out[key] = synced[key]
+        elif who.active:
+            n = (name or "").strip().lower()
+            hit = who.by_name.get(n) or who.by_team.get(n)
+            if hit:
+                out[key] = hit
+    return out

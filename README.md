@@ -47,7 +47,7 @@ Type `/help` in Discord for the same list, grouped.
 | Command | What it does |
 | --- | --- |
 | `/standings` | Current standings |
-| `/matchups [week]` | This week's (or any week's) matchups |
+| `/matchups [week]` | This week's (or any week's) matchups, each with the two managers' history: all-time record, last meeting, streaks, nemesis and 9-0 sweeps (plus lottery draft slots early in the season) |
 | `/roster team_name` | A team's roster |
 | `/stats player_name [week]` | A player's details and stats |
 | `/waivers [days]` | Waiver moves from the last few days |

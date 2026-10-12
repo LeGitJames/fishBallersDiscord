@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 
 from harambot.yahoo_api import Yahoo
 from harambot import utils
+from harambot.history import stats
+from harambot.history.queries import managers_for_teams
 
 logging.setLoggerClass(logging.Logger)
 logging.getLogger("yahoo_oauth").setLevel("INFO")
@@ -180,23 +182,51 @@ class YahooCog(commands.Cog):
         if settings.get("draft_status") == "predraft":
             await interaction.followup.send("Matchups not available yet")
             return
-        week, details = yahoo_api.get_matchups(
+        result = yahoo_api.get_matchups(
             guild_id=interaction.guild_id, week=week
         )
-            
+        week, details = result if result else (week, None)
+
         if details:
             embed = discord.Embed(
                 title="Matchups for Week {}".format(week),
                 description="",
                 color=0xEEE657,
             )
-            for detail in details:
+            history = self._matchup_history(
+                interaction.guild_id, settings, week, details)
+            for i, detail in enumerate(details):
+                value = detail["value"]
+                if history.get(i):
+                    value = value.rstrip("-\n ") + "\n" + \
+                        "\n".join(history[i]) + "\n" + "-" * 38
                 embed.add_field(
-                    name=detail["name"], value=detail["value"], inline=False
+                    name=detail["name"], value=value[:1024], inline=False
                 )
             await interaction.followup.send(embed=embed)
         else:
             await interaction.followup.send(self.error_message)
+
+    @staticmethod
+    def _matchup_history(guild_id, settings, week, details):
+        """{matchup index: [history lines]} from the league history. Never
+        lets a history problem break /matchups."""
+        try:
+            season = int(settings.get("season"))
+            week = int(week) if week else None
+            teams = [t for d in details for t in d.get("teams", [])]
+            who = managers_for_teams(guild_id, season, teams)
+            out = {}
+            for i, d in enumerate(details):
+                (k1, n1), (k2, n2) = d["teams"]
+                if k1 in who and k2 in who:
+                    (g1, m1), (g2, m2) = who[k1], who[k2]
+                    out[i] = stats.matchup_preview(
+                        guild_id, g1, m1, g2, m2, season, week)
+            return out
+        except Exception:
+            logger.exception("Couldn't add matchup history")
+            return {}
 
     @app_commands.command(
         name="waivers",

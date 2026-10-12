@@ -1,8 +1,9 @@
 """Live draft feed: turn new Yahoo draft picks into chat lines, with a bit
 of league history mixed in.
 
-``new_picks`` does the Yahoo calls (run it in a thread); ``pick_notes`` and
-``format_pick`` only read the database, so they can be unit tested.
+``prepare`` (once per draft) and ``picks_since`` (every few seconds) do the
+Yahoo calls, so run them in a thread; ``pick_notes`` and ``format_pick``
+only read the database, so they can be unit tested.
 """
 
 import logging
@@ -15,20 +16,33 @@ from harambot.history.sync import ManagerResolver, _team_lookup
 logger = logging.getLogger("discord.harambot.history.draft_feed")
 
 
-def new_picks(guild_id, league, after):
-    """Picks made since overall pick ``after``.
-
-    Returns (season, picks, finished) where each pick is a dict with
-    overall, round, pick (within the round), manager_guid, manager_name,
-    team_name, player, position, nba_team."""
+def prepare(guild_id, league):
+    """One-off setup for a feed: (season, draft_status, teams), where teams
+    maps team_key -> (manager_guid, manager_name, team_name)."""
     settings = league.settings()
     season = int(settings["season"])
+    who = ManagerResolver(guild_id)
+    teams = _team_lookup(guild_id, season, league, who)
+    who.save()
+    return season, settings.get("draft_status"), teams
+
+
+def draft_status(league):
+    return league.settings().get("draft_status")
+
+
+def picks_since(league, after, teams):
+    """Picks made since overall pick ``after``: one Yahoo call, plus a
+    player lookup only when there is something new.
+
+    Each pick is a dict with overall, round, pick (within the round),
+    manager_guid, manager_name, team_name, player, position, nba_team."""
     results = [p for p in (league.draft_results() or [])
                if p.get("player_id")]
     fresh = sorted((p for p in results if int(p["pick"]) > after),
                    key=lambda p: int(p["pick"]))
-    who = ManagerResolver(guild_id)
-    teams = _team_lookup(guild_id, season, league, who)
+    if not fresh:
+        return []
     num_teams = max(len(teams), 1)
     details = {}
     ids = [int(p["player_id"]) for p in fresh]
@@ -55,8 +69,13 @@ def new_picks(guild_id, league, after):
             "position": d.get("display_position", ""),
             "nba_team": d.get("editorial_team_abbr", ""),
         })
-    who.save()
-    return season, picks, settings.get("draft_status") == "postdraft"
+    return picks
+
+
+def new_picks(guild_id, league, after):
+    """prepare + picks_since in one go: (season, picks, finished)."""
+    season, status, teams = prepare(guild_id, league)
+    return season, picks_since(league, after, teams), status == "postdraft"
 
 
 def pick_notes(guild_id, season, pick):

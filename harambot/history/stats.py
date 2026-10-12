@@ -359,3 +359,75 @@ def season_recap(guild_id, season):
         "biggest_blowout": blowouts[0] if blowouts else None,
         "streaks": streaks, "first_pick": first_pick,
     }
+
+
+def matchup_preview(guild_id, a, a_name, b, b_name, season=None, week=None):
+    """A few lines of history for this week's matchup between managers
+    ``a`` and ``b`` (GUIDs). Empty list if neither is known."""
+    if not a or not b:
+        return []
+    lines = []
+    h = head_to_head(guild_id, a, b)
+    if h is None:
+        return ["🆕 First ever meeting"]
+    rec = h["overall"]
+    tie = "-{}".format(rec["t"]) if rec["t"] else ""
+    if rec["w"] > rec["l"]:
+        text = "{} leads {}-{}{}".format(a_name, rec["w"], rec["l"], tie)
+    elif rec["l"] > rec["w"]:
+        text = "{} leads {}-{}{}".format(b_name, rec["l"], rec["w"], tie)
+    else:
+        text = "All square at {}-{}{}".format(rec["w"], rec["l"], tie)
+    po = h["playoff_meetings"]
+    if po:
+        pw = sum(g["result"] == "W" for g in po)
+        pl = sum(g["result"] == "L" for g in po)
+        text += " · playoffs: {} {}-{}".format(
+            a_name if pw > pl else b_name, max(pw, pl), min(pw, pl)) \
+            if pw != pl else " · playoffs: {}-{}".format(pw, pl)
+    lines.append("📊 All-time: " + text)
+
+    last = h["games"][-1]
+    if last["result"] == "T":
+        res = "tied {}-{}".format(int(last["mine"]), int(last["theirs"]))
+    else:
+        winner = a_name if last["result"] == "W" else b_name
+        res = "{} won {}-{}".format(winner, int(max(last["mine"],
+                                                    last["theirs"])),
+                                    int(min(last["mine"], last["theirs"])))
+    lines.append("🕐 Last met: Wk {}, {}, {}".format(
+        last["week"], _label(last["season"]), res))
+
+    kind, n = h["streak"]
+    if n >= 3:
+        lines.append("🔥 {} has won the last {}".format(
+            a_name if kind == "W" else b_name, n))
+
+    for me, me_name, opp, opp_name in ((a, a_name, b, b_name),
+                                       (b, b_name, a, a_name)):
+        nem = opponents(guild_id, me)["nemesis"]
+        if nem and nem["opp"] == opp and nem["l"] > nem["w"]:
+            lines.append("😈 {} is {}'s nemesis".format(opp_name, me_name))
+
+    sweeps = [g for g in h["games"]
+              if max(g["mine"], g["theirs"]) == 9
+              and min(g["mine"], g["theirs"]) == 0]
+    if sweeps:
+        g = sweeps[-1]
+        winner, loser = (a_name, b_name) if g["result"] == "W" \
+            else (b_name, a_name)
+        lines.append("🧹 {} swept {} 9-0 in {}{}".format(
+            winner, loser, _label(g["season"]),
+            " ({} times)".format(len(sweeps)) if len(sweeps) > 1 else ""))
+
+    if season is not None and (week is None or week <= 3):
+        picks = lottery_picks(guild_id).get(season, {})
+        if a in picks and b in picks:
+            lines.append("🎱 Draft slots: {} #{} · {} #{}".format(
+                a_name, picks[a], b_name, picks[b]))
+    return lines
+
+
+def _label(season):
+    from harambot.history.queries import season_label
+    return season_label(season)

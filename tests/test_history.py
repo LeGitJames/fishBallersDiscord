@@ -951,3 +951,60 @@ def test_draft_feed_picks_and_notes(two_seasons):
     assert "**#1** Mgr1" not in text and "takes **Paul George**" in text
     draft_feed.save_pick(GUILD, 2025, picks[0])
     assert DraftPick.select().where(DraftPick.season == 2025).count() == 1
+
+
+def test_draft_feed_check_is_one_call_when_nothing_new():
+    from harambot.history import draft_feed
+    calls = []
+
+    class L:
+        def draft_results(self):
+            calls.append("draft_results")
+            return [{"pick": 1, "round": 1, "team_key": "k.t.1",
+                     "player_id": 5}]
+
+        def player_details(self, ids):
+            calls.append("player_details")
+            return [{"player_id": "5", "name": {"full": "Jokic"}}]
+    teams = {"k.t.1": ("manual:josh", "Josh", "Surfer")}
+    assert draft_feed.picks_since(L(), 1, teams) == []
+    assert calls == ["draft_results"]
+    picks = draft_feed.picks_since(L(), 0, teams)
+    assert [p["player"] for p in picks] == ["Jokic"]
+    assert calls == ["draft_results", "draft_results", "player_details"]
+
+
+def test_matchup_preview_and_team_mapping():
+    import datetime
+    import json as _json
+    from harambot.database.history_models import DraftLottery
+    from harambot.history import stats
+    from harambot.history.queries import managers_for_teams
+    _stats_league()
+    lines = stats.matchup_preview(GUILD, "manual:josh", "Josh",
+                                  "manual:liam", "Liam")
+    # Josh is 4-1 vs Liam overall, 1-0 in the playoffs, won the last 3
+    assert lines[0] == "📊 All-time: Josh leads 4-1 · playoffs: Josh 1-0"
+    assert lines[1] == "🕐 Last met: Wk 2, 2025-26, Josh won 7-1"
+    assert "🔥 Josh has won the last 3" in lines
+    assert any(line.startswith("🧹 Josh swept Liam 9-0 in 2024-25")
+               for line in lines)
+    assert stats.matchup_preview(GUILD, "manual:tom", "Tom",
+                                 "manual:nobody", "X") == [
+        "🆕 First ever meeting"]
+    assert stats.matchup_preview(GUILD, None, "?", "manual:tom", "Tom") == []
+    DraftLottery.create(guild_id=str(GUILD), season=2026, run_by="1",
+                        run_at=datetime.datetime(2026, 9, 1),
+                        results=_json.dumps([
+                            {"pick": 1, "manager_guid": "manual:liam"},
+                            {"pick": 2, "manager_guid": "manual:josh"}]))
+    lines = stats.matchup_preview(GUILD, "manual:josh", "Josh",
+                                  "manual:liam", "Liam", 2026, 1)
+    assert lines[-1] == "🎱 Draft slots: Josh #2 · Liam #1"
+    lines = stats.matchup_preview(GUILD, "manual:josh", "Josh",
+                                  "manual:liam", "Liam", 2026, 8)
+    assert not lines[-1].startswith("🎱")
+    # Yahoo teams -> managers by last season's team name
+    who = managers_for_teams(GUILD, 2026, [("k.t.1", "Surfer"),
+                                           ("k.t.2", "Renamed")])
+    assert who == {"k.t.1": ("manual:josh", "Josh")}

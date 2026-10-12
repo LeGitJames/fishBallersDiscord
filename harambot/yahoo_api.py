@@ -311,6 +311,12 @@ class Yahoo:
                         "value": team1_details["text"]
                         + team2_details["text"]
                         + divider,
+                        # (team_key, team_name) for each side, so history
+                        # can be added for the two managers.
+                        "teams": [
+                            (team1_details["key"], team1_details["name"]),
+                            (team2_details["key"], team2_details["name"]),
+                        ],
                     }
                 )
             return str(week), details
@@ -325,6 +331,8 @@ class Yahoo:
 
     def get_matchup_details(self, team):
         team_name = team[0][2]["name"]
+        team_key = next((m["team_key"] for m in team[0]
+                         if isinstance(m, dict) and "team_key" in m), None)
         team_details = "***{}*** \n".format(team_name)
 
         actual_points = team[1]["team_points"]["total"]
@@ -350,7 +358,7 @@ class Yahoo:
             team_details += "Live Games: {} \n".format(live_games)
             team_details += "Completed Games: {} \n".format(completed_games)
 
-        return {"name": team_name, "text": team_details}
+        return {"name": team_name, "key": team_key, "text": team_details}
 
     @cached(cache, key=functools.partial(keys.hashkey, "get_latest_trade"))
     @handle_oauth
