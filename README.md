@@ -34,6 +34,7 @@ Type `/help` in Discord for the same list, grouped.
 | `/draftlottery run [delay] [practice]` | Runs the lottery and reveals the order from last pick to first (admins). `practice:True` does a test run that isn't saved |
 | `/draftlottery results` | The most recent lottery result |
 | `/draftlottery breakdown` | How the last lottery played out: balls left at each pick, expected vs actual, luckiest and unluckiest |
+| `/drafttime` | When the draft is: in each viewer's own time zone, plus New Zealand, Melbourne, Brisbane, UK and Canada times and a countdown |
 | `/drafts [season] [rounds] [manager] [player]` | Past drafts: a season's first few rounds, a manager's picks, or every time a player was drafted |
 | `/favourites [manager]` | A manager's most-drafted players (or the league's biggest manager/player crushes) |
 | `/draftluck` | Does draft position matter? Luckiest and unluckiest lottery history, where champions picked |
@@ -116,9 +117,10 @@ YAHOO_SECRET=your-yahoo-client-secret
 DATABASE_URL=sqlite:///fishballers.db
 HARAMBOT_KEY=your-encryption-key
 YAHOO_ENABLED=false
+DRAFT_TIME=2026-10-15T07:00:00Z
 ```
 
-Set `YAHOO_ENABLED=false` while Yahoo API access isn't set up. Yahoo commands then reply with a "waiting on Yahoo" message instead of failing, and `/help` lists them separately. Remove the line (or set it to `true`) once Yahoo is ready.
+`DRAFT_TIME` (in UTC) is only used by `/drafttime` when Yahoo isn't connected; once it is, the time comes from the league settings. Set `YAHOO_ENABLED=false` while Yahoo API access isn't set up. Yahoo commands then reply with a "waiting on Yahoo" message instead of failing, and `/help` lists them separately. Remove the line (or set it to `true`) once Yahoo is ready.
 
 ### 3. Run it
 

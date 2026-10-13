@@ -1008,3 +1008,14 @@ def test_matchup_preview_and_team_mapping():
     who = managers_for_teams(GUILD, 2026, [("k.t.1", "Surfer"),
                                            ("k.t.2", "Renamed")])
     assert who == {"k.t.1": ("manual:josh", "Josh")}
+
+
+def test_draft_time_lines():
+    from harambot.history.queries import draft_time_lines
+    lines = draft_time_lines(1792047600)   # 2026-10-15 07:00 UTC
+    assert lines[0] == "🇳🇿 New Zealand: **Thu 15 Oct, 8:00 pm**"
+    assert "🇦🇺 Melbourne: **Thu 15 Oct, 6:00 pm**" in lines
+    assert "🇦🇺 Brisbane: **Thu 15 Oct, 5:00 pm**" in lines
+    assert len(lines) == 6
+    assert "🇬🇧 UK: **Thu 15 Oct, 8:00 am**" in lines
+    assert lines[-1] == "🇨🇦 Vancouver: **Thu 15 Oct, 12:00 am**"

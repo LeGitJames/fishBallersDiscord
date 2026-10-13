@@ -464,3 +464,34 @@ def managers_for_teams(guild_id, season, teams):
             if hit:
                 out[key] = hit
     return out
+
+
+# Where Fish Ballers managers live, for /drafttime.
+DRAFT_TIMEZONES = [
+    ("🇳🇿 New Zealand", "Pacific/Auckland"),
+    ("🇦🇺 Melbourne", "Australia/Melbourne"),
+    ("🇦🇺 Brisbane", "Australia/Brisbane"),
+    ("🇬🇧 UK", "Europe/London"),
+    ("🇨🇦 Toronto", "America/Toronto"),
+    ("🇨🇦 Vancouver", "America/Vancouver"),
+]
+
+
+def draft_time_lines(timestamp, zones=DRAFT_TIMEZONES):
+    """["🇳🇿 New Zealand: Thu 15 Oct, 8:00 pm", ...] for a Unix timestamp.
+    Returns [] if this machine has no time zone database (on Windows,
+    install the tzdata package)."""
+    import datetime
+    try:
+        from zoneinfo import ZoneInfo
+        when = datetime.datetime.fromtimestamp(timestamp, datetime.timezone.utc)
+        lines = []
+        for label, zone in zones:
+            t = when.astimezone(ZoneInfo(zone))
+            lines.append("{}: **{} {} {}, {}:{:02d} {}**".format(
+                label, t.strftime("%a"), t.day, t.strftime("%b"),
+                (t.hour % 12) or 12, t.minute,
+                "am" if t.hour < 12 else "pm"))
+        return lines
+    except Exception:
+        return []

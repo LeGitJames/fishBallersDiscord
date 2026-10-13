@@ -37,6 +37,7 @@ from harambot.history.queries import (
     loyal_pairs,
     matchup_streaks,
     most_drafted,
+    draft_time_lines,
     name_marker,
     team_name_history,
     trade_summary,
@@ -78,6 +79,7 @@ from harambot.history.sync import (
 )
 from harambot.yahoo_api import Yahoo
 from harambot.yahoo_gate import yahoo_enabled
+from harambot.config import settings as bot_settings
 
 logger = logging.getLogger("discord.harambot.cogs.history")
 
@@ -947,6 +949,75 @@ class HistoryCog(commands.Cog):
                 "🏁 **That's the {} draft!** {} picks. See the board with "
                 "`/drafts season:{}`.".format(
                     season_label(season), feed.last_pick, season))
+
+    # ------------------------------------------------------------------
+    # /drafttime
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _fallback_draft_time():
+        """DRAFT_TIME from .env (e.g. 2026-10-15T07:00:00Z), for when Yahoo
+        isn't connected."""
+        value = bot_settings.get("DRAFT_TIME")
+        if not value:
+            return None
+        try:
+            when = datetime.datetime.fromisoformat(
+                str(value).replace("Z", "+00:00"))
+            if when.tzinfo is None:
+                when = when.replace(tzinfo=datetime.timezone.utc)
+            return int(when.timestamp())
+        except ValueError:
+            logger.error("DRAFT_TIME %r isn't a valid date and time", value)
+            return None
+
+    @app_commands.command(
+        name="drafttime",
+        description="When the draft is, in everyone's time zone")
+    async def drafttime(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+        guild_id = interaction.guild_id
+        stamp, status, season = None, None, None
+        if yahoo_enabled() and Guild.select().where(
+                Guild.guild_id == str(guild_id)).exists():
+            def work():
+                league = self.yahoo.get_current_league(guild_id=guild_id)
+                return league.settings() if league is not None else None
+            try:
+                yset = await asyncio.wait_for(asyncio.to_thread(work), 20)
+            except Exception:
+                logger.exception("Couldn't read the draft time from Yahoo")
+                yset = None
+            if yset:
+                stamp = int(yset.get("draft_time") or 0) or None
+                status = yset.get("draft_status")
+                season = int(yset["season"]) if yset.get("season") else None
+        source = "Draft time from the Yahoo league settings"
+        if stamp is None:
+            stamp = self._fallback_draft_time()
+            source = "Draft time set by an admin"
+        if stamp is None:
+            await interaction.followup.send(
+                "I don't know the draft time yet. Once Yahoo is connected "
+                "I'll read it from the league, or an admin can add "
+                "`DRAFT_TIME=2026-10-15T07:00:00Z` (in UTC) to `.env`.")
+            return
+        title = "🗓️ The {} draft".format(season_label(season)) if season \
+            else "🗓️ Draft time"
+        if status == "postdraft":
+            desc = "The draft's done! It was <t:{0}:F>.".format(stamp)
+        elif status == "inprogress":
+            desc = "🔴 **The draft is on right now!** It started " \
+                   "<t:{0}:R>.".format(stamp)
+        else:
+            desc = "**<t:{0}:F>** in your own time zone, <t:{0}:R>.".format(
+                stamp)
+        lines = draft_time_lines(stamp)
+        embed = discord.Embed(title=title, description=desc, color=COLOR)
+        if lines:
+            embed.add_field(name="Around the league",
+                            value="\n".join(lines), inline=False)
+        embed.set_footer(text=source)
+        await interaction.followup.send(embed=embed)
 
     # ------------------------------------------------------------------
     # /trade: who won it?

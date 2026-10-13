@@ -35,6 +35,7 @@ HELP_SECTIONS = [
          "Look back at past drafts"),
         ("/favourites [manager]", "Most-drafted players and crushes"),
         ("/draftluck", "Does draft position matter?"),
+        ("/drafttime", "When the draft is, in everyone's time zone"),
         ("/draftfeed start | stop", "Post the live draft pick by pick"),
     ]),
     ("📊 This season", [
