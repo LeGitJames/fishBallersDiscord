@@ -199,6 +199,15 @@ class DraftFeed(BaseModel):
     started_by = TextField(null=True)
 
 
+class OddWeek(BaseModel):
+    """A week left out of the weekly records (e.g. a double-length week)."""
+
+    guild_id = TextField()
+    season = IntegerField()
+    week = IntegerField()
+    reason = TextField(null=True)
+
+
 HISTORY_TABLES = [
     Season,
     ManagerSeason,
@@ -211,6 +220,7 @@ HISTORY_TABLES = [
     Trade,
     ManagerAlias,
     DraftFeed,
+    OddWeek,
 ]
 
 

@@ -1016,6 +1016,37 @@ def test_draft_time_lines():
     assert lines[0] == "🇳🇿 New Zealand: **Thu 15 Oct, 8:00 pm**"
     assert "🇦🇺 Melbourne: **Thu 15 Oct, 6:00 pm**" in lines
     assert "🇦🇺 Brisbane: **Thu 15 Oct, 5:00 pm**" in lines
-    assert len(lines) == 6
+    assert len(lines) == 5
     assert "🇬🇧 UK: **Thu 15 Oct, 8:00 am**" in lines
-    assert lines[-1] == "🇨🇦 Vancouver: **Thu 15 Oct, 12:00 am**"
+    assert lines[-1] == "🇨🇦 Calgary: **Thu 15 Oct, 1:00 am**"
+
+
+def test_weekly_stats_records_skip_odd_weeks():
+    from harambot.database.history_models import OddWeek
+    from harambot.history.weekly_stats_import import (
+        looks_like_odd_weeks, looks_like_weekly_stats, parse_odd_weeks_csv,
+        parse_weekly_stats_csv, save_odd_weeks, save_weekly_stats)
+    from harambot.history.matchups_import import looks_like_matchups
+    head = ("season,week,manager,team,is_playoffs,fgm,fga,ftm,fta,3ptm,"
+            "pts,reb,ast,st,blk,to\n")
+    text = head + (
+        "2024-25,6,Josh,Surfer,,400,850,150,200,90,1000,300,200,50,30,100\n"
+        "2024-25,7,John,Bubble Suns,,410,876,153,187,148,\"1,121\",382,251,"
+        "70,44,149\n"
+        "2024-25,8,Liam,Tacko,,380,800,120,150,120,1050,320,210,60,35,90\n")
+    assert looks_like_weekly_stats(text) and not looks_like_matchups(text)
+    seasons, errors = parse_weekly_stats_csv(text)
+    assert errors == [] and save_weekly_stats(GUILD, seasons) == 3
+    pts = WeeklyTeamStat.get((WeeklyTeamStat.week == 7)
+                             & (WeeklyTeamStat.stat_id == "12"))
+    assert pts.value == 1121 and pts.manager_guid == "manual:john"
+    fg = WeeklyTeamStat.get((WeeklyTeamStat.week == 7)
+                            & (WeeklyTeamStat.stat_id == "5"))
+    assert abs(fg.value - 410 / 876) < 1e-9
+    odd = "season,week,reason\n2024-25,7,double-length week\n"
+    assert looks_like_odd_weeks(odd) and not looks_like_weekly_stats(odd)
+    parsed, errors = parse_odd_weeks_csv(odd)
+    assert errors == [] and save_odd_weeks(GUILD, parsed) == 1
+    assert OddWeek.get().reason == "double-length week"
+    _, bad = parse_weekly_stats_csv(head + "2024,1,Josh,X,,a,1,1,1,1,1,1,1,1,1,1\n")
+    assert "numbers" in bad[0]

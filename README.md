@@ -20,7 +20,7 @@ Type `/help` in Discord for the same list, grouped.
 | `/rivalry manager opponent` | All-time head-to-head, including playoff meetings and the current streak |
 | `/nemesis manager` | Who they can't beat, and who they always beat (5+ games) |
 | `/season season` | Recap of one season: standings, streaks, sweeps, #1 pick |
-| `/records [category] [worst]` | All-time best (or worst) category weeks and seasons |
+| `/records [category] [worst]` | All-time best (or worst) category weeks and seasons; pick a category for its top 10. Weeks in `league_odd_weeks.csv` are left out |
 | `/streaks` | Longest win and losing streaks, and most weeks leading the league |
 | `/hallofshame` | Winless seasons, worst records, chokers, bridesmaids and 9-0 sweeps |
 | `/trades [season] [manager] [partner] [player]` | Every past trade, with vetoed and traded-back ones flagged |
@@ -34,7 +34,7 @@ Type `/help` in Discord for the same list, grouped.
 | `/draftlottery run [delay] [practice]` | Runs the lottery and reveals the order from last pick to first (admins). `practice:True` does a test run that isn't saved |
 | `/draftlottery results` | The most recent lottery result |
 | `/draftlottery breakdown` | How the last lottery played out: balls left at each pick, expected vs actual, luckiest and unluckiest |
-| `/drafttime` | When the draft is: in each viewer's own time zone, plus New Zealand, Melbourne, Brisbane, UK and Canada times and a countdown |
+| `/drafttime` | When the draft is: in each viewer's own time zone, plus New Zealand, Melbourne, Brisbane, UK and Calgary times and a countdown |
 | `/drafts [season] [rounds] [manager] [player]` | Past drafts: a season's first few rounds, a manager's picks, or every time a player was drafted |
 | `/favourites [manager]` | A manager's most-drafted players (or the league's biggest manager/player crushes) |
 | `/draftluck` | Does draft position matter? Luckiest and unluckiest lottery history, where champions picked |
@@ -81,6 +81,8 @@ The history lives in CSV files in the `data/` folder. `/history import` loads th
 | `league_drafts.csv` | Every draft pick |
 | `league_records.csv` | Yahoo's Record Book: the all-time #1 in each category |
 | `league_trades.csv` | Every trade (accepted and vetoed) |
+| `league_weekly_stats.csv` | Every team's category totals for every week, for full top-10 `/records` |
+| `league_odd_weeks.csv` | Weeks left out of `/records` (e.g. double-length weeks) |
 | `league_managers.csv` | Yahoo nicknames that don't match a manager's name, so `/history sync` can match them |
 
 Each import replaces the seasons in the file, so it's safe to run again after fixing something. Lottery results and Discord links aren't in the files, so an import never touches them. [docs/LEAGUE_HISTORY.md](docs/LEAGUE_HISTORY.md) has the column formats and more detail.

@@ -70,6 +70,14 @@ row per trade:
 ` + `; `status` is `accepted` or `vetoed`; `date` as Yahoo shows it, e.g.
 `Jan 4, 3:57 am`). It's loaded by `/history import` the same way.
 
+**Weekly category totals (optional).** `league_weekly_stats.csv` has every
+team's totals for every week:
+`season,week,manager,team,is_playoffs,fgm,fga,ftm,fta,3ptm,pts,reb,ast,st,blk,to`.
+With it, `/records` shows full top-10 lists for every category (season
+records still come from the record book). Weeks that don't compare fairly,
+like a double-length week, go in `league_odd_weeks.csv`
+(`season,week,reason`) and are left out of the weekly records.
+
 **Category records (optional).** Until Yahoo approves API access, `/records`
 uses `league_records.csv`, copied from Yahoo's Record Book: the all-time
 #1 week and season in each category (plus most turnovers), one row per

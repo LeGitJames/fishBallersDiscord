@@ -18,6 +18,7 @@ from harambot.database.history_models import (
     DiscordLink,
     DraftFeed,
     DraftLottery,
+    OddWeek,
     ManagerSeason,
     Season,
     WeeklyTeamStat,
@@ -71,6 +72,14 @@ from harambot.history.managers_import import (
     parse_managers_csv,
     save_managers,
 )
+from harambot.history.weekly_stats_import import (
+    looks_like_odd_weeks,
+    looks_like_weekly_stats,
+    parse_odd_weeks_csv,
+    parse_weekly_stats_csv,
+    save_odd_weeks,
+    save_weekly_stats,
+)
 from harambot.history import draft_feed
 from harambot.history import stats
 from harambot.history.sync import (
@@ -97,6 +106,8 @@ LOCAL_DRAFTS_FILE = "league_drafts.csv"
 LOCAL_RECORDS_FILE = "league_records.csv"
 LOCAL_TRADES_FILE = "league_trades.csv"
 LOCAL_MANAGERS_FILE = "league_managers.csv"
+LOCAL_WEEKLY_FILE = "league_weekly_stats.csv"
+LOCAL_ODD_WEEKS_FILE = "league_odd_weeks.csv"
 
 # Extra files /history import understands, besides league_history.csv:
 # (label, local file name, detector, parser, saver)
@@ -111,6 +122,10 @@ EXTRA_FILES = [
      parse_trades_csv, save_trades),
     ("Yahoo names", LOCAL_MANAGERS_FILE, looks_like_managers,
      parse_managers_csv, save_managers),
+    ("Weekly category totals", LOCAL_WEEKLY_FILE, looks_like_weekly_stats,
+     parse_weekly_stats_csv, save_weekly_stats),
+    ("Weeks left out of records", LOCAL_ODD_WEEKS_FILE, looks_like_odd_weeks,
+     parse_odd_weeks_csv, save_odd_weeks),
 ]
 
 
@@ -315,15 +330,16 @@ class HistoryCog(commands.Cog):
         guild_id = str(interaction.guild_id)
         tag = name_marker(guild_id)
 
+        odd = list(OddWeek.select().where(OddWeek.guild_id == guild_id))
         has_weekly = WeeklyTeamStat.select().where(
             WeeklyTeamStat.guild_id == guild_id).exists()
-        has_book = RecordBookEntry.select().where(
-            RecordBookEntry.guild_id == guild_id).exists()
-        # Yahoo's record book covers every season loaded from the files;
-        # weeks synced since then are checked against it.
-        if has_book or not has_weekly:
-            await self._record_book(interaction, tag, category, worst)
+        if not has_weekly:
+            # Only Yahoo's record book (#1s) until weekly totals are loaded
+            await self._record_book(interaction, tag, category, worst, odd)
             return
+        book = list(RecordBookEntry.select().where(
+            (RecordBookEntry.guild_id == guild_id)
+            & (RecordBookEntry.scope == "season")))
 
         def query(stat_id, limit):
             ascending = (stat_id in LOWER_IS_BETTER) != worst
@@ -336,15 +352,30 @@ class HistoryCog(commands.Cog):
                 (WeeklyTeamStat.guild_id == guild_id)
                 & (WeeklyTeamStat.stat_id == stat_id)
             )
+            for o in odd:
+                q = q.where(~((WeeklyTeamStat.season == o.season)
+                              & (WeeklyTeamStat.week == o.week)))
             if not include_playoffs:
                 q = q.where(WeeklyTeamStat.is_playoffs == False)  # noqa: E712
             return list(q.order_by(order, WeeklyTeamStat.season).limit(limit))
 
+        def season_best(stat_id):
+            kind = "worst" if worst else "best"
+            hits = [e for e in book if e.stat_id == stat_id and e.kind == kind]
+            if not hits:
+                return ""
+            e = hits[0]
+            return "\nSeason: **{}** — {} {}".format(
+                _fmt(stat_id, e.value), tag(e.manager_guid, e.manager_name),
+                season_label(e.season))
+
         label = "Worst" if worst else "Best"
         if category is None:
             embed = discord.Embed(
-                title="📈 All-Time {} Weeks".format(label),
-                description="Single-week records in every category",
+                title="📈 All-Time {} Records".format(label),
+                description="The {} single week and season in every "
+                "category. Pick a category to see its top 10.".format(
+                    label.lower()),
                 color=COLOR,
             )
             for stat_id, name in NBA_STATS.items():
@@ -354,12 +385,13 @@ class HistoryCog(commands.Cog):
                 r = top[0]
                 embed.add_field(
                     name=name,
-                    value="**{}** — {}\n{} wk {}".format(
+                    value="Week: **{}** — {}, {} wk {}{}".format(
                         _fmt(stat_id, r.value),
                         tag(r.manager_guid, r.manager_name),
                         season_label(r.season), r.week,
+                        season_best(stat_id),
                     ),
-                    inline=True,
+                    inline=False,
                 )
         else:
             stat_id = category.value
@@ -381,12 +413,16 @@ class HistoryCog(commands.Cog):
                 description="\n".join(lines) or "No data yet.",
                 color=COLOR,
             )
-        embed.set_footer(
-            text="Some weeks are longer than others (e.g. All-Star break)."
-        )
+        note = "Some weeks are longer than others (e.g. All-Star break)."
+        if odd:
+            note = "Left out: {}. ".format(", ".join(
+                "{} wk {}{}".format(season_label(o.season), o.week,
+                                    " ({})".format(o.reason) if o.reason
+                                    else "") for o in odd)) + note
+        embed.set_footer(text=note[:2048])
         await interaction.response.send_message(embed=embed)
 
-    async def _record_book(self, interaction, tag, category, worst):
+    async def _record_book(self, interaction, tag, category, worst, odd=()):
         """/records from Yahoo's Record Book (all-time #1s only), used
         until weekly stats can be synced from the Yahoo API."""
         entries = list(RecordBookEntry.select().where(
@@ -410,8 +446,10 @@ class HistoryCog(commands.Cog):
                 .first())
 
         def line(stat_id, scope):
+            skip = {(o.season, o.week) for o in odd}
             hits = [e for e in entries if e.stat_id == stat_id
-                    and e.scope == scope and e.kind == kind]
+                    and e.scope == scope and e.kind == kind
+                    and (e.season, e.week) not in skip]
             if not hits:
                 return None
             if scope == "week":
