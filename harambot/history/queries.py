@@ -472,8 +472,7 @@ DRAFT_TIMEZONES = [
     ("🇦🇺 Melbourne", "Australia/Melbourne"),
     ("🇦🇺 Brisbane", "Australia/Brisbane"),
     ("🇬🇧 UK", "Europe/London"),
-    ("🇨🇦 Toronto", "America/Toronto"),
-    ("🇨🇦 Vancouver", "America/Vancouver"),
+    ("🇨🇦 Calgary", "America/Edmonton"),
 ]
 
 
