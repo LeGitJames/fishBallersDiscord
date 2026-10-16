@@ -545,8 +545,10 @@ def test_record_book_import():
     from harambot.database.history_models import RecordBookEntry
     from harambot.history.records_import import (
         looks_like_records, parse_records_csv, save_records)
-    with open(os.path.join(root_path, "..", "league_records.csv"),
-              encoding="utf-8") as f:
+    path = os.path.join(root_path, "..", "data", "league_records.csv")
+    if not os.path.exists(path):
+        path = os.path.join(root_path, "..", "league_records.csv")
+    with open(path, encoding="utf-8-sig") as f:
         text = f.read()
     assert looks_like_records(text)
     parsed, errors = parse_records_csv(text)

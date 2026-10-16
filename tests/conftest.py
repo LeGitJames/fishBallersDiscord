@@ -1,10 +1,33 @@
-import os
-import json
-import pytest
+"""Make sure the tests never touch the real database.
 
-from unittest.mock import MagicMock, patch
-from harambot.yahoo_api import Yahoo
-from yahoo_fantasy_api import game, League, Team
+The bot reads DATABASE_URL from .env (fishballers.db). The tests create and
+drop tables, so they must run against a throwaway in-memory database
+instead. This file is loaded by pytest before any test module.
+"""
+
+import os
+import sys
+
+# Let the tests import the bot's code from the project folder.
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+os.environ["DATABASE_URL"] = "sqlite:///:memory:"
+
+from harambot.database.models import database  # noqa: E402
+
+database.init(":memory:")
+assert database.database == ":memory:", "tests must not use the real database"
+
+
+# ---------------------------------------------------------------------
+# Fixtures for the Yahoo API tests (test_yahoo_api.py), from harambot
+# ---------------------------------------------------------------------
+import json  # noqa: E402
+import pytest  # noqa: E402
+
+from unittest.mock import MagicMock, patch  # noqa: E402
+from harambot.yahoo_api import Yahoo  # noqa: E402
+from yahoo_fantasy_api import game, League, Team  # noqa: E402
 
 root_path = os.path.dirname(os.path.realpath(__file__))
 
